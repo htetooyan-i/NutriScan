@@ -47,10 +47,8 @@ struct ContentView: View {
                 .tag(Tab.recipes)
         }
         .accentColor(Color("PriColor"))
+        .onAppear {
+            HelperFunctions.getFoodDataFromDatabase(user: "user_001", collectionName: "foods")
+        }
     }
-}
-
-
-#Preview {
-    ContentView()
 }

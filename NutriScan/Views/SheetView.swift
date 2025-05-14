@@ -166,6 +166,7 @@ struct SheetView: View {
                                 if let id = dataId {
                                     print("Saved with ID: \(id)")
                                     currentDataId = id
+                                    HelperFunctions.getFoodDataFromDatabase(user: "user_001", collectionName: "foods")
                                 } else {
                                     print("Save failed")
                                 }

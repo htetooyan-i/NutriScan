@@ -74,9 +74,7 @@ public struct DatabaseModel: Codable {
                 if let error = error {
                     print("Error getting documents: \(error)")
                 } else {
-                    
                     for document in snapshot!.documents {
-                        print("Document path: \(document.reference.path)")
                         foodData.append(document.data())
                     }
                 }

@@ -44,9 +44,9 @@ class HelperFunctions: ObservableObject {
     
     // MARK: - Function To Read Food Data
     
-    static func getFoodDataFromDatabase(user: String, collectionName: String, complection: @escaping ([[String: Any]]) -> Void) {
+    static func getFoodDataFromDatabase(user: String, collectionName: String) {
         DatabaseModel.getFoodDataForUser(user: user, collectionName: collectionName) { data in
-            complection(data)
+            FoodCache.shared.setAll(data: data)
         }
     }
     
@@ -111,5 +111,17 @@ class HelperFunctions: ObservableObject {
     
     private static func formatNutrient(_ value: Double, suffix: String = "g") -> String {
         return value.isNaN ? "N/A" : String(format: "%.2f %@", value, suffix)
+    }
+    
+    static func dateFormatter(for timestamp: Timestamp) -> String {
+        let date = timestamp.dateValue()
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEEE MMM dd, yyyy"
+        formatter.locale = Locale(identifier: "en_US")
+        formatter.timeZone = TimeZone(secondsFromGMT: 7 * 3600)
+        
+        let formattedDate = formatter.string(from: date)
+        return formattedDate
     }
 }
