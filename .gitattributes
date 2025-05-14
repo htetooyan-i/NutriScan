@@ -1,0 +1,2 @@
+NutriScan/Models/FoodClassificationV3.mlpackage/** filter=lfs diff=lfs merge=lfs -text
+NutriScan/Models/FoodClassificationV4.mlpackage/** filter=lfs diff=lfs merge=lfs -text

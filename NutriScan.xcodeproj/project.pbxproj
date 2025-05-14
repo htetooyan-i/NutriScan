@@ -1,0 +1,668 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C81859C52DC4F13100393EF9 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C81859C42DC4F13100393EF9 /* FirebaseAnalytics */; };
+		C81859C72DC4F13100393EF9 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = C81859C62DC4F13100393EF9 /* FirebaseAnalyticsOnDeviceConversion */; };
+		C81859C92DC4F13100393EF9 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = C81859C82DC4F13100393EF9 /* FirebaseAnalyticsWithoutAdIdSupport */; };
+		C81859CB2DC4F13100393EF9 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = C81859CA2DC4F13100393EF9 /* FirebaseAuth */; };
+		C81859CD2DC4F13100393EF9 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = C81859CC2DC4F13100393EF9 /* FirebaseCore */; };
+		C81859CF2DC4F13100393EF9 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = C81859CE2DC4F13100393EF9 /* FirebaseDatabase */; };
+		C81859D12DC4F13100393EF9 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = C81859D02DC4F13100393EF9 /* FirebaseFirestore */; };
+		C81859D32DC4F13100393EF9 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = C81859D22DC4F13100393EF9 /* FirebaseStorage */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C823B9392DBBD9DB0039D9EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C823B9232DBBD9D80039D9EE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C823B92A2DBBD9D80039D9EE;
+			remoteInfo = NutriScan;
+		};
+		C823B9432DBBD9DB0039D9EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C823B9232DBBD9D80039D9EE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C823B92A2DBBD9D80039D9EE;
+			remoteInfo = NutriScan;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		C823B92B2DBBD9D80039D9EE /* NutriScan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NutriScan.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C823B9382DBBD9DB0039D9EE /* NutriScanTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NutriScanTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C823B9422DBBD9DB0039D9EE /* NutriScanUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NutriScanUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		C88240BE2DC0EFF4004481EC /* Exceptions for "NutriScan" folder in "NutriScan" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = C823B92A2DBBD9D80039D9EE /* NutriScan */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		C823B92D2DBBD9D80039D9EE /* NutriScan */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				C88240BE2DC0EFF4004481EC /* Exceptions for "NutriScan" folder in "NutriScan" target */,
+			);
+			path = NutriScan;
+			sourceTree = "<group>";
+		};
+		C823B93B2DBBD9DB0039D9EE /* NutriScanTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = NutriScanTests;
+			sourceTree = "<group>";
+		};
+		C823B9452DBBD9DB0039D9EE /* NutriScanUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = NutriScanUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C823B9282DBBD9D80039D9EE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C81859CF2DC4F13100393EF9 /* FirebaseDatabase in Frameworks */,
+				C81859C52DC4F13100393EF9 /* FirebaseAnalytics in Frameworks */,
+				C81859CD2DC4F13100393EF9 /* FirebaseCore in Frameworks */,
+				C81859C92DC4F13100393EF9 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
+				C81859C72DC4F13100393EF9 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
+				C81859D32DC4F13100393EF9 /* FirebaseStorage in Frameworks */,
+				C81859CB2DC4F13100393EF9 /* FirebaseAuth in Frameworks */,
+				C81859D12DC4F13100393EF9 /* FirebaseFirestore in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C823B9352DBBD9DB0039D9EE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C823B93F2DBBD9DB0039D9EE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C823B9222DBBD9D80039D9EE = {
+			isa = PBXGroup;
+			children = (
+				C823B92D2DBBD9D80039D9EE /* NutriScan */,
+				C823B93B2DBBD9DB0039D9EE /* NutriScanTests */,
+				C823B9452DBBD9DB0039D9EE /* NutriScanUITests */,
+				C823B92C2DBBD9D80039D9EE /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C823B92C2DBBD9D80039D9EE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C823B92B2DBBD9D80039D9EE /* NutriScan.app */,
+				C823B9382DBBD9DB0039D9EE /* NutriScanTests.xctest */,
+				C823B9422DBBD9DB0039D9EE /* NutriScanUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C823B92A2DBBD9D80039D9EE /* NutriScan */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C823B94C2DBBD9DB0039D9EE /* Build configuration list for PBXNativeTarget "NutriScan" */;
+			buildPhases = (
+				C823B9272DBBD9D80039D9EE /* Sources */,
+				C823B9282DBBD9D80039D9EE /* Frameworks */,
+				C823B9292DBBD9D80039D9EE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				C823B92D2DBBD9D80039D9EE /* NutriScan */,
+			);
+			name = NutriScan;
+			packageProductDependencies = (
+				C81859C42DC4F13100393EF9 /* FirebaseAnalytics */,
+				C81859C62DC4F13100393EF9 /* FirebaseAnalyticsOnDeviceConversion */,
+				C81859C82DC4F13100393EF9 /* FirebaseAnalyticsWithoutAdIdSupport */,
+				C81859CA2DC4F13100393EF9 /* FirebaseAuth */,
+				C81859CC2DC4F13100393EF9 /* FirebaseCore */,
+				C81859CE2DC4F13100393EF9 /* FirebaseDatabase */,
+				C81859D02DC4F13100393EF9 /* FirebaseFirestore */,
+				C81859D22DC4F13100393EF9 /* FirebaseStorage */,
+			);
+			productName = NutriScan;
+			productReference = C823B92B2DBBD9D80039D9EE /* NutriScan.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C823B9372DBBD9DB0039D9EE /* NutriScanTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C823B94F2DBBD9DB0039D9EE /* Build configuration list for PBXNativeTarget "NutriScanTests" */;
+			buildPhases = (
+				C823B9342DBBD9DB0039D9EE /* Sources */,
+				C823B9352DBBD9DB0039D9EE /* Frameworks */,
+				C823B9362DBBD9DB0039D9EE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C823B93A2DBBD9DB0039D9EE /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				C823B93B2DBBD9DB0039D9EE /* NutriScanTests */,
+			);
+			name = NutriScanTests;
+			packageProductDependencies = (
+			);
+			productName = NutriScanTests;
+			productReference = C823B9382DBBD9DB0039D9EE /* NutriScanTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		C823B9412DBBD9DB0039D9EE /* NutriScanUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C823B9522DBBD9DB0039D9EE /* Build configuration list for PBXNativeTarget "NutriScanUITests" */;
+			buildPhases = (
+				C823B93E2DBBD9DB0039D9EE /* Sources */,
+				C823B93F2DBBD9DB0039D9EE /* Frameworks */,
+				C823B9402DBBD9DB0039D9EE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C823B9442DBBD9DB0039D9EE /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				C823B9452DBBD9DB0039D9EE /* NutriScanUITests */,
+			);
+			name = NutriScanUITests;
+			packageProductDependencies = (
+			);
+			productName = NutriScanUITests;
+			productReference = C823B9422DBBD9DB0039D9EE /* NutriScanUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C823B9232DBBD9D80039D9EE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1630;
+				LastUpgradeCheck = 1630;
+				TargetAttributes = {
+					C823B92A2DBBD9D80039D9EE = {
+						CreatedOnToolsVersion = 16.3;
+					};
+					C823B9372DBBD9DB0039D9EE = {
+						CreatedOnToolsVersion = 16.3;
+						TestTargetID = C823B92A2DBBD9D80039D9EE;
+					};
+					C823B9412DBBD9DB0039D9EE = {
+						CreatedOnToolsVersion = 16.3;
+						TestTargetID = C823B92A2DBBD9D80039D9EE;
+					};
+				};
+			};
+			buildConfigurationList = C823B9262DBBD9D80039D9EE /* Build configuration list for PBXProject "NutriScan" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = C823B9222DBBD9D80039D9EE;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				C81859C32DC4F13100393EF9 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = C823B92C2DBBD9D80039D9EE /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C823B92A2DBBD9D80039D9EE /* NutriScan */,
+				C823B9372DBBD9DB0039D9EE /* NutriScanTests */,
+				C823B9412DBBD9DB0039D9EE /* NutriScanUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C823B9292DBBD9D80039D9EE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C823B9362DBBD9DB0039D9EE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C823B9402DBBD9DB0039D9EE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C823B9272DBBD9D80039D9EE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C823B9342DBBD9DB0039D9EE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C823B93E2DBBD9DB0039D9EE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C823B93A2DBBD9DB0039D9EE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C823B92A2DBBD9D80039D9EE /* NutriScan */;
+			targetProxy = C823B9392DBBD9DB0039D9EE /* PBXContainerItemProxy */;
+		};
+		C823B9442DBBD9DB0039D9EE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C823B92A2DBBD9D80039D9EE /* NutriScan */;
+			targetProxy = C823B9432DBBD9DB0039D9EE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		C823B94A2DBBD9DB0039D9EE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 575UNJ5WT5;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		C823B94B2DBBD9DB0039D9EE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 575UNJ5WT5;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C823B94D2DBBD9DB0039D9EE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 575UNJ5WT5;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NutriScan/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "co.htetooyan-i.NutriScan";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C823B94E2DBBD9DB0039D9EE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 575UNJ5WT5;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NutriScan/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "co.htetooyan-i.NutriScan";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		C823B9502DBBD9DB0039D9EE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 575UNJ5WT5;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "co.htetooyan-i.NutriScanTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NutriScan.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/NutriScan";
+			};
+			name = Debug;
+		};
+		C823B9512DBBD9DB0039D9EE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 575UNJ5WT5;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "co.htetooyan-i.NutriScanTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NutriScan.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/NutriScan";
+			};
+			name = Release;
+		};
+		C823B9532DBBD9DB0039D9EE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 575UNJ5WT5;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "co.htetooyan-i.NutriScanUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = NutriScan;
+			};
+			name = Debug;
+		};
+		C823B9542DBBD9DB0039D9EE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 575UNJ5WT5;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "co.htetooyan-i.NutriScanUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = NutriScan;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C823B9262DBBD9D80039D9EE /* Build configuration list for PBXProject "NutriScan" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C823B94A2DBBD9DB0039D9EE /* Debug */,
+				C823B94B2DBBD9DB0039D9EE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C823B94C2DBBD9DB0039D9EE /* Build configuration list for PBXNativeTarget "NutriScan" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C823B94D2DBBD9DB0039D9EE /* Debug */,
+				C823B94E2DBBD9DB0039D9EE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C823B94F2DBBD9DB0039D9EE /* Build configuration list for PBXNativeTarget "NutriScanTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C823B9502DBBD9DB0039D9EE /* Debug */,
+				C823B9512DBBD9DB0039D9EE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C823B9522DBBD9DB0039D9EE /* Build configuration list for PBXNativeTarget "NutriScanUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C823B9532DBBD9DB0039D9EE /* Debug */,
+				C823B9542DBBD9DB0039D9EE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C81859C32DC4F13100393EF9 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.12.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C81859C42DC4F13100393EF9 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C81859C32DC4F13100393EF9 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		C81859C62DC4F13100393EF9 /* FirebaseAnalyticsOnDeviceConversion */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C81859C32DC4F13100393EF9 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsOnDeviceConversion;
+		};
+		C81859C82DC4F13100393EF9 /* FirebaseAnalyticsWithoutAdIdSupport */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C81859C32DC4F13100393EF9 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsWithoutAdIdSupport;
+		};
+		C81859CA2DC4F13100393EF9 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C81859C32DC4F13100393EF9 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		C81859CC2DC4F13100393EF9 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C81859C32DC4F13100393EF9 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		C81859CE2DC4F13100393EF9 /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C81859C32DC4F13100393EF9 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+		C81859D02DC4F13100393EF9 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C81859C32DC4F13100393EF9 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		C81859D22DC4F13100393EF9 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C81859C32DC4F13100393EF9 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = C823B9232DBBD9D80039D9EE /* Project object */;
+}
