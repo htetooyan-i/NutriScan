@@ -124,4 +124,26 @@ class HelperFunctions: ObservableObject {
         let formattedDate = formatter.string(from: date)
         return formattedDate
     }
+    
+    static func sortByDate(for foodData: [String: [[String: Any]]]) -> ([String: [[String: Any]]], [String]) {
+        var sortedData: [String: [[String: Any]]] = [:]
+
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEEE MMMM dd, yyyy"
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+
+        let sortedKeys = foodData.keys.sorted {
+            guard let d1 = formatter.date(from: $0),
+                  let d2 = formatter.date(from: $1) else { return false }
+            return d1 > d2
+        }
+
+        for key in sortedKeys {
+            sortedData[key] = foodData[key]
+        }
+
+        return (sortedData, sortedKeys)
+    }
+
+
 }

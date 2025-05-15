@@ -41,4 +41,5 @@ class FoodCache: ObservableObject {
     func getAll() -> [String: [[String: Any]]] {
         return self.foodDataCache
     }
+    
 }

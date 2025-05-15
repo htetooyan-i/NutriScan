@@ -8,23 +8,23 @@
 import SwiftUI
 
 struct SavedView: View {
+    
     @ObservedObject var foodCache = FoodCache.shared
+    @State var sortedKeys: [String] = []
     let columns = [
-            GridItem(.flexible(), spacing: 16),
-            GridItem(.flexible(), spacing: 16)
-        ]
+        GridItem(.flexible(), spacing: 16),
+        GridItem(.flexible(), spacing: 16)
+    ]
     @State var data: [String: [[String: Any]]] = [:]
     
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack (alignment: .leading, spacing: 16) {
-                    ForEach(Array(data.keys), id: \.self) { date in
-                        
+                    ForEach(sortedKeys, id: \.self) { date in
                         Text(date)
                             .font(.system(size: 20, weight: .bold))
                             .padding(.all)
-                        
                         
                         LazyVGrid(columns: columns, spacing: 20) {
                             if let foods = data[date] {
@@ -42,19 +42,24 @@ struct SavedView: View {
                         }
                     }
                 }
-
+                
             }
             .navigationTitle("Saved")
         }
         .onAppear {
             if foodCache.isUpdated {
-                self.data = foodCache.foodDataCache
+                let (sorted, keys) = HelperFunctions.sortByDate(for: foodCache.foodDataCache)
+                self.data = sorted
+                self.sortedKeys = keys
+                print("✅ Sorted Date Keys: \(self.sortedKeys)")
             }
         }
-        
         .onChange(of: foodCache.isUpdated) { oldValue, newValue in
             if newValue {
-                self.data = foodCache.foodDataCache
+                let (sorted, keys) = HelperFunctions.sortByDate(for: foodCache.foodDataCache)
+                self.data = sorted
+                self.sortedKeys = keys
+                print("In OnChange: \(self.sortedKeys)")
             }
         }
 
