@@ -109,6 +109,8 @@ class HelperFunctions: ObservableObject {
         return (calories, protein, fiber, fat)
     }
     
+    // MARK: - FUNCTIION TO CHANGE FORMAT OF THE CALCULATED VALUES
+    
     private static func formatNutrient(_ value: Double, suffix: String = "g") -> String {
         return value.isNaN ? "N/A" : String(format: "%.2f %@", value, suffix)
     }
@@ -124,6 +126,8 @@ class HelperFunctions: ObservableObject {
         let formattedDate = formatter.string(from: date)
         return formattedDate
     }
+    
+    // MARK: - FUNCTION TO SORT SAVED FOODS BY ITS CREATION DATE
     
     static func sortByDate(for foodData: [String: [[String: Any]]]) -> ([String: [[String: Any]]], [String]) {
         var sortedData: [String: [[String: Any]]] = [:]
@@ -144,6 +148,8 @@ class HelperFunctions: ObservableObject {
 
         return (sortedData, sortedKeys)
     }
+    
+    // MARK: - FUNCTION TO FILTER THE SAVED FOODS USING USER'S INPUT DATA
     
     static func searchFoods(for searchText: String, in foods: [String: [[String: Any]]]) -> ([String: [[String: Any]]], [String]) {
         var filteredFoods: [String: [[String: Any]]] = [:]

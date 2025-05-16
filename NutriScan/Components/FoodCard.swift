@@ -13,7 +13,8 @@ struct FoodCard: View {
     var predictionConfidence: Double
     var body: some View {
         ZStack{
-            AsyncImage(url: imageURL) { phase in
+            
+            AsyncImage(url: imageURL) { phase in //creating image using url if imamge is loading progress view will be shown else if url is not available xmark will be shown else it will show the actual image which was taken by user.
                 switch phase {
                 case .empty:
                     ProgressView()
@@ -35,11 +36,12 @@ struct FoodCard: View {
                     EmptyView()
                 }
             }
+            
             VStack {
-                PredictionProgressView(progress: predictionConfidence)
+                PredictionProgressView(progress: predictionConfidence) // show the confidence of the prediction by progress view
                     .frame(maxWidth: .infinity, alignment: .leading)
                 Spacer()
-                VStack{
+                VStack{ // show the food name with a box
                     Text(foodName)
                         .padding(.vertical, 10)
                         .padding(.horizontal, 20)
