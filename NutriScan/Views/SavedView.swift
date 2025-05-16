@@ -10,58 +10,52 @@ import SwiftUI
 struct SavedView: View {
     
     @ObservedObject var foodCache = FoodCache.shared
+    @State var searchText: String = ""
     @State var sortedKeys: [String] = []
-    let columns = [
-        GridItem(.flexible(), spacing: 16),
-        GridItem(.flexible(), spacing: 16)
-    ]
+
     @State var data: [String: [[String: Any]]] = [:]
     
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack (alignment: .leading, spacing: 16) {
-                    ForEach(sortedKeys, id: \.self) { date in
-                        Text(date)
-                            .font(.system(size: 20, weight: .bold))
-                            .padding(.all)
-                        
-                        LazyVGrid(columns: columns, spacing: 20) {
-                            if let foods = data[date] {
-                                ForEach(Array(foods.enumerated()), id: \.offset) { idx, food in
-                                    if let foodName = food["SelectedFood"] as? String,
-                                       let predictions = food["foodPredictions"] as? [String: Double],
-                                       let predictionConfidence = predictions[foodName],
-                                       let urlString = food["imageURL"] as? String,
-                                       let imageURL = URL(string: urlString) {
-                                        
-                                        FoodCard(imageURL: imageURL, foodName: foodName, predictionConfidence: predictionConfidence)
-                                    }
-                                }
-                            }
-                        }
+            ZStack {
+                Color(UIColor.systemGray6) // Background color as system gray for saved view
+                    .ignoresSafeArea()
+                ScrollView {
+                    if data.isEmpty {
+                        FoodNotFound() // if data is empty FoodNotFound ui will be shown
+                            .padding()
+                    } else {
+                        SavedFoodCards(sortedKeys: sortedKeys, data: data) // if the data is not empty Food Cards will be shown and sorted by its creation date
                     }
+                    
                 }
-                
+                .navigationTitle("Saved") // Set saved as the title of the saved view
+                .searchable(text: $searchText, placement: .automatic, prompt: "Search") // create a search bar to filter the food data
             }
-            .navigationTitle("Saved")
         }
         .onAppear {
-            if foodCache.isUpdated {
-                let (sorted, keys) = HelperFunctions.sortByDate(for: foodCache.foodDataCache)
-                self.data = sorted
-                self.sortedKeys = keys
-                print("✅ Sorted Date Keys: \(self.sortedKeys)")
+            if foodCache.isUpdated { // when saved view is appear it will check foodData in foodDatacache has been updated or not. If yes it will use that data to display food cards.
+                self.setData()
             }
         }
         .onChange(of: foodCache.isUpdated) { oldValue, newValue in
-            if newValue {
-                let (sorted, keys) = HelperFunctions.sortByDate(for: foodCache.foodDataCache)
-                self.data = sorted
-                self.sortedKeys = keys
-                print("In OnChange: \(self.sortedKeys)")
+            if newValue { // If foodData in foodCache has been updated this code will take that foodData and use that data to display food cards.
+                self.setData()
             }
         }
-
+        
+        .onChange(of: searchText) { oldValue, newValue in
+            if newValue != "" { // when value of search bar has been changed this code will chaek that value is empty or not. If empty it won't filter anything.
+                (self.data, self.sortedKeys) = HelperFunctions.searchFoods(for: newValue, in: self.data)
+            } else { // If not empty it will filter by using user entered text.
+                (self.data, self.sortedKeys) = HelperFunctions.sortByDate(for: foodCache.foodDataCache)
+            }
+        }
+    }
+    
+    func setData() { // this function take foodCacheData from cache file and set it to be able to use in this file.
+        let (sorted, keys) = HelperFunctions.sortByDate(for: foodCache.foodDataCache)
+        self.data = sorted
+        self.sortedKeys = keys
     }
 }

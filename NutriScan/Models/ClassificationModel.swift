@@ -34,7 +34,7 @@ class ClassificationModel: ObservableObject {
     }
     
     func detect(ciImage: CIImage) {
-        guard let mlModel = try? FoodClassificationV4(configuration: MLModelConfiguration()), let model = try? VNCoreMLModel(for: mlModel.model)  else { // Check model is available with correct format
+        guard let mlModel = try? FoodClassificationV0(configuration: MLModelConfiguration()), let model = try? VNCoreMLModel(for: mlModel.model)  else { // Check model is available with correct format
             print(#function, "failed to load model")
             return
         }

@@ -41,29 +41,48 @@ class CameraModel: NSObject,ObservableObject, AVCapturePhotoCaptureDelegate {
         }
     }
     
-    func setup() { // IDEA: setup input and output for device and start the rolling
-        do {
-            
-            self.session.beginConfiguration()
-            
-            let device = AVCaptureDevice.default(.builtInDualCamera, for: .video, position: .back)
-            
-            let input = try AVCaptureDeviceInput(device: device!)
-            
-            if self.session.canAddInput(input) {
-                self.session.addInput(input)
+    func setup() {
+        self.session.beginConfiguration()
+        
+        var input: AVCaptureDeviceInput? = nil
+
+        // Try to get the dual camera device first
+        if let device = AVCaptureDevice.default(.builtInDualCamera, for: .video, position: .back) {
+            do {
+                input = try AVCaptureDeviceInput(device: device)
+                print("Dual Camera")
+            } catch {
+                print("Error creating device input from dual camera: \(error)")
             }
-            
-            if self.session.canAddOutput(self.output) {
-                self.session.addOutput(self.output)
+        } else if let fallbackDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) {
+            // Fallback to wide angle camera
+            do {
+                input = try AVCaptureDeviceInput(device: fallbackDevice)
+                print("builtInWideAngleCamera")
+            } catch {
+                print("Error creating device input from wide angle camera: \(error)")
             }
-            
-            self.session.commitConfiguration()
-        } catch {
-            print(error.localizedDescription)
+        } else {
+            print("No suitable camera found.")
         }
         
+        // Add input if available and session allows
+        if let input = input, self.session.canAddInput(input) {
+            self.session.addInput(input)
+        } else {
+            print("Cannot add input to session.")
+        }
+        
+        // Add output if possible
+        if self.session.canAddOutput(self.output) {
+            self.session.addOutput(self.output)
+        } else {
+            print("Cannot add output to session.")
+        }
+        
+        self.session.commitConfiguration()
     }
+
     
     // MARK: - Save Output Image
     

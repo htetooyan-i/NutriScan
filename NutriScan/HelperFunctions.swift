@@ -144,6 +144,30 @@ class HelperFunctions: ObservableObject {
 
         return (sortedData, sortedKeys)
     }
+    
+    static func searchFoods(for searchText: String, in foods: [String: [[String: Any]]]) -> ([String: [[String: Any]]], [String]) {
+        var filteredFoods: [String: [[String: Any]]] = [:]
+        
+        for (day, foodEntries) in foods {
+            var filteredEntries: [[String: Any]] = []
+            
+            for entry in foodEntries {
+                if let selectedFood = entry["SelectedFood"] as? String,
+                   selectedFood.localizedCaseInsensitiveContains(searchText) {
+                    filteredEntries.append(entry)
+                }
+            }
+            
+            if !filteredEntries.isEmpty {
+                filteredFoods[day] = filteredEntries
+            }
+        }
+        
+        let sortedFood = self.sortByDate(for: filteredFoods)
+        
+        return (sortedFood.0, sortedFood.1)
+    }
+
 
 
 }

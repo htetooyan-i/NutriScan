@@ -44,15 +44,22 @@ struct FoodCard: View {
                         .padding(.vertical, 10)
                         .padding(.horizontal, 20)
                 }
-                .background(Color.black.opacity(0.3))
+                .background(Color(UIColor.systemGray6).opacity(0.7))
                 .cornerRadius(10)
-                .foregroundColor(Color("DefaultRe"))
+                .foregroundColor(Color.primary)
             }
             .padding(.bottom, 20)
             .padding(.top, 10)
             .padding(.horizontal, 10)
         }
         .frame(width: 175, height: 300)
+        .background(Color("InversedPrimary"))
+        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .overlay(
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(Color("InversedPrimary"), lineWidth: 3)
+        )
+        
         
     }
 }
