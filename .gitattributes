@@ -3,3 +3,4 @@ NutriScan/Models/FoodClassificationV3.mlpackage/Data/com.apple.CoreML/weights/we
 NutriScan/Models/FoodClassificationV4.mlpackage/Data/com.apple.CoreML/weights/weight.bin filter=lfs diff=lfs merge=lfs -text
 NutriScan/Models/FoodClassificationV3.mlpackage/** filter=lfs diff=lfs merge=lfs -text
 NutriScan/Models/FoodClassificationV4.mlpackage/** filter=lfs diff=lfs merge=lfs -text
+NutriScan/Models/*.zip filter=lfs diff=lfs merge=lfs -text
