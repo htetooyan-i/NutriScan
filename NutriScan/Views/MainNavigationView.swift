@@ -16,7 +16,7 @@ struct MainNavigationView: View {
     var body: some View {
         switch currentTab {
         case .account:
-            Text("Account")
+            AccountView()
         case .summary:
             Text("Summary")
         case .scan:
