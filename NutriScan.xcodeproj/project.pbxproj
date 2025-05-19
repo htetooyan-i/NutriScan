@@ -15,6 +15,7 @@
 		C81859CF2DC4F13100393EF9 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = C81859CE2DC4F13100393EF9 /* FirebaseDatabase */; };
 		C81859D12DC4F13100393EF9 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = C81859D02DC4F13100393EF9 /* FirebaseFirestore */; };
 		C81859D32DC4F13100393EF9 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = C81859D22DC4F13100393EF9 /* FirebaseStorage */; };
+		DF2A712E2DDB31DE00248CA9 /* CoreXLSX in Frameworks */ = {isa = PBXBuildFile; productRef = DF2A712D2DDB31DE00248CA9 /* CoreXLSX */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +80,7 @@
 				C81859CF2DC4F13100393EF9 /* FirebaseDatabase in Frameworks */,
 				C81859C52DC4F13100393EF9 /* FirebaseAnalytics in Frameworks */,
 				C81859CD2DC4F13100393EF9 /* FirebaseCore in Frameworks */,
+				DF2A712E2DDB31DE00248CA9 /* CoreXLSX in Frameworks */,
 				C81859C92DC4F13100393EF9 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				C81859C72DC4F13100393EF9 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
 				C81859D32DC4F13100393EF9 /* FirebaseStorage in Frameworks */,
@@ -152,6 +154,7 @@
 				C81859CE2DC4F13100393EF9 /* FirebaseDatabase */,
 				C81859D02DC4F13100393EF9 /* FirebaseFirestore */,
 				C81859D22DC4F13100393EF9 /* FirebaseStorage */,
+				DF2A712D2DDB31DE00248CA9 /* CoreXLSX */,
 			);
 			productName = NutriScan;
 			productReference = C823B92B2DBBD9D80039D9EE /* NutriScan.app */;
@@ -237,6 +240,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				C81859C32DC4F13100393EF9 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				DF2A712C2DDB31DE00248CA9 /* XCRemoteSwiftPackageReference "CoreXLSX" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = C823B92C2DBBD9D80039D9EE /* Products */;
@@ -619,6 +623,14 @@
 				minimumVersion = 11.12.0;
 			};
 		};
+		DF2A712C2DDB31DE00248CA9 /* XCRemoteSwiftPackageReference "CoreXLSX" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/CoreOffice/CoreXLSX.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.14.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -661,6 +673,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C81859C32DC4F13100393EF9 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
+		};
+		DF2A712D2DDB31DE00248CA9 /* CoreXLSX */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DF2A712C2DDB31DE00248CA9 /* XCRemoteSwiftPackageReference "CoreXLSX" */;
+			productName = CoreXLSX;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

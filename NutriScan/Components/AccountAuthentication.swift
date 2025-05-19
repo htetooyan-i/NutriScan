@@ -113,7 +113,3 @@ struct AccountAuthentication: View {
         }
     }
 }
-
-#Preview {
-    AccountAuthentication()
-}

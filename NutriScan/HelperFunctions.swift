@@ -9,6 +9,7 @@ import Foundation
 import CoreML
 import FirebaseCore
 import FirebaseFirestore
+import CoreXLSX
 
 class HelperFunctions: ObservableObject {
     // MARK: - Function To Create Food Data
@@ -174,6 +175,18 @@ class HelperFunctions: ObservableObject {
         return (sortedFood.0, sortedFood.1)
     }
 
+    static func getAvailableFoodList() -> [String] {
+        var foodList: [String] = []
+        if let filePath = Bundle.main.path(forResource: "class_labels", ofType: "txt") {
+            do {
+                let content = try String(contentsOfFile: filePath, encoding: .utf8)
+                foodList = content.components(separatedBy: .newlines)
+            } catch {
+                print("Error reading file: \(error)")
+            }
+        }
+        return foodList
 
+    }
 
 }

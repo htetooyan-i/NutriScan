@@ -15,14 +15,20 @@ struct AccountView: View {
                     .ignoresSafeArea()
                 ScrollView(content: {
                     AccountType()
-                    
                     AccountAuthentication()
+                    NavigationLink {
+                        FoodListView()
+                    } label: {
+                        FoodAvailability()
+                            .background(Color("InversedPrimary"))
+                            .cornerRadius(7)
+                    }
                 })
                 .padding()
                 .navigationTitle("Profile")
-                
             }
         }
+        .tint(Color("CustomBlue"))
     }
 }
 
