@@ -17,21 +17,19 @@ struct SavedView: View {
     
     var body: some View {
         NavigationStack {
-            ZStack {
-                Color(UIColor.systemGray6) // Background color as system gray for saved view
-                    .ignoresSafeArea()
-                ScrollView {
-                    if data.isEmpty {
-                        FoodNotFound() // if data is empty FoodNotFound ui will be shown
-                            .padding()
-                    } else {
-                        SavedFoodCards(sortedKeys: sortedKeys, data: data) // if the data is not empty Food Cards will be shown and sorted by its creation date
-                    }
-                    
+            ScrollView {
+                if data.isEmpty {
+                    FoodNotFound() // if data is empty FoodNotFound ui will be shown
+                        .padding()
+                } else {
+                    SavedFoodCards(sortedKeys: sortedKeys, data: data) // if the data is not empty Food Cards will be shown and sorted by its creation date
                 }
-                .navigationTitle("Saved") // Set saved as the title of the saved view
-                .searchable(text: $searchText, placement: .automatic, prompt: "Search") // create a search bar to filter the food data
+                
             }
+            .navigationTitle("Saved") // Set saved as the title of the saved view
+            .searchable(text: $searchText, placement: .automatic, prompt: "Search") // create a search bar to filter the food data
+            .background(Color(UIColor.systemGray6))
+            .navigationBarTitleDisplayMode(.large)
         }
         .onAppear {
             if foodCache.isUpdated { // when saved view is appear it will check foodData in foodDatacache has been updated or not. If yes it will use that data to display food cards.

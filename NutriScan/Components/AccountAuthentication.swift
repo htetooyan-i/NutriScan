@@ -32,7 +32,7 @@ struct AccountAuthentication: View {
                     userInfoView(for: "Email", with: email)
                         .padding(.top, 30)
                     
-                    userInfoView(for: "UserId", with: userId)
+                    userInfoView(for: "User Id", with: userId)
                         .padding(.top, 30)
                     
                     

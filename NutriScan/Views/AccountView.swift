@@ -4,18 +4,16 @@
 //
 //  Created by Htet Oo Yan i on 18/5/25.
 //
-
 import SwiftUI
 
 struct AccountView: View {
     var body: some View {
-        NavigationView {
-            ZStack {
-                Color(UIColor.systemGray6)
-                    .ignoresSafeArea()
-                ScrollView(content: {
+        NavigationStack {
+            ScrollView {
+                VStack(spacing: 16) {
                     AccountType()
                     AccountAuthentication()
+                    
                     NavigationLink {
                         FoodListView()
                     } label: {
@@ -23,15 +21,16 @@ struct AccountView: View {
                             .background(Color("InversedPrimary"))
                             .cornerRadius(7)
                     }
-                })
+                    
+                    AccountSignOut()
+                    AccountDelete()
+                }
                 .padding()
-                .navigationTitle("Profile")
             }
+            .background(Color(UIColor.systemGray6))
+            .navigationTitle("Profile")
+            .navigationBarTitleDisplayMode(.large)
         }
         .tint(Color("CustomBlue"))
     }
-}
-
-#Preview {
-    AccountView()
 }
