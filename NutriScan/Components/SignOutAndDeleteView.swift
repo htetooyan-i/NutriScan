@@ -7,31 +7,35 @@
 
 import SwiftUI
 
-struct AccountDelete: View {
+struct SignOutAndDeleteView: View {
+    @State var titleIcon: String
+    @State var titleName: String
+    @State var description: String
+    @State var btnIcon: String
     var body: some View {
         ZStack {
             Color("InversedPrimary")
             VStack(alignment: .leading,spacing: 16, content: {
                 HStack {
-                    Image(systemName: "person.fill.xmark")
+                    Image(systemName: self.titleIcon)
                         .resizable()
                         .scaledToFit()
                         .frame(width: 20, height: 20)
-                    Text("Delete Account")
+                    Text(self.titleName)
                         .font(.headline)
                         .fontWeight(.bold)
                     Spacer()
                 }
-                Text("Tap the buttom below to delete your account from NutriScan(warning: this will delete all data and is irreversible.")
+                Text(self.description)
                     .fontWeight(.bold)
                     .font(.custom("ComicRelief-Bold", size: 14))
                 
                 Button {
-                    print("Account Deleted")
+                    print(self.titleName)
                 } label: {
                     HStack {
-                        Image(systemName: "person.crop.circle.badge.xmark")
-                        Text("Delete Account")
+                        Image(systemName: self.btnIcon)
+                        Text(self.titleName)
                     }
                     .padding(.all, 7)
                     .foregroundColor(Color("InversedDanger"))
@@ -51,6 +55,3 @@ struct AccountDelete: View {
     }
 }
 
-#Preview {
-    AccountDelete()
-}
