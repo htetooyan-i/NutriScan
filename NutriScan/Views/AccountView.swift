@@ -7,6 +7,8 @@
 import SwiftUI
 
 struct AccountView: View {
+    @StateObject private var accountModel = AccountSettingModel.shared
+    
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -17,7 +19,7 @@ struct AccountView: View {
                     
                     // MARK: -  Section To Display Account Login And Signup
                     
-                    AccountAuthentication()
+                    AccountAuthentication(isLoggedIn: $accountModel.isLoggedIn)
                     
                     // MARK: -  Section To Display Available Foods
                     
@@ -33,13 +35,15 @@ struct AccountView: View {
                     
                     ModelVersion()
                     
-                    // MARK: - Section To Display Account Sign Out
-                    
-                    SignOutAndDeleteView(titleIcon: "person.fill", titleName: "Sign Out", description: "Tap the button below to sign out of NutriScan.", btnIcon: "door.left.hand.open")
-                    
-                    // MARK: - Section To Display Account Delete
-                    
-                    SignOutAndDeleteView(titleIcon: "person.fill.xmark", titleName: "Delete Account", description: "Tap the buttom below to delete your account from NutriScan (warning: this will delete all data and is irreversible).", btnIcon: "person.crop.circle.badge.xmark")
+                    if accountModel.isLoggedIn {
+                        // MARK: - Section To Display Account Sign Out
+                        
+                        SignOutAndDeleteView(titleIcon: "person.fill", titleName: "Sign Out", description: "Tap the button below to sign out of NutriScan.", btnIcon: "door.left.hand.open")
+                        
+                        // MARK: - Section To Display Account Delete
+                        
+                        SignOutAndDeleteView(titleIcon: "person.fill.xmark", titleName: "Delete Account", description: "Tap the buttom below to delete your account from NutriScan (warning: this will delete all data and is irreversible).", btnIcon: "person.crop.circle.badge.xmark")
+                    }
                     
                     
                 }
@@ -50,6 +54,9 @@ struct AccountView: View {
             .navigationBarTitleDisplayMode(.large)
         }
         .tint(Color("CustomBlue"))
+        .onAppear {
+            accountModel.checkCurrrentState()
+        }
     }
 }
 

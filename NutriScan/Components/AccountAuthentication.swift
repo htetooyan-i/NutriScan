@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AccountAuthentication: View {
-    @State var isLoggedIn: Bool = false
+    @Binding var isLoggedIn: Bool
     @State var email: String = "irandom12394@gmail.com"
     @State var userId: String = "i24106.i24106.i24106.i24106"
     @State var copiedField: String? = nil
@@ -72,6 +72,9 @@ struct AccountAuthentication: View {
             
         } content: {
             AccountAuthSheetView(toggler: $showSingupSheet)
+        }
+        .onAppear {
+            print("In Auth View: \(self.isLoggedIn)")
         }
 
     }

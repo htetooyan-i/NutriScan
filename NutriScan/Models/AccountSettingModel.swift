@@ -8,8 +8,10 @@
 import Foundation
 import FirebaseAuth
 
-class AccountSettingModel {
+class AccountSettingModel: ObservableObject {
     static let shared = AccountSettingModel()
+    
+    @Published var isLoggedIn: Bool = false
     
     func signUpUser(email: String, password: String, completion: @escaping (Bool) -> Void) {
         Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
@@ -18,6 +20,7 @@ class AccountSettingModel {
                 completion(false)
             } else {
                 print("User created: \(authResult?.user.uid ?? "No UID")")
+                self.isLoggedIn = true
                 completion(true)
             }
         }
@@ -30,8 +33,51 @@ class AccountSettingModel {
                 completion(false)
             } else {
                 print("User Logged In: \(authResult?.user.email ?? "No UID")")
+                self.isLoggedIn = true
                 completion(true)
             }
         }
+    }
+    
+    func signOutUser(completion: @escaping (Bool) -> Void) {
+        do {
+            try Auth.auth().signOut()
+            print("Signed out")
+            self.isLoggedIn = false
+            completion(true)
+        } catch let signOutError as NSError {
+            print("Error signing out: %@", signOutError)
+            completion(false)
+        }
+    }
+    
+    func checkCurrrentState() {
+        if let user = Auth.auth().currentUser {
+            print("Logged in user: \(user.email ?? "")")
+            self.isLoggedIn = true
+        } else {
+            print("No user is signed in.")
+            self.isLoggedIn = false
+        }
+
+    }
+    
+    func deleteUser(completion: @escaping (Bool) -> Void) {
+        if let user = Auth.auth().currentUser {
+            user.delete { error in
+                if let error = error {
+                    print("Error deleting user: \(error.localizedDescription)")
+                    completion(false)
+                } else {
+                    print("User account deleted successfully.")
+                    self.isLoggedIn = false
+                    completion(true)
+                }
+            }
+        } else {
+            print("No user is currently signed in.")
+            completion(false)
+        }
+
     }
 }

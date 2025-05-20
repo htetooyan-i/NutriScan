@@ -31,7 +31,15 @@ struct SignOutAndDeleteView: View {
                     .font(.custom("ComicRelief-Bold", size: 14))
                 
                 Button {
-                    print(self.titleName)
+                    if self.titleName == "Sign Out" {
+                        AccountSettingModel.shared.signOutUser { isSuccess in
+                            print(isSuccess)
+                        }
+                    }else {
+                        AccountSettingModel.shared.deleteUser { isSuccess in
+                            print(isSuccess)
+                        }
+                    }
                 } label: {
                     HStack {
                         Image(systemName: self.btnIcon)
