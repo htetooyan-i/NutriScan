@@ -28,22 +28,22 @@ struct AccountAuthSheetView: View {
                         VStack(alignment: .center, spacing: 20) {
                             
                             NavigationLink {
-                                UserSignUp()
+                                UserSignUp(toggler: $toggler)
                             } label: {
-                                LogInAndSignUpBtn(icon: "envelope.fill", description: "Sign up with email", bgColor: Color(UIColor.systemGray6), borderColor: Color.white)
+                                LogInAndSignUpBtn(icon: "envelope.fill", description: "Sign up with email", bgColor: Color(UIColor.systemGray6), borderColor: Color("InversedPrimary"))
                                 
                             }
 
                             NavigationLink {
-                                UserLoginForm()
+                                UserLoginForm(toggler: $toggler)
                             } label: {
-                                LogInAndSignUpBtn(description: "Log in", bgColor: Color.white, borderColor: Color(UIColor.systemGray6))
+                                LogInAndSignUpBtn(description: "Log in", bgColor: Color("InversedPrimary"), borderColor: Color(UIColor.systemGray6))
                             }
 
                         }
                         .frame(width: geometry.size.width, height: geometry.size.height * 0.5 + geometry.safeAreaInsets.bottom)
                         .background(
-                            Color.white
+                            Color("InversedPrimary")
                                 .clipShape(RoundedCorner(radius: 50, corners: [.topLeft, .topRight]))
                         )
                         .ignoresSafeArea(.all, edges: .bottom)

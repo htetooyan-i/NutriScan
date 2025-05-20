@@ -32,11 +32,11 @@ struct SignOutAndDeleteView: View {
                 
                 Button {
                     if self.titleName == "Sign Out" {
-                        AccountSettingModel.shared.signOutUser { isSuccess in
+                        UserManager.shared.signOutUser { isSuccess in
                             print(isSuccess)
                         }
                     }else {
-                        AccountSettingModel.shared.deleteUser { isSuccess in
+                        UserManager.shared.deleteUser { isSuccess in
                             print(isSuccess)
                         }
                     }

@@ -12,6 +12,7 @@ struct UserLoginForm: View {
     @State var password: String = ""
     @State var showPassword: Bool = false
     @State var logInFail: Bool = false
+    @Binding var toggler: Bool
     
     var body: some View {
         ZStack {
@@ -75,16 +76,18 @@ struct UserLoginForm: View {
                         .font(.caption)
                         .foregroundStyle(Color.red)
                         .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading, 20)
                 }
                 
                 Button {
                     if !email.isEmpty, !password.isEmpty {
-                        AccountSettingModel.shared.signInUser(email: self.email, password: self.password) { isSuccess in
+                        UserManager.shared.signInUser(email: self.email, password: self.password) { isSuccess in
                             if isSuccess {
                                 print("Success")
                                 self.logInFail = false
                                 self.email = ""
                                 self.password = ""
+                                toggler = false
                             } else {
                                 self.logInFail = true
                             }
@@ -104,7 +107,7 @@ struct UserLoginForm: View {
             }
             .padding(.top, 60)
             .padding(.bottom, 30)
-            .background(Color.white)
+            .background(Color("InversedPrimary"))
             .cornerRadius(12)
             .padding(.horizontal)
             .frame(maxHeight: .infinity, alignment: .top)
@@ -112,8 +115,4 @@ struct UserLoginForm: View {
         .navigationTitle("Login")
         .navigationBarTitleDisplayMode(.inline)
     }
-}
-
-#Preview {
-    UserLoginForm()
 }

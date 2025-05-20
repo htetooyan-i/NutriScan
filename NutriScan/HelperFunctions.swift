@@ -188,5 +188,35 @@ class HelperFunctions: ObservableObject {
         return foodList
 
     }
+    
+    static func checkEmailAndPasswordValidity(_ email: String, _ password: String) -> [String: Bool] {
+        var validityChecks: [String: Bool] = [:]
+        
+        // Email validations
+        validityChecks["isEmailNotEmpty"] = !email.isEmpty
+        
+        var isEmailValid: Bool {
+            // simple regex for email validation
+            let emailFormat = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
+            let emailPredicate = NSPredicate(format: "SELF MATCHES %@", emailFormat)
+            return emailPredicate.evaluate(with: email)
+        }
+        
+        validityChecks["isEmailValid"] = isEmailValid
+        
+        validityChecks["isPasswordNotEmpty"] = !password.isEmpty
+        
+        validityChecks["isPasswordLongEnough"] = password.count >= 6
+
+        var hasUppercasePassword: Bool {
+            let upperCase = CharacterSet.uppercaseLetters
+            return password.rangeOfCharacter(from: upperCase) != nil
+        }
+        
+//        validityChecks["hasUppercasePassword"] = hasUppercasePassword
+        
+        return validityChecks
+
+    }
 
 }

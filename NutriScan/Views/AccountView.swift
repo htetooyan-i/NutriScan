@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct AccountView: View {
-    @StateObject private var accountModel = AccountSettingModel.shared
+    @StateObject private var accountModel = UserManager.shared
     
     var body: some View {
         NavigationStack {

@@ -24,12 +24,13 @@ struct LogInAndSignUpBtn: View {
             }
             Text(self.description)
                 .foregroundStyle(Color.primary)
+                .fontWeight(.bold)
         }
         .frame(width: 300, height: 50, alignment: .center)
         .background(
             RoundedRectangle(cornerRadius: 10)
                 .fill(bgColor)
-                .stroke(borderColor, lineWidth: 1)
+                .stroke(borderColor, lineWidth: 2)
         )
     }
 }

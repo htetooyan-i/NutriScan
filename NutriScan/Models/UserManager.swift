@@ -8,10 +8,12 @@
 import Foundation
 import FirebaseAuth
 
-class AccountSettingModel: ObservableObject {
-    static let shared = AccountSettingModel()
+class UserManager: ObservableObject {
+    static let shared = UserManager()
     
     @Published var isLoggedIn: Bool = false
+    @Published var email: String = ""
+    @Published var userId: String = ""
     
     func signUpUser(email: String, password: String, completion: @escaping (Bool) -> Void) {
         Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
@@ -34,6 +36,7 @@ class AccountSettingModel: ObservableObject {
             } else {
                 print("User Logged In: \(authResult?.user.email ?? "No UID")")
                 self.isLoggedIn = true
+                self.getCurrentUserData()
                 completion(true)
             }
         }
@@ -53,8 +56,8 @@ class AccountSettingModel: ObservableObject {
     
     func checkCurrrentState() {
         if let user = Auth.auth().currentUser {
-            print("Logged in user: \(user.email ?? "")")
             self.isLoggedIn = true
+            self.getCurrentUserData()
         } else {
             print("No user is signed in.")
             self.isLoggedIn = false
@@ -79,5 +82,12 @@ class AccountSettingModel: ObservableObject {
             completion(false)
         }
 
+    }
+    
+    private func getCurrentUserData() {
+        if let user = Auth.auth().currentUser {
+            self.email = user.email ?? ""
+            self.userId = user.uid
+        }
     }
 }

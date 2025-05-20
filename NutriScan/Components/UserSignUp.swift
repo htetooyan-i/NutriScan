@@ -8,10 +8,21 @@
 import SwiftUI
 
 struct UserSignUp: View {
-    
     @State var email: String = ""
     @State var password: String = ""
     @State var showPassword: Bool = false
+    @Binding var toggler: Bool
+    
+    let validityRules: [String] = ["email must not be empty", "email must be valid", "password must not be empty", "password must be 6 characters or longer"]
+    
+    @State var validityChecks:[String:Bool] = [
+        "email must not be empty" : false,
+        "email must be valid" : false,
+        "password must not be empty" : false,
+        "password must be 6 characters or longer" : false,
+        "password must have an uppercase letter" : false
+        
+    ]
     
     var body: some View {
         ZStack {
@@ -19,26 +30,24 @@ struct UserSignUp: View {
                 .ignoresSafeArea()
             
             VStack(spacing: 20) {
-                VStack(alignment: .center,spacing: 3) {
-                    HStack(spacing: 10) {
-                        Image(systemName: "checkmark.circle")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 20, height: 20, alignment: .leading)
-                            .foregroundStyle(Color(UIColor.systemGray6))
-                        Text("email must not be empty")
-                            .font(.custom("ComicRelief-Bold", size: 10))
-                            .fontWeight(.bold)
-                    }
-                    HStack(spacing: 10) {
-                        Image(systemName: "checkmark.circle")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 20, height: 20, alignment: .leading)
-                            .foregroundStyle(Color(UIColor.systemGray6))
-                        Text("email must not be empty")
-                            .font(.custom("ComicRelief-Bold", size: 10))
-                            .fontWeight(.bold)
+                VStack(alignment: .leading,spacing: 3) {
+                    ForEach(validityRules, id: \.self) { rule in
+                        let isPass = validityChecks[rule] ?? false
+                        HStack(spacing: 10) {
+                            Image(systemName: "checkmark.circle")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 20, height: 20, alignment: .leading)
+                                .background(isPass ? Color.green : Color.white)
+                                .foregroundStyle(isPass ? Color.white : Color(UIColor.systemGray6))
+                                .clipShape(Circle())
+                            Text(rule)
+                                .font(.custom("ComicRelief-Bold", size: 10))
+                                .fontWeight(.bold)
+                                .strikethrough(isPass, color: Color(UIColor.systemGray3))
+                                .foregroundStyle(isPass ? Color(UIColor.systemGray3) : Color.black)
+                                
+                        }
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
@@ -96,11 +105,12 @@ struct UserSignUp: View {
                 
                 Button {
                     if !email.isEmpty, !password.isEmpty {
-                        AccountSettingModel.shared.signUpUser(email: self.email, password: self.password) { isSuccess in
+                        UserManager.shared.signUpUser(email: self.email, password: self.password) { isSuccess in
                             if isSuccess {
                                 print("Successfully created!!")
                                 self.email = ""
                                 self.password = ""
+                                toggler = false
                             } else {
                                 print("Unsuccess")
                             }
@@ -119,16 +129,30 @@ struct UserSignUp: View {
                 
             }
             .padding(.vertical, 30)
-            .background(Color.white)
+            .background(Color("InversedPrimary"))
             .cornerRadius(12)
             .padding(.horizontal)
             .frame(maxHeight: .infinity, alignment: .top)
         }
         .navigationTitle("Sign up")
         .navigationBarTitleDisplayMode(.inline)
+        
+        .onChange(of: email) { oldValue, newValue in
+            checkValidity(email: email, password: password)
+        }
+        .onChange(of: password) { oldValue, newValue in
+            checkValidity(email: email, password: password)
+        }
+    }
+    
+    func checkValidity(email: String, password: String) {
+        let results = HelperFunctions.checkEmailAndPasswordValidity(email, password)
+        
+        self.validityChecks["email must not be empty"] = results["isEmailNotEmpty"]
+        self.validityChecks["email must be valid" ] = results["isEmailValid"]
+        self.validityChecks["password must not be empty"] = results["isPasswordNotEmpty"]
+        self.validityChecks["password must be 6 characters or longer"] = results["isPasswordLongEnough"]
+//        self.validityChecks["password must have an uppercase letter"] = results["hasUppercasePassword"]
     }
 }
 
-#Preview {
-    UserSignUp()
-}
