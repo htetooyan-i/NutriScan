@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct AccountAuthentication: View {
-    @State var isLoggedIn: Bool = true
+    @State var isLoggedIn: Bool = false
     @State var email: String = "irandom12394@gmail.com"
     @State var userId: String = "i24106.i24106.i24106.i24106"
     @State var copiedField: String? = nil
+    @State var showSingupSheet: Bool = false
     var body: some View {
         ZStack {
             Color("InversedPrimary")
@@ -59,11 +60,20 @@ struct AccountAuthentication: View {
                 }
                 .padding(.vertical, 20)
                 .padding(.leading, 10)
+                .onTapGesture {
+                    self.showSingupSheet.toggle()
+                }
                 
             }
             
         }
         .cornerRadius(7)
+        .sheet(isPresented: $showSingupSheet) {
+            
+        } content: {
+            AccountAuthSheetView(toggler: $showSingupSheet)
+        }
+
     }
     
     func userInfoView(for fieldName: String, with fieldValue: String) -> some View {
