@@ -95,7 +95,17 @@ struct UserSignUp: View {
                 .frame(height: 50)
                 
                 Button {
-                    print("Sign Up: name: \(email), password: \(password)")
+                    if !email.isEmpty, !password.isEmpty {
+                        AccountSettingModel.shared.signUpUser(email: self.email, password: self.password) { isSuccess in
+                            if isSuccess {
+                                print("Successfully created!!")
+                                self.email = ""
+                                self.password = ""
+                            } else {
+                                print("Unsuccess")
+                            }
+                        }
+                    }
                 } label: {
                     Text("Sign Up")
                         .padding(.vertical, 5)

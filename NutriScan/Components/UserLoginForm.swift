@@ -11,6 +11,7 @@ struct UserLoginForm: View {
     @State var email: String = ""
     @State var password: String = ""
     @State var showPassword: Bool = false
+    @State var logInFail: Bool = false
     
     var body: some View {
         ZStack {
@@ -69,8 +70,26 @@ struct UserLoginForm: View {
                 .padding(.horizontal, 20)
                 .frame(height: 50)
                 
+                if logInFail {
+                    Text("Email or password is incorrect!")
+                        .font(.caption)
+                        .foregroundStyle(Color.red)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                
                 Button {
-                    print("Login In: name: \(email), password: \(password)")
+                    if !email.isEmpty, !password.isEmpty {
+                        AccountSettingModel.shared.signInUser(email: self.email, password: self.password) { isSuccess in
+                            if isSuccess {
+                                print("Success")
+                                self.logInFail = false
+                                self.email = ""
+                                self.password = ""
+                            } else {
+                                self.logInFail = true
+                            }
+                        }
+                    }
                 } label: {
                     Text("Login")
                         .padding(.vertical, 5)
