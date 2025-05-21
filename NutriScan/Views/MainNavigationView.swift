@@ -18,7 +18,7 @@ struct MainNavigationView: View {
         case .account:
             AccountView()
         case .summary:
-            Text("Summary")
+            SummaryView()
         case .scan:
             ZStack {
                 CameraView()
