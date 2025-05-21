@@ -48,7 +48,7 @@ struct ContentView: View {
         }
         .accentColor(Color("PriColor"))
         .onAppear {
-            HelperFunctions.getFoodDataFromDatabase(user: "user_001", collectionName: "foods")
+            HelperFunctions.getFoodDataFromDatabase(user: "user_002", collectionName: "foods")
         }
     }
 }

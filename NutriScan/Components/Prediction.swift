@@ -10,12 +10,12 @@ import AVFoundation
 
 
 struct Prediction: View {
+    @Environment(\.dismiss) var dismiss
     @State var foodName: String?
     @State var confidence: Float?
     @State var thumb: UIImage?
     @Binding var saved: Bool
-//    
-//    var audioPlayer: AVAudioPlayer?
+    
     
     var body: some View {
         HStack {
@@ -52,13 +52,23 @@ struct Prediction: View {
             
             // MARK: - SAVE BUTTON TO SAVE FOOD
             Button {
-                saved.toggle()
+                if UserManager.shared.isLoggedIn {
+                    saved.toggle()
+                }
             } label: {
-                Image(systemName: saved ? "bookmark.fill" : "bookmark")
-                    .resizable()
-                    .frame(width: 20, height: 25)
-                    .foregroundColor(.blue)
+                if UserManager.shared.isLoggedIn {
+                    Image(systemName: saved ? "bookmark.fill" : "bookmark")
+                        .resizable()
+                        .frame(width: 20, height: 25)
+                        .foregroundColor(.blue)
+                }else {
+                    Image(systemName: "bookmark.slash.fill")
+                        .resizable()
+                        .frame(width: 20, height: 25)
+                        .foregroundColor(.red)
+                }
             }
+            .disabled(true)
             .onChange(of: saved) { oldValue, newValue in
                 if newValue == true {
                     let generator = UIImpactFeedbackGenerator(style: .heavy)
@@ -67,7 +77,6 @@ struct Prediction: View {
                     SoundManager.shared.playClickSound()
                 }
             }
-            
         }
     }
     

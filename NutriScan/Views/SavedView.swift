@@ -31,6 +31,7 @@ struct SavedView: View {
             .background(Color(UIColor.systemGray6))
             .navigationBarTitleDisplayMode(.large)
         }
+        .accentColor(Color("CustomBlue"))
         .onAppear {
             if foodCache.isUpdated { // when saved view is appear it will check foodData in foodDatacache has been updated or not. If yes it will use that data to display food cards.
                 self.setData()
