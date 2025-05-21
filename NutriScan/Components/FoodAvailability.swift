@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FoodAvailability: View {
-    var body: some View {
+    var body: some View { // show the available food list
         VStack(alignment: .leading, spacing: 20) {
             HStack {
                 Image(systemName: "carrot.fill")

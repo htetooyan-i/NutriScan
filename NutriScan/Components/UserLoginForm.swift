@@ -20,58 +20,12 @@ struct UserLoginForm: View {
                 .ignoresSafeArea()
             
             VStack(spacing: 20) {
-                HStack(spacing: 20)  {
-                    Image(systemName: "envelope")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 30, height: 25)
-                    TextField( "Email", text: $email )
-                        .padding()
-                        .frame(maxWidth: .infinity, minHeight: 50)
-                        .background(Color(UIColor.systemGray6))
-                        .cornerRadius(7)
-                        .autocapitalization(.none)
-                        .keyboardType(.emailAddress)
-                    
-                }
-                .padding(.horizontal, 20)
-                .frame(height: 50)
                 
-                HStack(spacing: 20) {
-                    Image(systemName: "lock")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 30, height: 25)
-                    Group {
-                        if showPassword {
-                            TextField("Password", text: $password)
-                                .padding()
-                                .frame(maxWidth: .infinity, minHeight: 50)
-                                .background(Color(UIColor.systemGray6))
-                                .cornerRadius(7)
-                        } else {
-                            SecureField("Password", text: $password)
-                                .padding()
-                                .frame(maxWidth: .infinity, minHeight: 50)
-                                .background(Color(UIColor.systemGray6))
-                                .cornerRadius(7)
-                        }
-                    }
-                    Button(action: {
-                        showPassword.toggle()
-                    }) {
-                        Image(systemName: showPassword ? "eye" : "eye.slash")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 30, height: 25)
-                            .foregroundStyle(Color.primary)
-                    }
-                    
-                }
-                .padding(.horizontal, 20)
-                .frame(height: 50)
+                EmailTextField(email: $email) // email input
                 
-                if logInFail {
+                PasswordTextField(password: $password) // password input
+                
+                if logInFail { // if login has failed this error will be shown
                     Text("Email or password is incorrect!")
                         .font(.caption)
                         .foregroundStyle(Color.red)
@@ -79,7 +33,7 @@ struct UserLoginForm: View {
                         .padding(.leading, 20)
                 }
                 
-                Button {
+                Button { // button to login and ensure both email and password are not empty before submit
                     if !email.isEmpty, !password.isEmpty {
                         UserManager.shared.signInUser(email: self.email, password: self.password) { isSuccess in
                             if isSuccess {

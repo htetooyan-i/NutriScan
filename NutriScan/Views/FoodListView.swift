@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct FoodListView: View {
+struct FoodListView: View { // show the all foods that is available for this model
     @State var foodList: [String] = []
     var body: some View {
         List(foodList, id: \.self) { food in

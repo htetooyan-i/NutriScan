@@ -8,16 +8,18 @@
 import SwiftUI
 
 struct AccountAuthSheetView: View {
+    
     @Binding var toggler: Bool
+    
     var body: some View {
         NavigationStack {
-            GeometryReader { geometry in
+            GeometryReader { geometry in // use to check device frame
                 ZStack(alignment: .top) {
                     Color(UIColor.systemGray6)
                         .ignoresSafeArea()
                     
                     VStack(spacing: 0) {
-                        VStack {
+                        VStack { // logo part
                             Text("NutriScan")
                                 .font(.largeTitle)
                                 .fontWeight(.bold)
@@ -25,16 +27,16 @@ struct AccountAuthSheetView: View {
                         }
                         .frame(width: geometry.size.width, height: geometry.size.height * 0.5)
                         
-                        VStack(alignment: .center, spacing: 20) {
+                        VStack(alignment: .center, spacing: 20) { // login and signup option part
                             
-                            NavigationLink {
-                                UserSignUp(toggler: $toggler)
+                            NavigationLink { // navigation link for sign up form
+                                UserSignUpForm(toggler: $toggler)
                             } label: {
                                 LogInAndSignUpBtn(icon: "envelope.fill", description: "Sign up with email", bgColor: Color(UIColor.systemGray6), borderColor: Color("InversedPrimary"))
                                 
                             }
 
-                            NavigationLink {
+                            NavigationLink { // navigation link for login in form
                                 UserLoginForm(toggler: $toggler)
                             } label: {
                                 LogInAndSignUpBtn(description: "Log in", bgColor: Color("InversedPrimary"), borderColor: Color(UIColor.systemGray6))
@@ -50,7 +52,7 @@ struct AccountAuthSheetView: View {
                     }
                     .frame(width: geometry.size.width, height: geometry.size.height, alignment: .top)
                 }
-                .toolbar {
+                .toolbar { // toggler to dismiss sheet view
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Image(systemName: "xmark.circle.fill")
                             .resizable()
@@ -66,7 +68,7 @@ struct AccountAuthSheetView: View {
         }
     }
 
-    struct RoundedCorner: Shape {
+    struct RoundedCorner: Shape { // use to set radius of specific corners
         var radius: CGFloat
         var corners: UIRectCorner
 
@@ -81,8 +83,3 @@ struct AccountAuthSheetView: View {
     }
 }
 
-
-#Preview {
-    let test: Binding<Bool> = .constant(true)
-    AccountAuthSheetView(toggler: test)
-}

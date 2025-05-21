@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct UserInfo: View {
+    
     @State var copiedField: String? = nil
     @State var fieldName: String
     @Binding var fieldValue: String
-    var body: some View {
+    
+    var body: some View { // This view will show user's email and id only if user has logged In
         VStack {
             Text("\(fieldName):")
                 .font(.headline)

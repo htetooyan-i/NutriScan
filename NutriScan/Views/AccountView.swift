@@ -35,7 +35,7 @@ struct AccountView: View {
                     
                     ModelVersion()
                     
-                    if accountModel.isLoggedIn {
+                    if accountModel.isLoggedIn { // This two sections will be shown only if user has signed in
                         // MARK: - Section To Display Account Sign Out
                         
                         SignOutAndDeleteView(titleIcon: "person.fill", titleName: "Sign Out", description: "Tap the button below to sign out of NutriScan.", btnIcon: "door.left.hand.open")

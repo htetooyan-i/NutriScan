@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AccountType: View {
-    var body: some View {
+    var body: some View { // show the account type of current user
         ZStack {
             Color("PriColor")
             HStack {

@@ -1,5 +1,5 @@
 //
-//  UserSignUp.swift
+//  UserSignUpForm.swift
 //  NutriScan
 //
 //  Created by Htet Oo Yan i on 20/5/25.
@@ -7,12 +7,13 @@
 
 import SwiftUI
 
-struct UserSignUp: View {
+struct UserSignUpForm: View {
     @State var email: String = ""
     @State var password: String = ""
     @State var showPassword: Bool = false
     @Binding var toggler: Bool
     
+    // MARK: - validityRules and Results
     let validityRules: [String] = ["email must not be empty", "email must be valid", "password must not be empty", "password must be 6 characters or longer"]
     
     @State var validityChecks:[String:Bool] = [
@@ -23,14 +24,14 @@ struct UserSignUp: View {
         "password must have an uppercase letter" : false
         
     ]
-    
+    // MARK: - main view
     var body: some View {
         ZStack {
             Color(UIColor.systemGray6)
                 .ignoresSafeArea()
             
             VStack(spacing: 20) {
-                VStack(alignment: .leading,spacing: 3) {
+                VStack(alignment: .leading,spacing: 3) { // display the rules and pass or not
                     ForEach(validityRules, id: \.self) { rule in
                         let isPass = validityChecks[rule] ?? false
                         HStack(spacing: 10) {
@@ -52,59 +53,13 @@ struct UserSignUp: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
                 .padding(.bottom, 10)
-                HStack(spacing: 20)  {
-                    Image(systemName: "envelope")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 30, height: 25)
-                    TextField( "Email", text: $email )
-                        .padding()
-                        .frame(maxWidth: .infinity, minHeight: 50)
-                        .background(Color(UIColor.systemGray6))
-                        .cornerRadius(7)
-                        .autocapitalization(.none)
-                        .keyboardType(.emailAddress)
-                    
-                }
-                .padding(.horizontal, 20)
-                .frame(height: 50)
                 
-                HStack(spacing: 20) {
-                    Image(systemName: "lock")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 30, height: 25)
-                    Group {
-                        if showPassword {
-                            TextField("Password", text: $password)
-                                .padding()
-                                .frame(maxWidth: .infinity, minHeight: 50)
-                                .background(Color(UIColor.systemGray6))
-                                .cornerRadius(7)
-                        } else {
-                            SecureField("Password", text: $password)
-                                .padding()
-                                .frame(maxWidth: .infinity, minHeight: 50)
-                                .background(Color(UIColor.systemGray6))
-                                .cornerRadius(7)
-                        }
-                    }
-                    Button(action: {
-                        showPassword.toggle()
-                    }) {
-                        Image(systemName: showPassword ? "eye" : "eye.slash")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 30, height: 25)
-                            .foregroundStyle(Color.primary)
-                    }
-                    
-                }
-                .padding(.horizontal, 20)
-                .frame(height: 50)
+                EmailTextField(email: $email) // email input
+                
+                PasswordTextField(password: $password) // password input
                 
                 Button {
-                    if !email.isEmpty, !password.isEmpty {
+                    if !email.isEmpty, !password.isEmpty { // button to login and ensure both email and password are not empty before submit[ But this code need to change and need to check all validation rules]
                         UserManager.shared.signUpUser(email: self.email, password: self.password) { isSuccess in
                             if isSuccess {
                                 print("Successfully created!!")
@@ -145,7 +100,7 @@ struct UserSignUp: View {
         }
     }
     
-    func checkValidity(email: String, password: String) {
+    func checkValidity(email: String, password: String) { // function to check validityrules
         let results = HelperFunctions.checkEmailAndPasswordValidity(email, password)
         
         self.validityChecks["email must not be empty"] = results["isEmailNotEmpty"]

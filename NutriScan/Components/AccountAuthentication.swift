@@ -8,13 +8,15 @@
 import SwiftUI
 
 struct AccountAuthentication: View {
+    
     @Binding var isLoggedIn: Bool
     @ObservedObject var accountModel = UserManager.shared
     @State var showSingupSheet: Bool = false
+    
     var body: some View {
         ZStack {
             Color("InversedPrimary")
-            if isLoggedIn {
+            if isLoggedIn { // if user has logged in this section will show user info
                 VStack {
                     HStack {
                         Image(systemName: "person.fill")
@@ -38,7 +40,7 @@ struct AccountAuthentication: View {
                 }
                 .padding(.vertical, 20)
                 .padding(.horizontal, 10)
-            }else {
+            }else { // else this section will show option to sign up or login
                 HStack {
                     Image(systemName: "person.crop.circle.fill")
                         .resizable()
@@ -66,8 +68,8 @@ struct AccountAuthentication: View {
             
         }
         .cornerRadius(7)
-        .sheet(isPresented: $showSingupSheet) {
-            
+        .sheet(isPresented: $showSingupSheet) { // when user click the section to sign in/sing up this sheet will be shown
+            //Code When sheet has been dismissed
         } content: {
             AccountAuthSheetView(toggler: $showSingupSheet)
         }

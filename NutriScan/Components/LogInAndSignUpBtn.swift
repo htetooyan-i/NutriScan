@@ -13,7 +13,7 @@ struct LogInAndSignUpBtn: View {
     @State var bgColor: Color
     @State var borderColor: Color
     
-    var body: some View {
+    var body: some View { // this view is for sign in and sign up btns
         HStack(alignment: .center, spacing: 20) {
             if let imgIcon = icon {
                 Image(systemName: imgIcon)

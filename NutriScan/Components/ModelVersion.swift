@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ModelVersion: View {
-    var body: some View {
+    var body: some View { // show the current using models and their last updated date
         ZStack {
             Color("InversedPrimary")
             VStack(alignment: .leading, spacing: 16) {

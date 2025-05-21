@@ -1,5 +1,5 @@
 //
-//  AccountSettingModel.swift
+//  UserManager.swift
 //  NutriScan
 //
 //  Created by Htet Oo Yan i on 20/5/25.
@@ -15,6 +15,7 @@ class UserManager: ObservableObject {
     @Published var email: String = ""
     @Published var userId: String = ""
     
+    // MARK: -  Sign Up User
     func signUpUser(email: String, password: String, completion: @escaping (Bool) -> Void) {
         Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
             if let error = error {
@@ -23,11 +24,13 @@ class UserManager: ObservableObject {
             } else {
                 print("User created: \(authResult?.user.uid ?? "No UID")")
                 self.isLoggedIn = true
+                self.getCurrentUserData()
                 completion(true)
             }
         }
     }
     
+    // MARK: - Sign In User
     func signInUser(email: String, password: String, completion: @escaping (Bool) -> Void) {
         Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
             if let error = error {
@@ -42,6 +45,7 @@ class UserManager: ObservableObject {
         }
     }
     
+    // MARK: - Sign Out User
     func signOutUser(completion: @escaping (Bool) -> Void) {
         do {
             try Auth.auth().signOut()
@@ -54,8 +58,9 @@ class UserManager: ObservableObject {
         }
     }
     
+    // MARK: - Check Logged In Or Not
     func checkCurrrentState() {
-        if let user = Auth.auth().currentUser {
+        if Auth.auth().currentUser != nil {
             self.isLoggedIn = true
             self.getCurrentUserData()
         } else {
@@ -65,6 +70,7 @@ class UserManager: ObservableObject {
 
     }
     
+    // MARK: - Delete User Account
     func deleteUser(completion: @escaping (Bool) -> Void) {
         if let user = Auth.auth().currentUser {
             user.delete { error in
@@ -83,7 +89,7 @@ class UserManager: ObservableObject {
         }
 
     }
-    
+    // MARK: - Set the User Info
     private func getCurrentUserData() {
         if let user = Auth.auth().currentUser {
             self.email = user.email ?? ""

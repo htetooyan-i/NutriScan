@@ -174,6 +174,8 @@ class HelperFunctions: ObservableObject {
         
         return (sortedFood.0, sortedFood.1)
     }
+    
+    // MARK: -  FUNCTION TO GET AVAILABLE FOOD LIST
 
     static func getAvailableFoodList() -> [String] {
         var foodList: [String] = []
@@ -188,6 +190,7 @@ class HelperFunctions: ObservableObject {
         return foodList
 
     }
+    // MARK: - FUNCTION TO CHECK CURRENT EMAIL AND PASSWORD PASS THE VALIDATION RULES
     
     static func checkEmailAndPasswordValidity(_ email: String, _ password: String) -> [String: Bool] {
         var validityChecks: [String: Bool] = [:]
