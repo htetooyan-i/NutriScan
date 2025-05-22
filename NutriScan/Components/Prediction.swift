@@ -53,6 +53,7 @@ struct Prediction: View {
             // MARK: - SAVE BUTTON TO SAVE FOOD
             Button {
                 if UserManager.shared.isLoggedIn {
+                    print("Saved Toggled")
                     saved.toggle()
                 }
             } label: {
@@ -68,7 +69,7 @@ struct Prediction: View {
                         .foregroundColor(.red)
                 }
             }
-            .disabled(true)
+            .disabled(UserManager.shared.isLoggedIn ? false : true)
             .onChange(of: saved) { oldValue, newValue in
                 if newValue == true {
                     let generator = UIImpactFeedbackGenerator(style: .heavy)
@@ -76,6 +77,9 @@ struct Prediction: View {
                     generator.impactOccurred()
                     SoundManager.shared.playClickSound()
                 }
+            }
+            .onAppear {
+                print("Current State: \(UserManager.shared.isLoggedIn)")
             }
         }
     }

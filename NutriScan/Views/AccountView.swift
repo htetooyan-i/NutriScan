@@ -54,9 +54,6 @@ struct AccountView: View {
             .navigationBarTitleDisplayMode(.large)
         }
         .tint(Color("CustomBlue"))
-        .onAppear {
-            accountModel.checkCurrrentState()
-        }
     }
 }
 

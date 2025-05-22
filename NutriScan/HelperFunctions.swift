@@ -70,7 +70,7 @@ class HelperFunctions: ObservableObject {
         completion: @escaping (Bool) -> Void
     ){
         if let deleteId = currentDataId {
-            DatabaseModel.deleteFoodDataForUser(user: "user_001", collectionName: "foods", deleteId: deleteId) { isSuccess in
+            DatabaseModel.deleteFoodDataForUser(user: user, collectionName: "foods", deleteId: deleteId) { isSuccess in
                 if isSuccess {
                     print("Data has been deleted successfully!")
                     completion(true)

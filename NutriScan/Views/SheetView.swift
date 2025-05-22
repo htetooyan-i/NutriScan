@@ -28,6 +28,7 @@ struct SheetView: View {
     @State var inputDisable: Bool = false
     @Binding var currentDataId: String?
     @State var selectedFood: VNClassificationObservation?
+    @ObservedObject var userModel = UserManager.shared
     
     var body: some View {
         if results.predictions.isEmpty || nutritionData.isLoading {
@@ -103,7 +104,7 @@ struct SheetView: View {
                         // If current prediction has been saved and user change the food weight value, food weight value in the database also has to be changed
                         if saved {
                             HelperFunctions.updateFoodDataInDatabase(
-                                user: "user_001",
+                                user: userModel.userId,
                                 collectionName: "foods",
                                 updateId: currentDataId!,
                                 updateArray:  [
@@ -130,7 +131,7 @@ struct SheetView: View {
                         // If current prediction has been saved and user change the food quantity value, food quantity value in the database also has to be changed
                         if saved {
                             HelperFunctions.updateFoodDataInDatabase(
-                                user: "user_001",
+                                user: userModel.userId,
                                 collectionName: "foods",
                                 updateId: currentDataId!,
                                 updateArray:  [
@@ -149,7 +150,7 @@ struct SheetView: View {
                         if saved {
                             HelperFunctions.createFoodDataInDatabase(
                                 results: results,
-                                user: "user_001",
+                                user: userModel.userId,
                                 collectionName: "foods",
                                 takenPicData: cameraData.picData,
                                 dataArray: [
@@ -166,7 +167,7 @@ struct SheetView: View {
                                 if let id = dataId {
                                     print("Saved with ID: \(id)")
                                     currentDataId = id
-                                    HelperFunctions.getFoodDataFromDatabase(user: "user_001", collectionName: "foods")
+                                    HelperFunctions.getFoodDataFromDatabase(user: userModel.userId, collectionName: "foods")
                                 } else {
                                     print("Save failed")
                                 }
@@ -176,7 +177,7 @@ struct SheetView: View {
                         } else {
                             HelperFunctions.deleteFoodDataFromDatabase(
                                 currentDataId: currentDataId,
-                                user: "user_001",
+                                user: userModel.userId,
                                 collectionName: "foods") { isDeleted in
                                     if isDeleted {
                                         currentDataId = nil
@@ -188,7 +189,7 @@ struct SheetView: View {
                     .onChange(of: foodPrice) { oldValue, newValue in
                         if saved{
                             HelperFunctions.updateFoodDataInDatabase(
-                                user: "user_001",
+                                user: userModel.userId,
                                 collectionName: "foods",
                                 updateId: currentDataId!,
                                 updateArray: [

@@ -48,7 +48,11 @@ struct ContentView: View {
         }
         .accentColor(Color("PriColor"))
         .onAppear {
-            HelperFunctions.getFoodDataFromDatabase(user: "user_002", collectionName: "foods")
+            UserManager.shared.checkCurrrentState()
+            if UserManager.shared.isLoggedIn {
+                HelperFunctions.getFoodDataFromDatabase(user: UserManager.shared.userId, collectionName: "foods")
+            }
+            
         }
     }
 }
