@@ -11,7 +11,9 @@ import Charts
 struct SummaryStats: View {
     
     let data = [("Jan", 3), ("Feb", 2), ("Mar", 9),("Apr", 3), ("May", 2), ("Jun", 9), ("Jul", 3), ("Aug", 2), ("Sep", 9)]
-    
+    @State var nutrientName: String
+    @State var nutrientIcon: String
+    @State var nutrientColor: Color
     var body: some View {
         NavigationStack {
             ZStack {
@@ -38,17 +40,13 @@ struct SummaryStats: View {
                     
                     VStack(alignment: .leading, spacing: 20) {
                         HStack(spacing: 20) {
-                            Image(systemName: "flame.fill")
+                            Image(systemName: nutrientIcon)
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 25, height: 25)
                                 .padding(5)
-                                .foregroundStyle(Color.orange)
-//                                .background(
-//                                    Circle()
-//                                        .fill(Color("SecColor"))
-//                                )
-                            Text("Calories Stats")
+                                .foregroundStyle(nutrientColor)
+                            Text("\(nutrientName) Stats")
                                 .font(.custom("ComicRelief-Bold", size: 20))
                             
                         }
@@ -81,11 +79,8 @@ struct SummaryStats: View {
                 .frame(maxHeight: .infinity, alignment: .top)
                 
             }
-            .navigationTitle("Calories")
+            .navigationTitle(nutrientName)
         }
     }
 }
 
-#Preview {
-    SummaryStats()
-}

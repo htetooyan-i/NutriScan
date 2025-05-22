@@ -13,30 +13,35 @@ struct NutrientNaviLink: View {
     @State var name: String
 
     var body: some View {
-        HStack(alignment: .center) {
-            HStack() {
-                Image(systemName: iconName)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 25, height: 25)
-                    .foregroundStyle(iconColor)
-                Text(name)
-                    .font(.system(size: 20, weight: .bold, design: .default))
-                Spacer()
-                Image(systemName: "chevron.right")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 20, height: 20)
-                    .padding(5)
-                
+        NavigationLink {
+            SummaryStats(nutrientName: name, nutrientIcon: iconName, nutrientColor: iconColor)
+        } label: {
+            HStack(alignment: .center) {
+                HStack() {
+                    Image(systemName: iconName)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 25, height: 25)
+                        .foregroundStyle(iconColor)
+                    Text("\(name) Stats")
+                        .font(.system(size: 20, weight: .bold, design: .default))
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 20, height: 20)
+                        .padding(5)
+                    
+                }
+                .foregroundStyle(Color(UIColor.systemGray))
+                .padding()
+                .background(
+                    RoundedRectangle(cornerRadius: 7)
+                        .fill(Color("InversedPrimary"))
+                )
             }
-            .foregroundStyle(Color(UIColor.systemGray))
-            .padding()
-            .background(
-                RoundedRectangle(cornerRadius: 7)
-                    .fill(Color("InversedPrimary"))
-            )
         }
+        
     }
 }
 

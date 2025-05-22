@@ -59,10 +59,10 @@ struct SummaryView: View {
                             .fill(Color("InversedPrimary"))
                     )
                     
-                    NutrientNaviLink(iconName: "flame.fill", iconColor: Color.orange, name: "Calories Stats")
-                    NutrientNaviLink(iconName: "fork.knife", iconColor: Color.green, name: "Protein Stats")
-                    NutrientNaviLink(iconName: "leaf.fill", iconColor: Color.red, name: "Fiber Stats")
-                    NutrientNaviLink(iconName: "drop.circle.fill", iconColor: Color.brown, name: "Fat Stats")
+                    NutrientNaviLink(iconName: "flame.fill", iconColor: Color.orange, name: "Calories")
+                    NutrientNaviLink(iconName: "fork.knife", iconColor: Color.green, name: "Protein")
+                    NutrientNaviLink(iconName: "leaf.fill", iconColor: Color.red, name: "Fiber")
+                    NutrientNaviLink(iconName: "drop.circle.fill", iconColor: Color.brown, name: "Fat")
                 }
                 .padding()
                 .frame(maxHeight: .infinity, alignment: .top)
@@ -70,6 +70,7 @@ struct SummaryView: View {
             }
             .navigationTitle("Summary")
         }
+        .accentColor(Color("CustomBlue"))
     }
 }
 
