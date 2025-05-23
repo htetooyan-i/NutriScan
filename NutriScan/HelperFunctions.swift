@@ -25,7 +25,7 @@ class HelperFunctions: ObservableObject {
         let allPredictions: [String: Double] = results.predictions.reduce(into: [:]) { dict, observation in
             dict[observation.identifier] = Double(observation.confidence)
         }
-
+        
         // create array to store in database
         var foodDataArray = dataArray
         foodDataArray["foodPredictions"] = allPredictions
@@ -47,7 +47,7 @@ class HelperFunctions: ObservableObject {
     
     static func getFoodDataFromDatabase(user: String, collectionName: String) {
         DatabaseModel.getFoodDataForUser(user: user, collectionName: collectionName) { data in
-            FoodCache.shared.setAll(data: data)
+            FoodCache.shared.setFoodData(data: data)
         }
     }
     
@@ -132,21 +132,21 @@ class HelperFunctions: ObservableObject {
     
     static func sortByDate(for foodData: [String: [[String: Any]]]) -> ([String: [[String: Any]]], [String]) {
         var sortedData: [String: [[String: Any]]] = [:]
-
+        
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE MMMM dd, yyyy"
         formatter.locale = Locale(identifier: "en_US_POSIX")
-
+        
         let sortedKeys = foodData.keys.sorted {
             guard let d1 = formatter.date(from: $0),
                   let d2 = formatter.date(from: $1) else { return false }
             return d1 > d2
         }
-
+        
         for key in sortedKeys {
             sortedData[key] = foodData[key]
         }
-
+        
         return (sortedData, sortedKeys)
     }
     
@@ -176,7 +176,7 @@ class HelperFunctions: ObservableObject {
     }
     
     // MARK: -  FUNCTION TO GET AVAILABLE FOOD LIST
-
+    
     static func getAvailableFoodList() -> [String] {
         var foodList: [String] = []
         if let filePath = Bundle.main.path(forResource: "class_labels", ofType: "txt") {
@@ -188,7 +188,7 @@ class HelperFunctions: ObservableObject {
             }
         }
         return foodList
-
+        
     }
     // MARK: - FUNCTION TO CHECK CURRENT EMAIL AND PASSWORD PASS THE VALIDATION RULES
     
@@ -210,16 +210,66 @@ class HelperFunctions: ObservableObject {
         validityChecks["isPasswordNotEmpty"] = !password.isEmpty
         
         validityChecks["isPasswordLongEnough"] = password.count >= 6
-
+        
         var hasUppercasePassword: Bool {
             let upperCase = CharacterSet.uppercaseLetters
             return password.rangeOfCharacter(from: upperCase) != nil
         }
         
-//        validityChecks["hasUppercasePassword"] = hasUppercasePassword
+        //        validityChecks["hasUppercasePassword"] = hasUppercasePassword
         
         return validityChecks
+        
+    }
+    
+    static func getTodayReview(completion: @escaping (([String: Double], [String])) -> Void) {
+        var review: [String: Double] = [
+            "totalCalories": 0,
+            "totalProtein": 0,
+            "totalFiber": 0,
+            "totalFat": 0,
+            "totalWeight": 0,
+        ]
+        var foodsNotFound: [String] = []
 
+        DatabaseModel.getFoodDataForUser(
+            user: UserManager.shared.userId,
+            collectionName: "foods",
+            queryField: "timestamp",
+            queryValue: Calendar.current.startOfDay(for: Date())
+        ) { data in
+            for food in data {
+                // Helper to extract Double from strings like "10.37 g"
+                func extractDouble(from value: Any?) -> Double? {
+                    if let str = value as? String {
+                        let components = str.components(separatedBy: " ")
+                        return Double(components.first ?? "")
+                    }
+                    return nil
+                }
+
+                if let calories = extractDouble(from: food["foodCalories"]),
+                   let fat = extractDouble(from: food["foodFat"]),
+                   let protein = extractDouble(from: food["foodProtein"]),
+                   let fiber = extractDouble(from: food["foodFiber"]),
+                   let weight = extractDouble(from: food["foodWeight"]) {
+
+                    review["totalCalories", default: 0] += calories
+                    review["totalFat", default: 0] += fat
+                    review["totalProtein", default: 0] += protein
+                    review["totalFiber", default: 0] += fiber
+                    review["totalWeight", default: 0] += weight
+
+                } else if let foodName = food["SelectedFood"] as? String {
+                    foodsNotFound.append(foodName)
+                }
+            }
+
+            print("Review:", review)
+            print("Foods not found:", foodsNotFound)
+            completion((review, foodsNotFound))
+        }
     }
 
+    
 }

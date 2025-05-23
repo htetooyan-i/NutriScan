@@ -40,6 +40,7 @@ class UserManager: ObservableObject {
                 print("User Logged In: \(authResult?.user.email ?? "No UID")")
                 self.isLoggedIn = true
                 self.getCurrentUserData()
+                HelperFunctions.getFoodDataFromDatabase(user: self.userId, collectionName: "foods")
                 completion(true)
             }
         }

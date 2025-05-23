@@ -63,24 +63,39 @@ public struct DatabaseModel: Codable {
         }
     }
     
-    static func getFoodDataForUser(user: String, collectionName: String,query: String? = nil, completion: @escaping ([[String: Any]]) -> Void){
-        
+    static func getFoodDataForUser(
+        user: String,
+        collectionName: String,
+        queryField: String? = nil,
+        queryValue: Any? = nil,
+        completion: @escaping ([[String: Any]]) -> Void
+    ) {
         let db = Firestore.firestore()
         var foodData: [[String: Any]] = []
-        db.collection("users")
+        
+        var collectionRef: Query = db
+            .collection("users")
             .document(user)
             .collection(collectionName)
-            .getDocuments { snapshot, error in
-                if let error = error {
-                    print("Error getting documents: \(error)")
-                } else {
-                    for document in snapshot!.documents {
-                        foodData.append(document.data())
-                    }
+        
+        // Apply filter only if both queryField and queryValue are provided
+        if let field = queryField, let value = queryValue {
+            collectionRef = collectionRef
+                .whereField(field, isGreaterThanOrEqualTo: Timestamp(date: value as! Date))
+        }
+
+        collectionRef.getDocuments { snapshot, error in
+            if let error = error {
+                print("Error getting documents: \(error)")
+            } else {
+                for document in snapshot!.documents {
+                    foodData.append(document.data())
                 }
-                completion(foodData)
             }
+            completion(foodData)
+        }
     }
+
     static func updateFoodDataForUser(user: String, collectionName: String, updateId: String, updateArray: [String: Any], completion: @escaping (Bool) -> Void) {
         let db = Firestore.firestore()
         print("Update Id: \(updateId)")

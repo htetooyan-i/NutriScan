@@ -40,6 +40,7 @@ struct SignOutAndDeleteView: View {
                             print(isSuccess)
                         }
                     }
+                    FoodCache.shared.foodDataCache = [:]
                 } label: {
                     HStack {
                         Image(systemName: self.btnIcon)

@@ -8,19 +8,18 @@
 import SwiftUI
 
 struct FoodNotFound: View {
-    @State var messages: [String] = ["You have nothing to find here, go take some photos of food and comback!", "Saved images will appear here, get snapping. \n Go Login first!"]
-    @State var icons: [String] = ["magnifyingglass", "figure.climbing"]
+    @State var message: String
+    @State var icon: String
     
-    @State var isLoggedIn: Bool = UserManager.shared.isLoggedIn
     var body: some View {
         VStack(alignment: .center, spacing: 10) {
             
-            Text(isLoggedIn ? messages[0] : messages[1])
+            Text(message)
                 .multilineTextAlignment(.center)
                 .frame(maxWidth: .infinity)
                 .font(.custom("ComicRelief-Regular", size: 18))
             
-            Image(systemName: isLoggedIn ? icons[0] : icons[1])
+            Image(systemName: icon)
                 .foregroundStyle(Color("CustomBlue"))
             
         }

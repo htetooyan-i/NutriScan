@@ -52,7 +52,7 @@ struct ContentView: View {
             if UserManager.shared.isLoggedIn {
                 HelperFunctions.getFoodDataFromDatabase(user: UserManager.shared.userId, collectionName: "foods")
             }
-            
+            print("In content view: \(UserManager.shared.isLoggedIn)")
         }
     }
 }

@@ -14,7 +14,7 @@ class FoodCache: ObservableObject {
     @Published var foodDataCache: [String: [[String: Any]]] = [:]
     @Published var isUpdated: Bool = false
     
-    func setAll(data: [[String: Any]]) { // set the food data as cache data
+    func setFoodData(data: [[String: Any]]) { // set the food data as cache data
         self.isUpdated = false
         self.foodDataCache = [:]
         
@@ -39,7 +39,9 @@ class FoodCache: ObservableObject {
         }
     }
     
-    func getAll() -> [String: [[String: Any]]] { // get the food data from cache data
+    
+    
+    func getSavedFoodData() -> [String: [[String: Any]]] { // get the food data from cache data
         return self.foodDataCache
     }
     

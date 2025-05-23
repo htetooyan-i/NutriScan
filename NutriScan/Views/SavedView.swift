@@ -14,13 +14,19 @@ struct SavedView: View {
     @State var sortedKeys: [String] = []
 
     @State var data: [String: [[String: Any]]] = [:]
+    @ObservedObject var userManager = UserManager.shared
     
     var body: some View {
         NavigationStack {
             ScrollView {
                 if data.isEmpty {
-                    FoodNotFound() // if data is empty FoodNotFound ui will be shown
-                        .padding()
+                    if userManager.isLoggedIn {
+                        FoodNotFound(message: "You have nothing to find here, go take some photos of food and comback!", icon: "magnifyingglass") // if data is empty FoodNotFound ui will be shown
+                            .padding()
+                    }else {
+                        FoodNotFound(message: "Saved images will appear here, get snapping. \n Go Login first!", icon: "figure.climbing") // if data is empty FoodNotFound ui will be shown
+                            .padding()
+                    }
                 } else {
                     SavedFoodCards(sortedKeys: sortedKeys, data: data) // if the data is not empty Food Cards will be shown and sorted by its creation date
                 }
