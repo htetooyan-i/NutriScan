@@ -12,6 +12,7 @@ class FoodCache: ObservableObject {
     static let shared = FoodCache()
     
     @Published var foodDataCache: [String: [[String: Any]]] = [:]
+    @Published var caloriesData: [String: Double] = [:]
     @Published var isUpdated: Bool = false
     
     func setFoodData(data: [[String: Any]]) { // set the food data as cache data

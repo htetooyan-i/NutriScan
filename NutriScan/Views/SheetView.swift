@@ -88,10 +88,13 @@ struct SheetView: View {
                         
                         // calculate total food wieght by multipling food weight and food quantity to display
                         totalFoodWeight = String(Int((Double(foodWeight) ?? 0) * Double(foodQuantity)))
+                        
                         // TODO: When nutrition values are not valid(In this case "N/A") need to disable input field such as food weigth, food quantity and food price.
                         inputDisable = totalFoodWeight == "0" ? true : false
+                        
                         // Call nutrition calculator function to calculate nutrition values base on current data
                         callNutritionFunction()
+                        print("InSheetView: \(newCalories)")
                         
                     }
                     .onDisappear(perform: {

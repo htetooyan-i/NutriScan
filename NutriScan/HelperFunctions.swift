@@ -102,7 +102,7 @@ class HelperFunctions: ObservableObject {
         
         let multiplier = (newWeight * newQuantity) / baseWeight
         
-        let calories = formatNutrient(baseCalories * multiplier, suffix: "kcal")
+        let calories = formatNutrient(baseCalories * multiplier)
         let protein = formatNutrient(baseProtein * multiplier)
         let fiber = formatNutrient(baseFiber * multiplier)
         let fat = formatNutrient(baseFat * multiplier)
@@ -112,8 +112,8 @@ class HelperFunctions: ObservableObject {
     
     // MARK: - FUNCTIION TO CHANGE FORMAT OF THE CALCULATED VALUES
     
-    private static func formatNutrient(_ value: Double, suffix: String = "g") -> String {
-        return value.isNaN ? "N/A" : String(format: "%.2f %@", value, suffix)
+    private static func formatNutrient(_ value: Double) -> String {
+        return value.isNaN ? "N/A" : String(format: "%.2f", value)
     }
     
     static func dateFormatter(for timestamp: Timestamp) -> String {
@@ -239,11 +239,10 @@ class HelperFunctions: ObservableObject {
             queryValue: Calendar.current.startOfDay(for: Date())
         ) { data in
             for food in data {
-                // Helper to extract Double from strings like "10.37 g"
+                
                 func extractDouble(from value: Any?) -> Double? {
                     if let str = value as? String {
-                        let components = str.components(separatedBy: " ")
-                        return Double(components.first ?? "")
+                        return Double(str)
                     }
                     return nil
                 }

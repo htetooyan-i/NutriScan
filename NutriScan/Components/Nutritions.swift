@@ -12,6 +12,7 @@ struct Nutritions: View {
     let value: String?
     let iconName: String?
     let backgroundColor: Color?
+    let unit: String
     
     var body: some View {
         HStack {
@@ -27,7 +28,7 @@ struct Nutritions: View {
                     .font(Font.custom("ComicRelief-Bold", size: 15))
                     .frame(maxWidth: .infinity, alignment: .leading)
                 HStack {
-                    Text(value ?? "0")
+                    Text("\(value ?? "0") \(value == "N/A" ? "" : unit)")
                         .font(Font.custom("ComicRelief-Regular", size: 15))
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }

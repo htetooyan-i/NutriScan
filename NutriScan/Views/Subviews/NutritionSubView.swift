@@ -33,12 +33,12 @@ struct NutritionSubView: View {
                 VStack { // Display Nutritions values
                     
                     HStack{
-                        Nutritions(name: "Calories", value: newCalories, iconName: "flame.fill", backgroundColor: .orange)
-                        Nutritions(name: "Protein", value: newProtein, iconName: "fork.knife", backgroundColor: .green)
+                        Nutritions(name: "Calories", value: newCalories, iconName: "flame.fill", backgroundColor: .orange, unit: "kcal")
+                        Nutritions(name: "Protein", value: newProtein, iconName: "fork.knife", backgroundColor: .green, unit: "g")
                     }
                     HStack{
-                        Nutritions(name: "Fiber", value: newFiber, iconName: "leaf.fill", backgroundColor: .red)
-                        Nutritions(name: "Fat", value: newFat, iconName: "drop.circle.fill", backgroundColor: .brown)
+                        Nutritions(name: "Fiber", value: newFiber, iconName: "leaf.fill", backgroundColor: .red, unit: "g")
+                        Nutritions(name: "Fat", value: newFat, iconName: "drop.circle.fill", backgroundColor: .brown, unit: "g")
                     }
                 }
                 .padding(.all, 10)
