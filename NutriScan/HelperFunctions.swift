@@ -264,10 +264,28 @@ class HelperFunctions: ObservableObject {
                 }
             }
 
-            print("Review:", review)
-            print("Foods not found:", foodsNotFound)
             completion((review, foodsNotFound))
         }
+    }
+    
+    static func getNutrientTotal(for nutrient: [String: [String: [String]]]) -> [String: Double] {
+        var foodData: [String: Double] = [:]
+        
+        for (date, innerDict) in nutrient {
+            var totalValue: Double = 0
+            
+            for (_, valueStrings) in innerDict {
+                for valueString in valueStrings {
+                    if let value = Double(valueString) {
+                        totalValue += value
+                    }
+                }
+            }
+            
+            foodData[date] = totalValue
+        }
+
+        return foodData
     }
 
     

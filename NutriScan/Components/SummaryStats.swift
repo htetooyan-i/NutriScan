@@ -10,10 +10,12 @@ import Charts
 
 struct SummaryStats: View {
     
-    let data = [("Jan", 3), ("Feb", 2), ("Mar", 9),("Apr", 3), ("May", 2), ("Jun", 9), ("Jul", 3), ("Aug", 2), ("Sep", 9)]
+    @State var data: [String : Double]?
     @State var nutrientName: String
     @State var nutrientIcon: String
     @State var nutrientColor: Color
+    @State var unit: String
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -23,9 +25,13 @@ struct SummaryStats: View {
                 VStack {
                     VStack(alignment: .leading) {
                         Chart {
-                            ForEach(data, id: \.0) { month, value in
+                            ForEach(Array(data ?? [:]), id: \.key) { day, value in
                                 LineMark(
-                                    x: .value("Month", month),
+                                    x: .value("day", day),
+                                    y: .value("Value", value)
+                                )
+                                PointMark(
+                                    x: .value("day", day),
                                     y: .value("Value", value)
                                 )
                             }
@@ -53,16 +59,18 @@ struct SummaryStats: View {
                         .padding(.bottom, 20)
                         
                         VStack {
-                            HStack {
-                                Text("Firday 12, May 2024 ")
-                                Spacer()
-                                Text("1023 Kcal")
+                            ForEach(Array(data ?? [:]), id: \.key) { date, value in
+                                HStack {
+                                    Text(date)
+                                    Spacer()
+                                    Text(String(format: "%.2f %@", value, unit))
+                                }
+                                .padding()
+                                .background(
+                                    RoundedRectangle(cornerRadius: 7)
+                                        .fill(Color(UIColor.systemGray6))
+                                )
                             }
-                            .padding()
-                            .background(
-                                RoundedRectangle(cornerRadius: 7)
-                                    .fill(Color(UIColor.systemGray6))
-                            )
                             
                         }
                     }
@@ -80,6 +88,21 @@ struct SummaryStats: View {
                 
             }
             .navigationTitle(nutrientName)
+        }
+        
+        .onAppear {
+            switch nutrientName {
+            case "Calories":
+                self.data = HelperFunctions.getNutrientTotal(for: FoodCache.shared.caloriesDataCache)
+            case "Protein":
+                self.data = HelperFunctions.getNutrientTotal(for: FoodCache.shared.proteinDataCache)
+            case "Fiber":
+                self.data = HelperFunctions.getNutrientTotal(for: FoodCache.shared.fiberDataCache)
+            case "Fat":
+                self.data = HelperFunctions.getNutrientTotal(for: FoodCache.shared.fatDataCache)
+            default:
+                break
+            }
         }
     }
 }

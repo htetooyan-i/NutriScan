@@ -23,22 +23,19 @@ struct SummaryView: View {
                     VStack(spacing: 20) {
                         TodayReivew()
                         
-                        NutrientNaviLink(iconName: "flame.fill", iconColor: Color.orange, name: "Calories")
+                        NutrientNaviLink(iconName: "flame.fill", iconColor: Color.orange, name: "Calories", unit: "kcal")
                         
-                        NutrientNaviLink(iconName: "fork.knife", iconColor: Color.green, name: "Protein")
+                        NutrientNaviLink(iconName: "fork.knife", iconColor: Color.green, name: "Protein", unit: "g")
                         
-                        NutrientNaviLink(iconName: "leaf.fill", iconColor: Color.red, name: "Fiber")
+                        NutrientNaviLink(iconName: "leaf.fill", iconColor: Color.red, name: "Fiber", unit: "g")
                         
-                        NutrientNaviLink(iconName: "drop.circle.fill", iconColor: Color.brown, name: "Fat")
+                        NutrientNaviLink(iconName: "drop.circle.fill", iconColor: Color.brown, name: "Fat", unit: "g")
                     }
                     .padding()
                     .frame(maxHeight: .infinity, alignment: .top)
                     
                 }
                 .navigationTitle("Summary")
-                .onAppear {
-                    print("FoodFound: \(UserManager.shared.isLoggedIn)")
-                }
             }
             .accentColor(Color("CustomBlue"))
         } else {
