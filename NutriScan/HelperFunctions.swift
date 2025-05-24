@@ -268,7 +268,7 @@ class HelperFunctions: ObservableObject {
         }
     }
     
-    static func getNutrientTotal(for nutrient: [String: [String: [String]]]) -> [String: Double] {
+    static func getStatsTotal(for nutrient: [String: [String: [String]]]) -> [String: Double] {
         var foodData: [String: Double] = [:]
         
         for (date, innerDict) in nutrient {

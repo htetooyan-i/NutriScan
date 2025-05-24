@@ -68,6 +68,3 @@ struct TodayReivew: View {
     }
 }
 
-#Preview {
-    TodayReivew()
-}

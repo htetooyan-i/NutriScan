@@ -20,22 +20,29 @@ struct SummaryView: View {
                     Color(UIColor.systemGray6)
                         .ignoresSafeArea()
                     
-                    VStack(spacing: 20) {
-                        TodayReivew()
-                        
-                        NutrientNaviLink(iconName: "flame.fill", iconColor: Color.orange, name: "Calories", unit: "kcal")
-                        
-                        NutrientNaviLink(iconName: "fork.knife", iconColor: Color.green, name: "Protein", unit: "g")
-                        
-                        NutrientNaviLink(iconName: "leaf.fill", iconColor: Color.red, name: "Fiber", unit: "g")
-                        
-                        NutrientNaviLink(iconName: "drop.circle.fill", iconColor: Color.brown, name: "Fat", unit: "g")
+                    ScrollView {
+                        VStack(spacing: 20) {
+                            TodayReivew()
+                            
+                            NutrientNaviLink(iconName: "flame.fill", iconColor: Color.orange, name: "Calories", unit: "kcal")
+                            
+                            NutrientNaviLink(iconName: "fork.knife", iconColor: Color.green, name: "Protein", unit: "g")
+                            
+                            NutrientNaviLink(iconName: "leaf.fill", iconColor: Color.red, name: "Fiber", unit: "g")
+                            
+                            NutrientNaviLink(iconName: "drop.circle.fill", iconColor: Color.brown, name: "Fat", unit: "g")
+                            
+                            PriceStats()
+                        }
+                        .padding()
+                        .frame(maxHeight: .infinity, alignment: .top)
                     }
-                    .padding()
-                    .frame(maxHeight: .infinity, alignment: .top)
+                    
+                    
                     
                 }
                 .navigationTitle("Summary")
+                .navigationBarTitleDisplayMode(.large)
             }
             .accentColor(Color("CustomBlue"))
         } else {

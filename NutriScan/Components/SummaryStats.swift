@@ -98,13 +98,13 @@ struct SummaryStats: View {
         .onAppear {
             switch nutrientName {
             case "Calories":
-                self.data = HelperFunctions.getNutrientTotal(for: FoodCache.shared.caloriesDataCache)
+                self.data = HelperFunctions.getStatsTotal(for: FoodCache.shared.caloriesDataCache)
             case "Protein":
-                self.data = HelperFunctions.getNutrientTotal(for: FoodCache.shared.proteinDataCache)
+                self.data = HelperFunctions.getStatsTotal(for: FoodCache.shared.proteinDataCache)
             case "Fiber":
-                self.data = HelperFunctions.getNutrientTotal(for: FoodCache.shared.fiberDataCache)
+                self.data = HelperFunctions.getStatsTotal(for: FoodCache.shared.fiberDataCache)
             case "Fat":
-                self.data = HelperFunctions.getNutrientTotal(for: FoodCache.shared.fatDataCache)
+                self.data = HelperFunctions.getStatsTotal(for: FoodCache.shared.fatDataCache)
             default:
                 break
             }

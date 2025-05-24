@@ -16,6 +16,7 @@ class FoodCache: ObservableObject {
     @Published var proteinDataCache: [String: [String: [String]]] = [:]
     @Published var fiberDataCache: [String: [String: [String]]] = [:]
     @Published var fatDataCache: [String: [String: [String]]] = [:]
+    @Published var priceDataCache: [String: [String: [String]]] = [:]
     @Published var isUpdated: Bool = false
     
     func setFoodData(data: [[String: Any]]) {
@@ -27,6 +28,7 @@ class FoodCache: ObservableObject {
         var updatedProteinData: [String: [String: [String]]] = [:]
         var updatedFiberData: [String: [String: [String]]] = [:]
         var updatedFatData: [String: [String: [String]]] = [:]
+        var updatedPriceData: [String: [String: [String]]] = [:]
         
         var updatedFoodData: [String: [[String: Any]]] = [:]
 
@@ -59,17 +61,20 @@ class FoodCache: ObservableObject {
                    let selectedFood = food["SelectedFood"] as? String {
                     updatedFatData[date, default: [:]][selectedFood, default: []].append(fat)
                 }
+                if let price = food["foodPrice"] as? Double,
+                   let selectedFood = food["SelectedFood"] as? String {
+                    updatedPriceData[date, default: [:]][selectedFood, default: []].append(String(price))
+                }
             }
         }
         
         // Now you have arrays of nutrient values per food per date
         self.foodDataCache = updatedFoodData
-        // You might want to change these cache properties to the new types:
-        // [String: [String: [String]]] instead of [String: [String: String]]
         self.caloriesDataCache = updatedCaloriesData
         self.proteinDataCache = updatedProteinData
         self.fiberDataCache = updatedFiberData
         self.fatDataCache = updatedFatData
+        self.priceDataCache = updatedPriceData
 
         print("All Foods Data Has Been Successfully Stored In Cache")
         DispatchQueue.main.async {
