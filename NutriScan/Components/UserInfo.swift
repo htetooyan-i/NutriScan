@@ -54,7 +54,7 @@ struct UserInfo: View {
                 )
                 .foregroundColor(Color("CustomBlue"))
             }
-            .padding(.top, 20)
+            .padding(.top, 5)
             .animation(.easeInOut, value: copiedField)
             
         }

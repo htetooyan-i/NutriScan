@@ -60,16 +60,21 @@ struct SummaryStats: View {
                         
                         VStack {
                             ForEach(Array(data ?? [:]), id: \.key) { date, value in
-                                HStack {
-                                    Text(date)
-                                    Spacer()
-                                    Text(String(format: "%.2f %@", value, unit))
+                                NavigationLink {
+                                    NutrientStatsList(date: date, nutrientName: nutrientName, unit: unit)
+                                } label: {
+                                    HStack {
+                                        Text(date)
+                                        Spacer()
+                                        Text(String(format: "%.2f %@", value, unit))
+                                    }
+                                    .padding()
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 7)
+                                            .fill(Color(UIColor.systemGray6))
+                                    )
                                 }
-                                .padding()
-                                .background(
-                                    RoundedRectangle(cornerRadius: 7)
-                                        .fill(Color(UIColor.systemGray6))
-                                )
+
                             }
                             
                         }

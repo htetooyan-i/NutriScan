@@ -31,10 +31,10 @@ struct AccountAuthentication: View {
                         Spacer()
                     }
                     UserInfo(fieldName: "Email", fieldValue: $accountModel.email)
-                        .padding(.top, 30)
+                        .padding(.top, 20)
                     
                     UserInfo(fieldName: "User Id", fieldValue: $accountModel.userId)
-                        .padding(.top, 30)
+                        .padding(.top, 20)
                     
                     
                 }
