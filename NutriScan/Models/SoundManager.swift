@@ -13,11 +13,12 @@ class SoundManager {
     var player: AVAudioPlayer?
 
     func playClickSound() {
-        guard let url = Bundle.main.url(forResource: "save_sound", withExtension: "wav") else { return }
-
+        guard let url = Bundle.main.url(forResource: "save_sound", withExtension: "m4a") else { return }
+        print("Sound file found at: \(url.path)")
         do {
             player = try AVAudioPlayer(contentsOf: url)
             player?.play()
+            print("Playing sound!")
         } catch {
             print("Error playing sound: \(error)")
         }
