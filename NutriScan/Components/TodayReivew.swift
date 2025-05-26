@@ -62,8 +62,6 @@ struct TodayReivew: View {
                 self.nutrientData = review
                 self.foodsNotFound = foodsNotFound
             }
-            print("In Reivew: \(nutrientData)")
-            print("In Reivew: \(foodsNotFound)")
         }
     }
 }

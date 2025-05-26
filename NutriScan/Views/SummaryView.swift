@@ -22,7 +22,12 @@ struct SummaryView: View {
                     
                     ScrollView {
                         VStack(spacing: 20) {
-                            TodayReivew()
+                            NavigationLink {
+                                OverallDetail()
+                            } label: {
+                                TodayReivew()
+                            }
+
                             
                             NutrientNaviLink(iconName: "flame.fill", iconColor: Color.orange, name: "Calories", unit: "kcal")
                             
@@ -53,9 +58,6 @@ struct SummaryView: View {
         } else {
             FoodNotFound(message: "Food stats will appear here, start recording to see your progress!", icon: "figure.baseball")
                 .padding()
-                .onAppear {
-                    print("FoodNOtFound: \(UserManager.shared.isLoggedIn)")
-                }
         }
     }
 }

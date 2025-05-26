@@ -325,6 +325,15 @@ class HelperFunctions: ObservableObject {
         
         return sortedKeys
     }
+    
+    static func getSecretKey(named key: String) -> String? {
+        if let path = Bundle.main.path(forResource: "Secrets", ofType: "plist"),
+           let dict = NSDictionary(contentsOfFile: path) as? [String: Any],
+           let value = dict[key] as? String {
+            return value
+        }
+        return nil
+    }
 
     
 }
