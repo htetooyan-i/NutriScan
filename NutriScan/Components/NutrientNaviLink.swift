@@ -14,7 +14,7 @@ struct NutrientNaviLink: View {
     @State var unit: String
     var body: some View {
         NavigationLink {
-            SummaryStats(nutrientName: name, nutrientIcon: iconName, nutrientColor: iconColor, unit: unit)
+            SummaryStats(statName: name, statIcon: iconName, statColor: iconColor, unit: unit)
         } label: {
             HStack(alignment: .center) {
                 HStack() {

@@ -10,11 +10,13 @@ import Charts
 
 struct SummaryStats: View {
     
-    @State var data: [String : Double]?
-    @State var nutrientName: String
-    @State var nutrientIcon: String
-    @State var nutrientColor: Color
+    @State var data: [String : Double] = [:]
+    @State var sortedDate: [String] = []
+    @State var statName: String
+    @State var statIcon: String
+    @State var statColor: Color
     @State var unit: String
+    
     
     var body: some View {
         NavigationStack {
@@ -25,15 +27,18 @@ struct SummaryStats: View {
                 VStack {
                     VStack(alignment: .leading) {
                         Chart {
-                            ForEach(Array(data ?? [:]), id: \.key) { day, value in
-                                LineMark(
-                                    x: .value("day", day),
-                                    y: .value("Value", value)
-                                )
-                                PointMark(
-                                    x: .value("day", day),
-                                    y: .value("Value", value)
-                                )
+                            ForEach(sortedDate, id: \.self) { date in
+                                if let value = self.data[date] {
+                                    let formattedDate = HelperFunctions.dateFormatter(timeString: date, format: "MMMM dd")
+                                    LineMark(
+                                        x: .value("day", formattedDate),
+                                        y: .value("Value", value)
+                                    )
+                                    PointMark(
+                                        x: .value("day", formattedDate),
+                                        y: .value("Value", value)
+                                    )
+                                }
                             }
                         }
                         .frame(height: 300)
@@ -44,47 +49,7 @@ struct SummaryStats: View {
                             .fill(Color("InversedPrimary"))
                     )
                     
-                    VStack(alignment: .leading, spacing: 20) {
-                        HStack(spacing: 20) {
-                            Image(systemName: nutrientIcon)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 25, height: 25)
-                                .padding(5)
-                                .foregroundStyle(nutrientColor)
-                            Text("\(nutrientName) Stats")
-                                .font(.custom("ComicRelief-Bold", size: 20))
-                            
-                        }
-                        .padding(.bottom, 20)
-                        
-                        VStack {
-                            ForEach(Array(data ?? [:]), id: \.key) { date, value in
-                                NavigationLink {
-                                    NutrientStatsList(date: date, nutrientName: nutrientName, unit: unit)
-                                } label: {
-                                    HStack {
-                                        Text(date)
-                                        Spacer()
-                                        Text(String(format: "%.2f %@", value, unit))
-                                    }
-                                    .padding()
-                                    .background(
-                                        RoundedRectangle(cornerRadius: 7)
-                                            .fill(Color(UIColor.systemGray6))
-                                    )
-                                }
-
-                            }
-                            
-                        }
-                    }
-                    .padding(.all, 10)
-                    .background(
-                        RoundedRectangle(cornerRadius: 7)
-                            .fill(Color("InversedPrimary"))
-                    )
-                    .frame(maxWidth: .infinity)
+                    StatsList(statIcon: self.statIcon, statColor: self.statColor, data: $data, statName: self.statName, unit: self.unit)
                     
                     
                 }
@@ -92,11 +57,11 @@ struct SummaryStats: View {
                 .frame(maxHeight: .infinity, alignment: .top)
                 
             }
-            .navigationTitle(nutrientName)
+            .navigationTitle(statName)
         }
         
         .onAppear {
-            switch nutrientName {
+            switch statName {
             case "Calories":
                 self.data = HelperFunctions.getStatsTotal(for: FoodCache.shared.caloriesDataCache)
             case "Protein":
@@ -105,9 +70,13 @@ struct SummaryStats: View {
                 self.data = HelperFunctions.getStatsTotal(for: FoodCache.shared.fiberDataCache)
             case "Fat":
                 self.data = HelperFunctions.getStatsTotal(for: FoodCache.shared.fatDataCache)
+            case "Price":
+                self.data = HelperFunctions.getStatsTotal(for: FoodCache.shared.priceDataCache)
             default:
                 break
             }
+            
+            self.sortedDate = HelperFunctions.sortStatsByDate(for: self.data)
         }
     }
 }

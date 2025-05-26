@@ -53,13 +53,13 @@ struct SavedView: View {
             if newValue != "" { // when value of search bar has been changed this code will chaek that value is empty or not. If empty it won't filter anything.
                 (self.data, self.sortedKeys) = HelperFunctions.searchFoods(for: newValue, in: self.data)
             } else { // If not empty it will filter by using user entered text.
-                (self.data, self.sortedKeys) = HelperFunctions.sortByDate(for: foodCache.foodDataCache)
+                (self.data, self.sortedKeys) = HelperFunctions.sortSavedFoodByDate(for: foodCache.foodDataCache)
             }
         }
     }
     
     func setData() { // this function take foodCacheData from cache file and set it to be able to use in this file.
-        let (sorted, keys) = HelperFunctions.sortByDate(for: foodCache.foodDataCache)
+        let (sorted, keys) = HelperFunctions.sortSavedFoodByDate(for: foodCache.foodDataCache)
         self.data = sorted
         self.sortedKeys = keys
     }

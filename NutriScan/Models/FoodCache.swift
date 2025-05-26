@@ -34,7 +34,7 @@ class FoodCache: ObservableObject {
 
         for food in data {
             if let timestamp = food["timestamp"] as? Timestamp {
-                let date = HelperFunctions.dateFormatter(for: timestamp)
+                let date = HelperFunctions.dateFormatter(timestamp: timestamp, format: "EEEE MMMM dd, yyyy")
                 
                 if updatedFoodData[date] == nil {
                     updatedFoodData[date] = [food]

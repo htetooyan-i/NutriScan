@@ -32,7 +32,12 @@ struct SummaryView: View {
                             
                             NutrientNaviLink(iconName: "drop.circle.fill", iconColor: Color.brown, name: "Fat", unit: "g")
                             
-                            PriceStats()
+                            NavigationLink {
+                                SummaryStats(statName: "Price", statIcon: "dollarsign.circle", statColor: Color.customBlue, unit: "$")
+                            } label: {
+                                PriceStats()
+                            }
+
                         }
                         .padding()
                         .frame(maxHeight: .infinity, alignment: .top)

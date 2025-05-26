@@ -116,21 +116,37 @@ class HelperFunctions: ObservableObject {
         return value.isNaN ? "N/A" : String(format: "%.2f", value)
     }
     
-    static func dateFormatter(for timestamp: Timestamp) -> String {
-        let date = timestamp.dateValue()
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "EEEE MMM dd, yyyy"
-        formatter.locale = Locale(identifier: "en_US")
-        formatter.timeZone = TimeZone(secondsFromGMT: 7 * 3600)
-        
-        let formattedDate = formatter.string(from: date)
-        return formattedDate
+    // MARK: - FUNCTION TO CHANGE DATE FORMAT
+    
+    static func dateFormatter(timestamp: Timestamp? = nil, timeString: String? = nil, format: String) -> String {
+        var date: Date?
+
+        if let timestamp = timestamp {
+            date = timestamp.dateValue()
+        } else if let timeString = timeString {
+            let inputFormatter = DateFormatter()
+            inputFormatter.dateFormat = "EEEE MMMM dd, yyyy"
+            inputFormatter.locale = Locale(identifier: "en_US")
+            inputFormatter.timeZone = TimeZone(secondsFromGMT: 7 * 3600)
+
+            date = inputFormatter.date(from: timeString)
+        } else {
+            return ""
+        }
+
+        guard let validDate = date else { return "" }
+
+        let outputFormatter = DateFormatter()
+        outputFormatter.dateFormat = format
+        outputFormatter.locale = Locale(identifier: "en_US")
+        outputFormatter.timeZone = TimeZone(secondsFromGMT: 7 * 3600)
+
+        return outputFormatter.string(from: validDate)
     }
     
     // MARK: - FUNCTION TO SORT SAVED FOODS BY ITS CREATION DATE
     
-    static func sortByDate(for foodData: [String: [[String: Any]]]) -> ([String: [[String: Any]]], [String]) {
+    static func sortSavedFoodByDate(for foodData: [String: [[String: Any]]]) -> ([String: [[String: Any]]], [String]) {
         var sortedData: [String: [[String: Any]]] = [:]
         
         let formatter = DateFormatter()
@@ -170,7 +186,7 @@ class HelperFunctions: ObservableObject {
             }
         }
         
-        let sortedFood = self.sortByDate(for: filteredFoods)
+        let sortedFood = self.sortSavedFoodByDate(for: filteredFoods)
         
         return (sortedFood.0, sortedFood.1)
     }
@@ -281,11 +297,33 @@ class HelperFunctions: ObservableObject {
                     }
                 }
             }
-            
+
             foodData[date] = totalValue
         }
 
         return foodData
+    }
+    
+    // MARK: - FUNCTION TO SORT SAVED STATS BY ITS CREATION DATE IN Summary View
+    
+    static func sortStatsByDate(for foodData: [String: Double]) -> ([String]) {
+        var sortedData: [String: Double] = [:]
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEEE MMMM dd, yyyy"
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        
+        let sortedKeys = foodData.keys.sorted {
+            guard let d1 = formatter.date(from: $0),
+                  let d2 = formatter.date(from: $1) else { return false }
+            return d1 < d2
+        }
+        
+        for key in sortedKeys {
+            sortedData[key] = foodData[key]
+        }
+        
+        return sortedKeys
     }
 
     

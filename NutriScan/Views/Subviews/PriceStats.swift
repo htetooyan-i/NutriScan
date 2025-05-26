@@ -9,7 +9,8 @@ import SwiftUI
 import Charts
 
 struct PriceStats: View {
-    @State var data: [String: Double]?
+    @State var data: [String: Double] = [:]
+    @State var sortedDate: [String] = []
     var body: some View {
         VStack {
             HStack {
@@ -28,15 +29,18 @@ struct PriceStats: View {
             
             VStack(alignment: .leading) {
                 Chart {
-                    ForEach(Array(data ?? [:]), id: \.key) { date, value in
-                        LineMark(
-                            x: .value("day", date),
-                            y: .value("Value", value)
-                        )
-                        PointMark(
-                            x: .value("day", date),
-                            y: .value("Value", value)
-                        )
+                    ForEach(sortedDate, id: \.self) { date in
+                        if let value = data[date] {
+                            let formattedDate = HelperFunctions.dateFormatter(timeString: date, format: "MMMM dd")
+                            LineMark(
+                                x: .value("day", formattedDate),
+                                y: .value("Value", value)
+                            )
+                            PointMark(
+                                x: .value("day", formattedDate),
+                                y: .value("Value", value)
+                            )
+                        }
                     }
                     
                     
@@ -67,10 +71,7 @@ struct PriceStats: View {
         )
         .onAppear {
             self.data = HelperFunctions.getStatsTotal(for: FoodCache.shared.priceDataCache)
+            self.sortedDate = HelperFunctions.sortStatsByDate(for: self.data)
         }
     }
-}
-
-#Preview {
-    PriceStats()
 }
