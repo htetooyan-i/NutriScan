@@ -11,72 +11,73 @@ class GPTModel: ObservableObject {
     static let shared = GPTModel()
     
     @Published var isLoading: Bool = false
-    
-    func callGPT(prompt: String, completion: @escaping (String) -> Void) {
-        self.isLoading = true
-        let url = URL(string: "https://openrouter.ai/api/v1/chat/completions")!
+
+    func callGPT(prompt: String, completion: @escaping (String?) -> Void) {
+        DispatchQueue.main.async {
+            self.isLoading = true
+        }
+        let url = URL(string: "https://api.openai.com/v1/chat/completions")!
         var request = URLRequest(url: url)
-        request.timeoutInterval = 60
         request.httpMethod = "POST"
-        if let apiKey = HelperFunctions.getSecretKey(named: "GPT_API_KEY") {
-            request.addValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
+
+        guard let apiKey = HelperFunctions.getSecretKey(named: "GPT_API_KEY") else {
+            DispatchQueue.main.async {
+                self.isLoading = false
+            }
+            completion("Auth Error")
+            return
         }
         
+        request.addValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
 
-        let body: [String: Any] = [
-            "model": "deepseek/deepseek-r1:free",
-            "messages": [
-                ["role": "user", "content": prompt]
-            ]
+        let messages: [[String: String]] = [
+            ["role": "system", "content": "You are a helpful assistant. Format all responses using Markdown, including bold text, bullet points, headings, and paragraphs when appropriate."],
+            ["role": "user", "content": prompt]
         ]
 
+        let body: [String: Any] = [
+            "model": "gpt-3.5-turbo",
+            "messages": messages,
+            "temperature": 0.7
+        ]
 
         request.httpBody = try? JSONSerialization.data(withJSONObject: body)
 
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                print("Request error:", error)
-                completion("Error: \(error.localizedDescription)")
+            guard let data = data, error == nil else {
+                DispatchQueue.main.async {
+                    self.isLoading = false
+                }
+                completion("Error: \(error?.localizedDescription ?? "Unknown error")")
                 return
             }
 
-            guard let data = data else {
-                print("No data received")
-                completion("Error: No data received")
-                return
-            }
-
-            // Print raw response string for debugging
-            if let rawResponse = String(data: data, encoding: .utf8) {
-                print("Raw response:", rawResponse)
-            }
-
-            // Now try to parse JSON
             do {
                 if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
                    let choices = json["choices"] as? [[String: Any]],
                    let message = choices.first?["message"] as? [String: Any],
                    let content = message["content"] as? String {
-                    self.isLoading = false
+                    DispatchQueue.main.async {
+                        self.isLoading = false
+                    }
                     completion(content)
-                } else if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
-                          let errorInfo = json["error"] as? [String: Any],
-                          let message = errorInfo["message"] as? String {
-                    self.isLoading = false
-                    completion("API Error: \(message)")
                 } else {
-                    self.isLoading = false
+                    DispatchQueue.main.async {
+                        self.isLoading = false
+                    }
                     completion("Error: Unexpected response format.")
                 }
             } catch {
-                self.isLoading = false
-                print("JSON parse error:", error)
-                completion("Error: Could not parse JSON.")
+                DispatchQueue.main.async {
+                    self.isLoading = false
+                }
+                completion("Error parsing JSON: \(error.localizedDescription)")
             }
         }
-        task.resume()
 
+        task.resume()
     }
+
 }
 

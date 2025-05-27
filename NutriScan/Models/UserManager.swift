@@ -25,7 +25,16 @@ class UserManager: ObservableObject {
                 print("User created: \(authResult?.user.uid ?? "No UID")")
                 self.isLoggedIn = true
                 self.getCurrentUserData()
-                completion(true)
+                
+                let userInfo = [
+                    "userId": UserManager.shared.userId,
+                    "email": UserManager.shared.email,
+                ]
+
+                DatabaseModel.createUserInfo(user: UserManager.shared.userId, collectionName: "userInfo", data: userInfo) { isSuccess in
+                    print("Stored in database?: \(isSuccess)")
+                    completion(isSuccess)
+                }
             }
         }
     }
@@ -79,9 +88,13 @@ class UserManager: ObservableObject {
                     print("Error deleting user: \(error.localizedDescription)")
                     completion(false)
                 } else {
-                    print("User account deleted successfully.")
+
                     self.isLoggedIn = false
-                    completion(true)
+
+                    DatabaseModel.deleteUser(user: self.userId) { isSuccess in
+                        print("deleted in database?: \(isSuccess)")
+                        completion(isSuccess)
+                    }
                 }
             }
         } else {

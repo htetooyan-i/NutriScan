@@ -40,13 +40,13 @@ struct UserSignUpForm: View {
                                 .scaledToFit()
                                 .frame(width: 20, height: 20, alignment: .leading)
                                 .background(isPass ? Color.green : Color.white)
-                                .foregroundStyle(isPass ? Color.white : Color(UIColor.systemGray6))
+                                .foregroundStyle(isPass ? Color.white : Color(UIColor.systemGray))
                                 .clipShape(Circle())
                             Text(rule)
                                 .font(.custom("ComicRelief-Bold", size: 10))
                                 .fontWeight(.bold)
                                 .strikethrough(isPass, color: Color(UIColor.systemGray3))
-                                .foregroundStyle(isPass ? Color(UIColor.systemGray3) : Color.black)
+                                .foregroundStyle(isPass ? Color(UIColor.systemGray3) : Color(UIColor.systemGray))
                                 
                         }
                     }
@@ -66,6 +66,7 @@ struct UserSignUpForm: View {
                                 self.email = ""
                                 self.password = ""
                                 toggler = false
+                                
                             } else {
                                 print("Unsuccess")
                             }

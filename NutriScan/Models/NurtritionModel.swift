@@ -44,8 +44,15 @@ class NutritionModel: ObservableObject {
         let url = URL(string: "https://trackapi.nutritionix.com/v2/natural/nutrients")! // base url for nutrition api
         var request = URLRequest(url: url) //make the request variable to make configuration
         request.httpMethod = "POST" // set the request method as post
-        request.setValue("98793c7e", forHTTPHeaderField: "x-app-id") // set app id
-        request.setValue("155e001d04b22b3d2a4c0ce163420448", forHTTPHeaderField: "x-app-key") // set api key
+        
+        if let appId = HelperFunctions.getSecretKey(named: "NUTRIENT_APP_ID") {
+            request.setValue(appId, forHTTPHeaderField: "x-app-id") // set app id
+        }
+        
+        if let apiKey = HelperFunctions.getSecretKey(named: "NUTRIENT_API_KEY") {
+            request.setValue(apiKey, forHTTPHeaderField: "x-app-key") // set api key
+        }
+        
         request.setValue("application/json", forHTTPHeaderField: "Content-Type") // set content type
         
         let body = ["query": foodName]

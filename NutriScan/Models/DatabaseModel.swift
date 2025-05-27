@@ -83,7 +83,7 @@ public struct DatabaseModel: Codable {
             collectionRef = collectionRef
                 .whereField(field, isGreaterThanOrEqualTo: Timestamp(date: value as! Date))
         }
-
+        
         collectionRef.getDocuments { snapshot, error in
             if let error = error {
                 print("Error getting documents: \(error)")
@@ -95,7 +95,7 @@ public struct DatabaseModel: Codable {
             completion(foodData)
         }
     }
-
+    
     static func updateFoodDataForUser(user: String, collectionName: String, updateId: String, updateArray: [String: Any], completion: @escaping (Bool) -> Void) {
         let db = Firestore.firestore()
         print("Update Id: \(updateId)")
@@ -164,4 +164,89 @@ public struct DatabaseModel: Codable {
                 }
             }
     }
+    
+    static func createUserInfo(user: String, collectionName: String, data: [String: Any], completion: @escaping (Bool)->Void) {
+        let db = Firestore.firestore()
+        
+        db.collection("users")
+            .document(user)
+            .collection(collectionName)
+            .document("personalInfo")
+            .setData(data) { err in
+                if let err = err {
+                    print("Error setting document: \(err)")
+                    completion(false)
+                } else {
+                    print("Document set successfully!")
+                    completion(true)
+                }
+            }
+    }
+    
+    static func deleteUser(user:String, completion: @escaping (Bool) -> Void) {
+        
+        let userId = user
+        let db = Firestore.firestore()
+        let userDocRef = db.collection("users").document(userId)
+        
+        // 1. Delete subcollections first (example for 'foods' and 'userInfo')
+        // Note: You must delete every subcollection you have
+        
+        deleteCollection(collectionRef: userDocRef.collection("foods")) { successFoods in
+            guard successFoods else {
+                completion(false)
+                return
+            }
+            
+            deleteCollection(collectionRef: userDocRef.collection("userInfo")) { successUserInfo in
+                guard successUserInfo else {
+                    completion(false)
+                    return
+                }
+                
+                // 2. Delete the user document itself
+                userDocRef.delete { err in
+                    if let err = err {
+                        print("Error deleting user document: \(err.localizedDescription)")
+                        completion(false)
+                        return
+                    }
+                    
+                    print("User document deleted successfully")
+                }
+            }
+        }
+    }
+    
+    // Helper function to delete all documents in a collection
+    static func deleteCollection(collectionRef: CollectionReference, completion: @escaping (Bool) -> Void) {
+        collectionRef.getDocuments { (snapshot, error) in
+            if let error = error {
+                print("Error getting documents for deletion: \(error.localizedDescription)")
+                completion(false)
+                return
+            }
+            
+            guard let documents = snapshot?.documents else {
+                completion(true) // no docs to delete
+                return
+            }
+            
+            let batch = collectionRef.firestore.batch()
+            
+            for doc in documents {
+                batch.deleteDocument(doc.reference)
+            }
+            
+            batch.commit { batchError in
+                if let batchError = batchError {
+                    print("Batch delete error: \(batchError.localizedDescription)")
+                    completion(false)
+                } else {
+                    completion(true)
+                }
+            }
+        }
+    }
+    
 }

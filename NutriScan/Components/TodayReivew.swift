@@ -18,7 +18,7 @@ struct TodayReivew: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 20, height: 20, alignment: .leading)
-                Text("Today Feedback")
+                Text("Overall Review")
                     .font(.system(size: 20, weight: .bold, design: .default))
             }
             .padding(.bottom, 10)

@@ -8,55 +8,62 @@ import SwiftUI
 
 struct AccountView: View {
     @StateObject private var accountModel = UserManager.shared
+    @State var showSuccessBanner: Bool = false
     
     var body: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(spacing: 16) {
-                    // MARK: - Section To Display Account Type
-                    
-                    AccountType()
-                    
-                    // MARK: -  Section To Display Account Login And Signup
-                    
-                    AccountAuthentication(isLoggedIn: $accountModel.isLoggedIn)
-                    
-                    // MARK: -  Section To Display Available Foods
-                    
-                    NavigationLink {
-                        FoodListView()
-                    } label: {
-                        FoodAvailability()
-                            .background(Color("InversedPrimary"))
-                            .cornerRadius(7)
+        ZStack {
+            NavigationStack {
+                ScrollView {
+                    VStack(spacing: 16) {
+                        // MARK: - Section To Display Account Type
+                        AccountType()
+
+                        // MARK: - Account Login/Signup
+                        AccountAuthentication(isLoggedIn: $accountModel.isLoggedIn)
+
+                        // MARK: - Navigation to Food List
+                        NavigationLink {
+                            FoodListView()
+                        } label: {
+                            FoodAvailability()
+                                .background(Color("InversedPrimary"))
+                                .cornerRadius(7)
+                        }
+
+                        // MARK: - Personal Info
+                        UserPersonalInfo(showSuccessBanner: $showSuccessBanner)
+
+                        // MARK: - Model Versions
+                        ModelVersion()
+
+                        if accountModel.isLoggedIn {
+                            SignOutAndDeleteView(
+                                titleIcon: "person.fill",
+                                titleName: "Sign Out",
+                                description: "Tap the button below to sign out of NutriScan.",
+                                btnIcon: "door.left.hand.open"
+                            )
+                            
+                            SignOutAndDeleteView(
+                                titleIcon: "person.fill.xmark",
+                                titleName: "Delete Account",
+                                description: "Tap the buttom below to delete your account from NutriScan (warning: this will delete all data and is irreversible).",
+                                btnIcon: "person.crop.circle.badge.xmark"
+                            )
+                        }
                     }
-                    
-                    // MARK: - Section To Display Models' Versions
-                    
-                    ModelVersion()
-                    
-                    if accountModel.isLoggedIn { // This two sections will be shown only if user has signed in
-                        // MARK: - Section To Display Account Sign Out
-                        
-                        SignOutAndDeleteView(titleIcon: "person.fill", titleName: "Sign Out", description: "Tap the button below to sign out of NutriScan.", btnIcon: "door.left.hand.open")
-                        
-                        // MARK: - Section To Display Account Delete
-                        
-                        SignOutAndDeleteView(titleIcon: "person.fill.xmark", titleName: "Delete Account", description: "Tap the buttom below to delete your account from NutriScan (warning: this will delete all data and is irreversible).", btnIcon: "person.crop.circle.badge.xmark")
-                    }
-                    
-                    
+                    .padding()
+                    .navigationTitle("Profile")
+                    .navigationBarTitleDisplayMode(.large)
                 }
-                .padding()
+                .background(Color(UIColor.systemGray6))
             }
-            .background(Color(UIColor.systemGray6))
-            .navigationTitle("Profile")
-            .navigationBarTitleDisplayMode(.large)
+
+            if showSuccessBanner {
+                SuccessBanner()
+            }
         }
+        .animation(.spring(), value: showSuccessBanner)
         .tint(Color("CustomBlue"))
     }
-}
-
-#Preview {
-    AccountView()
 }
