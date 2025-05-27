@@ -165,13 +165,13 @@ public struct DatabaseModel: Codable {
             }
     }
     
-    static func createUserInfo(user: String, collectionName: String, data: [String: Any], completion: @escaping (Bool)->Void) {
+    static func createUserInfo(user: String, collectionName: String, docName: String, data: [String: Any], completion: @escaping (Bool)->Void) {
         let db = Firestore.firestore()
         
         db.collection("users")
             .document(user)
             .collection(collectionName)
-            .document("personalInfo")
+            .document(docName)
             .setData(data) { err in
                 if let err = err {
                     print("Error setting document: \(err)")
@@ -247,6 +247,39 @@ public struct DatabaseModel: Codable {
                 }
             }
         }
+    }
+    
+    static func getUserInfo(user: String, docName: String, completion: @escaping (PersonalInfo?)-> Void) {
+        let db = Firestore.firestore()
+        
+        db.collection("users")
+            .document(user)
+            .collection("userInfo")
+            .document(docName)
+            .getDocument { (document, error) in
+                
+                if let error = error {
+                    print("Error during getting user info: \(error.localizedDescription)")
+                    return
+                }
+                
+                guard let document = document,
+                      let data = document.data() else{
+                    print("Error during getting user info: Document does not exist")
+                    return
+                }
+                
+                do {
+                    let jsonData = try JSONSerialization.data(withJSONObject: data)
+                    let info = try JSONDecoder().decode(PersonalInfo.self, from: jsonData)
+                    completion(info)
+                } catch {
+                    print("Decoding error: \(error)")
+                    completion(nil)
+                }
+                
+                
+            }
     }
     
 }

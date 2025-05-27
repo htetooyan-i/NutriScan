@@ -334,6 +334,11 @@ class HelperFunctions: ObservableObject {
         }
         return nil
     }
-
+    
+    // MARK: - Function To Read User Personal Data
+    
+    static func getUserDataFromDatabase() {
+        UserCache.shared.setPersonalInfo()
+    }
     
 }

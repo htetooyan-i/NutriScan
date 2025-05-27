@@ -49,8 +49,10 @@ struct ContentView: View {
         .accentColor(Color("PriColor"))
         .onAppear {
             UserManager.shared.checkCurrrentState()
+            
             if UserManager.shared.isLoggedIn {
                 HelperFunctions.getFoodDataFromDatabase(user: UserManager.shared.userId, collectionName: "foods")
+                HelperFunctions.getUserDataFromDatabase()
             }
             print("In content view: \(UserManager.shared.isLoggedIn)")
         }

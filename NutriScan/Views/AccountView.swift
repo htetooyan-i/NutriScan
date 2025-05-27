@@ -8,7 +8,10 @@ import SwiftUI
 
 struct AccountView: View {
     @StateObject private var accountModel = UserManager.shared
+    @StateObject private var userCacheModel = UserCache.shared
+    
     @State var showSuccessBanner: Bool = false
+    @State var userPersonalInfo: PersonalInfo? = nil
     
     var body: some View {
         ZStack {
@@ -30,8 +33,10 @@ struct AccountView: View {
                                 .cornerRadius(7)
                         }
 
-                        // MARK: - Personal Info
-                        UserPersonalInfo(showSuccessBanner: $showSuccessBanner)
+                        if accountModel.isLoggedIn {
+                            // MARK: - Personal Info
+                            UserPersonalInfo(showSuccessBanner: $showSuccessBanner, personalInfo: $userPersonalInfo)
+                        }
 
                         // MARK: - Model Versions
                         ModelVersion()
@@ -65,5 +70,15 @@ struct AccountView: View {
         }
         .animation(.spring(), value: showSuccessBanner)
         .tint(Color("CustomBlue"))
+        .onAppear {
+            if !userCacheModel.isLoading {
+                self.userPersonalInfo = userCacheModel.personalInfo
+            }
+        }
+        .onChange(of: userCacheModel.isLoading) { oldValue, newValue in
+            if !newValue {
+                self.userPersonalInfo = userCacheModel.personalInfo
+            }
+        }
     }
 }

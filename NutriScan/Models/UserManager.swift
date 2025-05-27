@@ -31,7 +31,7 @@ class UserManager: ObservableObject {
                     "email": UserManager.shared.email,
                 ]
 
-                DatabaseModel.createUserInfo(user: UserManager.shared.userId, collectionName: "userInfo", data: userInfo) { isSuccess in
+                DatabaseModel.createUserInfo(user: UserManager.shared.userId, collectionName: "userInfo", docName: "accountInfo", data: userInfo) { isSuccess in
                     print("Stored in database?: \(isSuccess)")
                     completion(isSuccess)
                 }
