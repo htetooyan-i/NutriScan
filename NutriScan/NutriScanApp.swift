@@ -32,9 +32,14 @@ struct NutriScanApp: App {
             UITabBar.appearance().scrollEdgeAppearance = appearance
         }
     }
+    
+    @StateObject var userManager = UserManager()
+    
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(userManager)
         }
     }
 }

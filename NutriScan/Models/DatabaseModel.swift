@@ -251,7 +251,7 @@ public struct DatabaseModel: Codable {
     
     static func getUserInfo(user: String, docName: String, completion: @escaping (PersonalInfo?)-> Void) {
         let db = Firestore.firestore()
-        
+        print("Getting user Info with: \(user)")
         db.collection("users")
             .document(user)
             .collection("userInfo")
@@ -266,6 +266,7 @@ public struct DatabaseModel: Codable {
                 guard let document = document,
                       let data = document.data() else{
                     print("Error during getting user info: Document does not exist")
+                    completion(nil)
                     return
                 }
                 
@@ -278,6 +279,39 @@ public struct DatabaseModel: Codable {
                     completion(nil)
                 }
                 
+                
+            }
+    }
+    
+    static func getUserAccInfo(user: String, docName: String, completion: @escaping (AccountInfo?)-> Void) {
+        let db = Firestore.firestore()
+        print("Getting user Info with: \(user)")
+        db.collection("users")
+            .document(user)
+            .collection("userInfo")
+            .document(docName)
+            .getDocument { (document, error) in
+                
+                if let error = error {
+                    print("Error during getting user info: \(error.localizedDescription)")
+                    return
+                }
+                
+                guard let document = document,
+                      let data = document.data() else{
+                    print("Error during getting acc info: Document does not exist")
+                    completion(nil)
+                    return
+                }
+                
+                do {
+                    let jsonData = try JSONSerialization.data(withJSONObject: data)
+                    let info = try JSONDecoder().decode(AccountInfo.self, from: jsonData)
+                    completion(info)
+                } catch {
+                    print("Decoding error: \(error)")
+                    completion(nil)
+                }
                 
             }
     }

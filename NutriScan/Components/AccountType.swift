@@ -8,11 +8,15 @@
 import SwiftUI
 
 struct AccountType: View {
+    @Binding var accountInfo: AccountInfo?
+    @StateObject private var accountModel = UserManager.shared
+    
     var body: some View { // show the account type of current user
+        
         ZStack {
-            Color("PriColor")
+            Color(accountInfo?.accountType == "premium" && accountModel.isLoggedIn ? "PriColor" : "SecColor")
             HStack {
-                Text("Premium")
+                Text(accountInfo?.accountType == "premium" && accountModel.isLoggedIn ? "Premium" : "Go Premium")
                     .font(.system(size: 25, weight: .bold))
                     .padding(.vertical, 20)
                     .padding(.leading, 10)

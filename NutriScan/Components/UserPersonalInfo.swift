@@ -6,16 +6,17 @@
 //
 
 import SwiftUI
+import Combine
 
 struct UserPersonalInfo: View {
     
     @Binding var showSuccessBanner: Bool
     @Binding var personalInfo: PersonalInfo?
     
-    let columns = [
-        GridItem(.flexible(), spacing: 10),
-        GridItem(.flexible(), spacing: 10)
-    ]
+    
+    
+    @State var isEditing: Bool = false
+
     var body: some View {
         ZStack(alignment: .top) {
             RoundedRectangle(cornerRadius: 7)
@@ -32,9 +33,12 @@ struct UserPersonalInfo: View {
                         .fontWeight(.bold)
                     Spacer()
                     
-                    if personalInfo != nil {
+                    if !isEditing {
                         Button {
                             print("Edit Personal Data")
+                            withAnimation {
+                                isEditing = true
+                            }
                         } label: {
                             Text("Edit")
                                 .fontWeight(.bold)
@@ -50,90 +54,48 @@ struct UserPersonalInfo: View {
                     }
                 }
                 
-                if let personalInfo = personalInfo {
-                    LazyVGrid(columns: columns, alignment: .leading) {
-                        
-                        VStack(alignment: .leading, spacing: 10) {
-                            HStack {
-                                Image(systemName: "ruler")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 20, height: 20)
-                                Text("Height")
-                                    .fontWeight(.bold)
-                            }
-                            .foregroundStyle(Color.primary)
-                            
-                            Text("\(String(format: "%.1f", personalInfo.height)) cm")
-                                .fontWeight(.bold)
-                                .foregroundStyle(Color(UIColor.systemGray))
-                                
-                        }
-                        
-                        VStack(alignment: .leading, spacing: 10) {
-                            HStack {
-                                Image(systemName: "scalemass")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 20, height: 20)
-                                Text("Weight")
-                                    .fontWeight(.bold)
-                            }
-                            .foregroundStyle(Color.primary)
-                            
-                            Text("\(String(format: "%.1f", personalInfo.weight)) kg")
-                                .fontWeight(.bold)
-                                .foregroundStyle(Color(UIColor.systemGray))
-                                
-                        }
-                        
-                        VStack(alignment: .leading, spacing: 10) {
-                            HStack {
-                                Image(systemName: "person.2.fill")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 20, height: 20)
-                                Text("Age")
-                                    .fontWeight(.bold)
-                            }
-                            .foregroundStyle(Color.primary)
-                            
-                            Text("\(personalInfo.age) years")
-                                .fontWeight(.bold)
-                                .foregroundStyle(Color(UIColor.systemGray))
-                                
-                        }
-                        
-                        VStack(alignment: .leading, spacing: 10) {
-                            HStack {
-                                Image(systemName: "figure.stand.dress.line.vertical.figure")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 20, height: 20)
-                                Text("Gender")
-                                    .fontWeight(.bold)
-                            }
-                            .foregroundStyle(Color.primary)
-                            
-                            Text(personalInfo.gender)
-                                .fontWeight(.bold)
-                                .foregroundStyle(Color(UIColor.systemGray))
-                                
-                        }
-                        
-                        
+                if let binding = $personalInfo.unwrap(), isEditing == false {
+                    PersonalInfoView(personalInfo: binding)
+                        .id(UUID())
 
-                    }
-                }else{
-                    PersonalInfoForm(showSuccessBanner: $showSuccessBanner)
+                } else if let personalInfo {
+                    PersonalInfoForm(
+                        gender: personalInfo.gender,
+                        height: personalInfo.height,
+                        weight: personalInfo.weight,
+                        age: personalInfo.age,
+                        showSuccessBanner: $showSuccessBanner,
+                        isEditing: $isEditing
+                    )
+                } else {
+                    PersonalInfoForm(
+                            gender: "",
+                            height: 0,
+                            weight: 0,
+                            age: 0,
+                            showSuccessBanner: $showSuccessBanner,
+                            isEditing: $isEditing
+                        )
                 }
+                
                 
             }
             .foregroundStyle(Color(UIColor.systemGray))
             .frame(maxHeight: .infinity, alignment: .top)
             .padding()
-            
+
         }
     }
-
 }
+
+extension Binding {
+    func unwrap<T>() -> Binding<T>? where Value == T? {
+        guard let _ = self.wrappedValue else { return nil }
+        return Binding<T>(
+            get: { self.wrappedValue! },
+            set: { self.wrappedValue = $0 }
+        )
+    }
+}
+
+

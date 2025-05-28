@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct PersonalInfo: Codable {
+struct PersonalInfo: Codable, Equatable {
     let gender: String
     let height: Double
     let weight: Double

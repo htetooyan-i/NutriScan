@@ -9,62 +9,43 @@ import SwiftUI
 
 struct PersonalInfoForm: View {
     
-    @State private var gender: String = ""
-    @State private var height: Double = 0
-    @State private var weight: Double = 0
-    @State private var age: Int = 0
+    @State var gender: String
+    @State var height: Double
+    @State var weight: Double
+    @State var age: Int
     
     @State private var heightInput: String = ""
     @State private var weightInput: String = ""
     @State private var ageInput: String = ""
-    
-    @State private var validateResults: [Bool] = [false, false, false, false]
+
     @State private var validateResult: Bool = false
     
     @Binding var showSuccessBanner: Bool
+    @Binding var isEditing: Bool
     
     var body: some View {
         VStack(alignment: .trailing, spacing: 20) {
             
             HeightTextField(heightInput: $heightInput)
-                .onChange(of: heightInput) { _, newValue in
-                    if checkHeightInput(for: newValue) {
-                        height = Double(newValue)!
-                        validateResults[1] = true
-                    } else {
-                        validateResults[1] = false
-                    }
-                }
+                .onChange(of: heightInput) { _, _ in validateAllFields() }
             
             WeightTextField(weightInput: $weightInput)
-                .onChange(of: weightInput) { _, newValue in
-                    if checkWeightInput(for: newValue) {
-                        weight = Double(newValue)!
-                        validateResults[2] = true
-                    } else {
-                        validateResults[2] = false
-                    }
-                }
+                .onChange(of: weightInput) { _, _ in validateAllFields() }
             
             AgeTextField(ageInput: $ageInput)
-                .onChange(of: ageInput) { _, newValue in
-                    if checkAgeInput(for: newValue) {
-                        age = Int(newValue)!
-                        validateResults[3] = true
-                    } else {
-                        validateResults[3] = false
-                    }
-                }
+                .onChange(of: ageInput) { _, _ in validateAllFields() }
             
             GenderTextField(gender: $gender)
-                .onChange(of: gender) { _, newValue in
-                    validateResults[0] = checkGenderInput(for: newValue)
-                }
+                .onChange(of: gender) { _, _ in validateAllFields() }
             
             Button {
                 print("Saved User Personal Info")
                 withAnimation {
                     showSuccessBanner = true
+                    if isEditing {
+                        UserCache.shared.setPersonalInfo()
+                        isEditing = false
+                    }
                 }
                 SoundManager.shared.playClickSound()
                 
@@ -77,11 +58,13 @@ struct PersonalInfoForm: View {
 
                 DatabaseModel.createUserInfo(user: UserManager.shared.userId, collectionName: "userInfo", docName: "personalInfo", data: personalInfo) { isSuccess in
                     print("Personal Data have been stored? \(isSuccess)")
+                    UserCache.shared.setPersonalInfo()
                 }
                 
                 gender = ""
                 heightInput = ""
                 weightInput = ""
+                ageInput = ""
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
                     withAnimation {
@@ -99,35 +82,54 @@ struct PersonalInfoForm: View {
             }
             .disabled(!validateResult)
         }
-        .onChange(of: validateResults) { _, newValue in
-            validateResult = newValue.allSatisfy { $0 }
+        
+        .onAppear {
+            if height > 0 && weight > 0 && age > 0 && gender != "" {
+                self.heightInput = String(format: "%.1f", height)
+                self.weightInput = String(format: "%.1f", weight)
+                self.ageInput = String(age)
+                
+                validateAllFields()
+            }
+        }
+    }
+    
+    func validateAllFields() {
+        validateResult = checkInput(
+            weight: weightInput,
+            height: heightInput,
+            age: ageInput,
+            gender: gender
+        )
+
+        if validateResult {
+            height = Double(heightInput) ?? 0
+            weight = Double(weightInput) ?? 0
+            age = Int(ageInput) ?? 0
         }
     }
     
     
-    func checkHeightInput(for newValue: String) -> Bool {
-        if let value = Double(newValue), value > 0 && value < 300 {
-            return true
+    func checkInput(weight: String, height: String, age: String, gender: String) -> Bool {
+        guard let weightValue = Double(weight), weightValue > 0 && weightValue < 300 else {
+            return false
         }
-        return false
+        
+        guard let heightValue = Double(height), heightValue > 0 && heightValue < 300 else {
+            return false
+        }
+        
+        guard let ageValue = Int(age), ageValue > 0 && ageValue < 120 else {
+            return false
+        }
+        
+        let validGenders = ["male", "female", "other"]
+        guard validGenders.contains(gender.lowercased()) else {
+            return false
+        }
+        
+        return true
     }
     
-    func checkWeightInput(for newValue: String) -> Bool {
-        if let value = Double(newValue), value > 0 && value < 200 {
-            return true
-        }
-        return false
-    }
     
-    func checkAgeInput(for newValue: String) -> Bool {
-        if let value = Int(newValue), value > 0 && value < 150 {
-            return true
-        }
-        return false
-    }
-    
-    func checkGenderInput(for gender: String) -> Bool {
-        let lower = gender.lowercased()
-        return lower == "male" || lower == "female"
-    }
 }

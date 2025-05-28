@@ -12,6 +12,7 @@ struct AccountView: View {
     
     @State var showSuccessBanner: Bool = false
     @State var userPersonalInfo: PersonalInfo? = nil
+    @State var userAccountInfo: AccountInfo? = nil
     
     var body: some View {
         ZStack {
@@ -19,7 +20,8 @@ struct AccountView: View {
                 ScrollView {
                     VStack(spacing: 16) {
                         // MARK: - Section To Display Account Type
-                        AccountType()
+                        AccountType(accountInfo: $userAccountInfo)
+                            .id(UUID())
 
                         // MARK: - Account Login/Signup
                         AccountAuthentication(isLoggedIn: $accountModel.isLoggedIn)
@@ -73,11 +75,18 @@ struct AccountView: View {
         .onAppear {
             if !userCacheModel.isLoading {
                 self.userPersonalInfo = userCacheModel.personalInfo
+                self.userAccountInfo = userCacheModel.accountInfo
             }
         }
-        .onChange(of: userCacheModel.isLoading) { oldValue, newValue in
-            if !newValue {
+        .onChange(of: userCacheModel.personalInfo) { oldValue, newValue in
+            if newValue != nil {
                 self.userPersonalInfo = userCacheModel.personalInfo
+            }
+        }
+        
+        .onChange(of: userCacheModel.accountInfo) { oldValue, newValue in
+            if newValue != nil {
+                self.userAccountInfo = userCacheModel.accountInfo
             }
         }
     }

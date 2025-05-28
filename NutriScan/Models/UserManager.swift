@@ -29,12 +29,15 @@ class UserManager: ObservableObject {
                 let userInfo = [
                     "userId": UserManager.shared.userId,
                     "email": UserManager.shared.email,
+                    "accountType": "free"
                 ]
 
                 DatabaseModel.createUserInfo(user: UserManager.shared.userId, collectionName: "userInfo", docName: "accountInfo", data: userInfo) { isSuccess in
                     print("Stored in database?: \(isSuccess)")
+                    HelperFunctions.getUserDataFromDatabase()
                     completion(isSuccess)
                 }
+                
             }
         }
     }
@@ -50,6 +53,7 @@ class UserManager: ObservableObject {
                 self.isLoggedIn = true
                 self.getCurrentUserData()
                 HelperFunctions.getFoodDataFromDatabase(user: self.userId, collectionName: "foods")
+                self.getUserData()
                 completion(true)
             }
         }
@@ -90,7 +94,6 @@ class UserManager: ObservableObject {
                 } else {
 
                     self.isLoggedIn = false
-
                     DatabaseModel.deleteUser(user: self.userId) { isSuccess in
                         print("deleted in database?: \(isSuccess)")
                         completion(isSuccess)
@@ -103,11 +106,17 @@ class UserManager: ObservableObject {
         }
 
     }
+    
     // MARK: - Set the User Info
     private func getCurrentUserData() {
         if let user = Auth.auth().currentUser {
             self.email = user.email ?? ""
             self.userId = user.uid
         }
+    }
+    
+    private func getUserData() {
+        HelperFunctions.getUserDataFromDatabase()
+        HelperFunctions.getUserAccDataFromDatabase()
     }
 }

@@ -12,6 +12,7 @@ struct SignOutAndDeleteView: View {
     @State var titleName: String
     @State var description: String
     @State var btnIcon: String
+    @State var showReminder: Bool = false
     var body: some View { // this view will show the sign out and delete account sections
         ZStack {
             Color("InversedPrimary")
@@ -33,12 +34,12 @@ struct SignOutAndDeleteView: View {
                 Button {
                     if self.titleName == "Sign Out" { // if this view has been called for sign out section call the signOut func
                         UserManager.shared.signOutUser { isSuccess in
-                            print(isSuccess)
+                            UserCache.shared.personalInfo = nil
+                            UserCache.shared.accountInfo = nil
+                            
                         }
                     }else {// else call the delete account func
-                        UserManager.shared.deleteUser { isSuccess in
-                            print(isSuccess)
-                        }
+                        self.showReminder = true
                     }
                     FoodCache.shared.foodDataCache = [:]
                 } label: {
@@ -54,6 +55,11 @@ struct SignOutAndDeleteView: View {
                     )
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
+                
+                .sheet(isPresented: $showReminder) {
+                    AccountDeletion()
+                }
+                
                 
             })
             .foregroundStyle(Color(UIColor.systemGray))

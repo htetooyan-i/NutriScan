@@ -341,4 +341,10 @@ class HelperFunctions: ObservableObject {
         UserCache.shared.setPersonalInfo()
     }
     
+    // MARK: - Function To Read User Account Data
+    
+    static func getUserAccDataFromDatabase() {
+        UserCache.shared.setAccountInfo()
+    }
+    
 }

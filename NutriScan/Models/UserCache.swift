@@ -12,6 +12,7 @@ class UserCache: ObservableObject {
     static let shared = UserCache()
     
     @Published var personalInfo: PersonalInfo? = nil
+    @Published var accountInfo: AccountInfo? = nil
     @Published var isLoading: Bool = false
 
     func setPersonalInfo() {
@@ -21,6 +22,17 @@ class UserCache: ObservableObject {
                 self?.personalInfo = result
                 self?.isLoading = false
                 print("User's personal information has been stored in cache!!")
+            }
+        }
+    }
+    
+    func setAccountInfo() {
+        self.isLoading = true
+        DatabaseModel.getUserAccInfo(user: UserManager.shared.userId, docName: "accountInfo") { [weak self] result in
+            DispatchQueue.main.async {
+                self?.accountInfo = result
+                self?.isLoading = false
+                print("User's account information has been stored in cache!!")
             }
         }
     }
