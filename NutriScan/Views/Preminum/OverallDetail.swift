@@ -10,15 +10,13 @@ import MarkdownUI
 
 struct OverallDetail: View {
     @ObservedObject var gptModel = GPTModel.shared
+    
+    @State var personalInfo: PersonalInfo?
+    @State var foodInfo: [String: [[String: Any]]] = [:]
+    
+    @State var prompt: String = ""
     @State var response: String = """
-    **Capital of Myanmar: Naypyidaw**
-
-    Here are some key details about Naypyidaw:
-
-    - 🏛 Became capital in 2005
-    - 🇲🇲 Replaced Yangon
-    - 🌍 Located in central Myanmar
-    - 🏗 Known for wide boulevards and green spaces
+    ** There are alittle bit of error.\n Sorry for convenience **
     """
 
     var body: some View {
@@ -42,6 +40,25 @@ struct OverallDetail: View {
             }
             .navigationTitle("Overall Review")
         }
+        .onAppear {
+            if personalInfo != nil {
+                self.prompt = HelperFunctions.generatePromtForOverallDetail(personlInfo: personalInfo, foodInfo: foodInfo)
+            } else{
+                self.prompt = HelperFunctions.generatePromtForOverallDetail(foodInfo: foodInfo)
+            }
+
+            gptModel.callGPT(prompt: self.prompt) { response in
+                if let response = response {
+                    self.response = response
+                    print("Response Setted Successfully")
+                }
+                else {
+                    print("Response Failed")
+                }
+                
+            }
+        }
+        
     }
 }
 

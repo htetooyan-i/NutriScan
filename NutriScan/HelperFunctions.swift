@@ -120,7 +120,7 @@ class HelperFunctions: ObservableObject {
     
     static func dateFormatter(timestamp: Timestamp? = nil, timeString: String? = nil, format: String) -> String {
         var date: Date?
-
+        
         if let timestamp = timestamp {
             date = timestamp.dateValue()
         } else if let timeString = timeString {
@@ -128,19 +128,19 @@ class HelperFunctions: ObservableObject {
             inputFormatter.dateFormat = "EEEE MMMM dd, yyyy"
             inputFormatter.locale = Locale(identifier: "en_US")
             inputFormatter.timeZone = TimeZone(secondsFromGMT: 7 * 3600)
-
+            
             date = inputFormatter.date(from: timeString)
         } else {
             return ""
         }
-
+        
         guard let validDate = date else { return "" }
-
+        
         let outputFormatter = DateFormatter()
         outputFormatter.dateFormat = format
         outputFormatter.locale = Locale(identifier: "en_US")
         outputFormatter.timeZone = TimeZone(secondsFromGMT: 7 * 3600)
-
+        
         return outputFormatter.string(from: validDate)
     }
     
@@ -247,7 +247,7 @@ class HelperFunctions: ObservableObject {
             "totalWeight": 0,
         ]
         var foodsNotFound: [String] = []
-
+        
         DatabaseModel.getFoodDataForUser(
             user: UserManager.shared.userId,
             collectionName: "foods",
@@ -262,24 +262,24 @@ class HelperFunctions: ObservableObject {
                     }
                     return nil
                 }
-
+                
                 if let calories = extractDouble(from: food["foodCalories"]),
                    let fat = extractDouble(from: food["foodFat"]),
                    let protein = extractDouble(from: food["foodProtein"]),
                    let fiber = extractDouble(from: food["foodFiber"]),
                    let weight = extractDouble(from: food["foodWeight"]) {
-
+                    
                     review["totalCalories", default: 0] += calories
                     review["totalFat", default: 0] += fat
                     review["totalProtein", default: 0] += protein
                     review["totalFiber", default: 0] += fiber
                     review["totalWeight", default: 0] += weight
-
+                    
                 } else if let foodName = food["SelectedFood"] as? String {
                     foodsNotFound.append(foodName)
                 }
             }
-
+            
             completion((review, foodsNotFound))
         }
     }
@@ -297,10 +297,10 @@ class HelperFunctions: ObservableObject {
                     }
                 }
             }
-
+            
             foodData[date] = totalValue
         }
-
+        
         return foodData
     }
     
@@ -347,4 +347,56 @@ class HelperFunctions: ObservableObject {
         UserCache.shared.setAccountInfo()
     }
     
+    
+    static func generatePromtForOverallDetail(personlInfo: PersonalInfo? = nil, foodInfo: [String: [[String: Any]]])-> String {
+        var prompt = ""
+        let currentDate = self.dateFormatter(timestamp: Timestamp(date: Date()), format: "EEEE MMMM dd, yyyy")
+        if let info = personlInfo {
+            prompt += "Personal Info:\n"
+            prompt += "Height: \(info.height)\n"
+            prompt += "Weight: \(info.weight)\n"
+            prompt += "Gender: \(info.gender)\n"
+            prompt += "Age: \(info.age)\n\n"
+        }
+        
+        for (dt, foods) in foodInfo {
+            
+            if dt == currentDate {
+                for (index, foodDict) in foods.enumerated() {
+                    
+                    prompt += "  food \(index + 1):\n"
+                    
+                    for (key, value) in foodDict {
+                        prompt += "    \(key): \(value)\n"
+                    }
+                }
+                prompt += "\n"
+            }
+            
+        }
+//        prompt += "This is user's today food detail and i will use this prompt for my app that is builded for education purpose so I want to write as paragraph, only use list for food detail and that is suitable for ui display on ios swift use font design like italic, bold for some words for better visalization and add subheadings. I want to get the nutrition information from this data and calculate bmi and give alitte bit of advice. when food data is N/A add suitable data. **Make your response like explaining in conversation. Don't be like giving facts and avoid usages like user's.don't add any calculation and **write only as passage.** Reduce word as much as you can. Don't add words like Alright, sure at the start of the response"
+        
+        prompt += """
+
+        Please respond with exactly three paragraphs, each starting with a subheading as shown below:
+
+        **Food Details**
+        
+        [List the all food that in prompt briefly with quantity, calories, protein, fat, and fiber. if food data is N/A add suitable data]
+
+        **BMI Analysis**  
+        
+        [Calculate the BMI from height and weight, and describe the BMI category: underweight, normal, overweight, or obese.]
+
+        **Health Advice**
+        
+        [Give friendly, concise health feedback and advice based on the food and BMI.]
+
+        Format your response exactly like this, with the subheadings on their own lines, and paragraphs separated by a blank line.
+        
+        """
+        
+        return prompt
+        
+    }
 }

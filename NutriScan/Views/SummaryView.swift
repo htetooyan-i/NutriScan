@@ -9,9 +9,13 @@ import SwiftUI
 import Charts
 
 struct SummaryView: View {
-    
-    let data = [("Jan", 3), ("Feb", 2), ("Mar", 9),("Apr", 3), ("May", 2), ("Jun", 9), ("Jul", 3), ("Aug", 2), ("Sep", 9)]
+
     @ObservedObject var userManager = UserManager.shared
+    @ObservedObject var userCache = UserCache.shared
+    @ObservedObject var foodCache = FoodCache.shared
+    
+    @State private var personalInfo: PersonalInfo? = nil
+    @State private var foodInfo: [String: [[String: Any]]] = [:]
     
     var body: some View {
         if userManager.isLoggedIn {
@@ -23,7 +27,7 @@ struct SummaryView: View {
                     ScrollView {
                         VStack(spacing: 20) {
                             NavigationLink {
-                                OverallDetail()
+                                OverallDetail(personalInfo: personalInfo, foodInfo: foodInfo)
                             } label: {
                                 TodayReivew()
                             }
@@ -55,6 +59,20 @@ struct SummaryView: View {
                 .navigationBarTitleDisplayMode(.large)
             }
             .accentColor(Color("CustomBlue"))
+            .onAppear {
+                if foodCache.isUpdated && !userCache.isLoading {
+                    self.personalInfo = userCache.personalInfo
+                    self.foodInfo = foodCache.foodDataCache
+                }
+            }
+            .onChange(of: foodCache.isUpdated, { oldValue, newValue in
+                if newValue {
+                    if foodCache.isUpdated && !userCache.isLoading {
+                        self.personalInfo = userCache.personalInfo
+                        self.foodInfo = foodCache.foodDataCache
+                    }
+                }
+            })
         } else {
             FoodNotFound(message: "Food stats will appear here, start recording to see your progress!", icon: "figure.baseball")
                 .padding()
@@ -62,6 +80,3 @@ struct SummaryView: View {
     }
 }
 
-#Preview {
-    SummaryView()
-}

@@ -32,7 +32,7 @@ class GPTModel: ObservableObject {
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
 
         let messages: [[String: String]] = [
-            ["role": "system", "content": "You are a helpful assistant. Format all responses using Markdown, including bold text, bullet points, headings, and paragraphs when appropriate."],
+            ["role": "system", "content": "You are a helpful nutrition assistant. Provide short, friendly feedback based on food and user health data."],
             ["role": "user", "content": prompt]
         ]
 
@@ -41,6 +41,7 @@ class GPTModel: ObservableObject {
             "messages": messages,
             "temperature": 0.7
         ]
+
 
         request.httpBody = try? JSONSerialization.data(withJSONObject: body)
 

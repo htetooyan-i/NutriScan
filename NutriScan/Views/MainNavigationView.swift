@@ -11,7 +11,7 @@ struct MainNavigationView: View {
     @State var currentTab: Tab
     
     enum Tab {
-        case account, summary, scan, saved, recipes
+        case account, summary, scan, saved, noti
     }
     var body: some View {
         switch currentTab {
@@ -26,8 +26,8 @@ struct MainNavigationView: View {
             }
         case .saved:
             SavedView()
-        case .recipes:
-            Text("Recipes")
+        case .noti:
+            Text("Notification")
         }
     }
 }

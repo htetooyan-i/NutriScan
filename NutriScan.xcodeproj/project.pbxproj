@@ -16,6 +16,7 @@
 		C81859D12DC4F13100393EF9 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = C81859D02DC4F13100393EF9 /* FirebaseFirestore */; };
 		C81859D32DC4F13100393EF9 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = C81859D22DC4F13100393EF9 /* FirebaseStorage */; };
 		DF2A712E2DDB31DE00248CA9 /* CoreXLSX in Frameworks */ = {isa = PBXBuildFile; productRef = DF2A712D2DDB31DE00248CA9 /* CoreXLSX */; };
+		DFC0E6202DE888000081BBE3 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = DFC0E61F2DE888000081BBE3 /* FirebaseMessaging */; };
 		DFDACCFE2DE5629E009ED98C /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = DFDACCFD2DE5629E009ED98C /* MarkdownUI */; };
 /* End PBXBuildFile section */
 
@@ -87,6 +88,7 @@
 				C81859D32DC4F13100393EF9 /* FirebaseStorage in Frameworks */,
 				C81859CB2DC4F13100393EF9 /* FirebaseAuth in Frameworks */,
 				C81859D12DC4F13100393EF9 /* FirebaseFirestore in Frameworks */,
+				DFC0E6202DE888000081BBE3 /* FirebaseMessaging in Frameworks */,
 				DFDACCFE2DE5629E009ED98C /* MarkdownUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -158,6 +160,7 @@
 				C81859D22DC4F13100393EF9 /* FirebaseStorage */,
 				DF2A712D2DDB31DE00248CA9 /* CoreXLSX */,
 				DFDACCFD2DE5629E009ED98C /* MarkdownUI */,
+				DFC0E61F2DE888000081BBE3 /* FirebaseMessaging */,
 			);
 			productName = NutriScan;
 			productReference = C823B92B2DBBD9D80039D9EE /* NutriScan.app */;
@@ -690,6 +693,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DF2A712C2DDB31DE00248CA9 /* XCRemoteSwiftPackageReference "CoreXLSX" */;
 			productName = CoreXLSX;
+		};
+		DFC0E61F2DE888000081BBE3 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C81859C32DC4F13100393EF9 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
 		};
 		DFDACCFD2DE5629E009ED98C /* MarkdownUI */ = {
 			isa = XCSwiftPackageProductDependency;

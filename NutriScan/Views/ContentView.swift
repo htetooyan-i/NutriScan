@@ -11,7 +11,7 @@ struct ContentView: View {
     @State private var selectedTab: Tab = .scan
     
     enum Tab {
-        case account, summary, scan, saved, recipes
+        case account, summary, scan, saved, noti
     }
 
     var body: some View {
@@ -34,17 +34,17 @@ struct ContentView: View {
                 }
                 .tag(Tab.scan)
             
+            MainNavigationView(currentTab: .noti)
+                .tabItem {
+                    Label("Notifications", systemImage: "bell.fill")
+                }
+                .tag(Tab.noti)
+            
             MainNavigationView(currentTab: .saved)
                 .tabItem {
                     Label("Saved", systemImage: "bookmark.fill")
                 }
                 .tag(Tab.saved)
-            
-            MainNavigationView(currentTab: .recipes)
-                .tabItem {
-                    Label("Recipes", systemImage: "fork.knife.circle.fill")
-                }
-                .tag(Tab.recipes)
         }
         .accentColor(Color("PriColor"))
         .onAppear {
@@ -54,7 +54,6 @@ struct ContentView: View {
                 HelperFunctions.getFoodDataFromDatabase(user: UserManager.shared.userId, collectionName: "foods")
                 HelperFunctions.getUserDataFromDatabase()
             }
-            print("In content view: \(UserManager.shared.isLoggedIn)")
         }
     }
 }
