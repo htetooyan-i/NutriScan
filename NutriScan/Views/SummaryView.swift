@@ -9,7 +9,7 @@ import SwiftUI
 import Charts
 
 struct SummaryView: View {
-
+    
     @ObservedObject var userManager = UserManager.shared
     @ObservedObject var userCache = UserCache.shared
     @ObservedObject var foodCache = FoodCache.shared
@@ -18,12 +18,11 @@ struct SummaryView: View {
     @State private var foodInfo: [String: [[String: Any]]] = [:]
     
     var body: some View {
-        if userManager.isLoggedIn && !foodCache.foodDataCache.isEmpty {
-            NavigationStack {
-                ZStack {
-                    Color(UIColor.systemGray6)
-                        .ignoresSafeArea()
-                    
+        NavigationStack {
+            ZStack {
+                Color(UIColor.systemGray6)
+                    .ignoresSafeArea()
+                if userManager.isLoggedIn && !foodCache.foodDataCache.isEmpty {
                     ScrollView {
                         VStack(spacing: 20) {
                             NavigationLink {
@@ -31,7 +30,7 @@ struct SummaryView: View {
                             } label: {
                                 TodayReivew()
                             }
-
+                            
                             
                             NutrientNaviLink(iconName: "flame.fill", iconColor: Color.orange, name: "Calories", unit: "kcal")
                             
@@ -46,44 +45,60 @@ struct SummaryView: View {
                             } label: {
                                 PriceStats()
                             }
-
+                            
                         }
                         .padding()
                         .frame(maxHeight: .infinity, alignment: .top)
                     }
-                    
-                    
-                    
-                }
-                .navigationTitle("Summary")
-                .navigationBarTitleDisplayMode(.large)
-            }
-            .accentColor(Color("CustomBlue"))
-            .onAppear {
-                if foodCache.isUpdated && !userCache.isLoading {
-                    self.personalInfo = userCache.personalInfo
-                    self.foodInfo = foodCache.foodDataCache
-                    print("In if")
-                }
-                
-                print(self.foodInfo.count)
-            }
-            .onChange(of: foodCache.isUpdated, { oldValue, newValue in
-                if newValue {
-                    if foodCache.isUpdated && !userCache.isLoading {
-                        self.personalInfo = userCache.personalInfo
-                        self.foodInfo = foodCache.foodDataCache
+                    .onAppear {
+                        if foodCache.isUpdated && !userCache.isLoading {
+                            self.personalInfo = userCache.personalInfo
+                            self.foodInfo = foodCache.foodDataCache
+                            print("In if")
+                        }
+                        
+                        print(self.foodInfo.count)
                     }
+                    .onChange(of: foodCache.isUpdated, { oldValue, newValue in
+                        if newValue {
+                            if foodCache.isUpdated && !userCache.isLoading {
+                                self.personalInfo = userCache.personalInfo
+                                self.foodInfo = foodCache.foodDataCache
+                            }
+                        }
+                    })
+                    
+                }else if userManager.isLoggedIn {
+                    VStack {
+                        FoodNotFound(message: "Food stats will appear here, go and start recording to see your progress!", icon: "figure.baseball")
+                            .padding()
+                            .background(
+                                RoundedRectangle(cornerRadius: 7)
+                                    .fill(Color.inversedPrimary)
+                            )
+                    }
+                    .padding()
+                    .frame(maxHeight: .infinity, alignment: .top)
                 }
-            })
-        }else if foodCache.foodDataCache.isEmpty{
-            FoodNotFound(message: "Food stats will appear here, go and start recording to see your progress!", icon: "figure.baseball")
-                .padding()
+                else {
+                    VStack {
+                        FoodNotFound(message: "Food stats will appear here, start recording to see your progress!", icon: "figure.baseball")
+                            .padding()
+                            .background(
+                                RoundedRectangle(cornerRadius: 7)
+                                    .fill(Color.inversedPrimary)
+                            )
+                    }
+                    .padding()
+                    .frame(maxHeight: .infinity, alignment: .top)
+                }
+            }
+            .navigationTitle("Summary")
+            .navigationBarTitleDisplayMode(.large)
+            
         }
-        else {
-            FoodNotFound(message: "Food stats will appear here, start recording to see your progress!", icon: "figure.baseball")
-                .padding()
-        }
+        .accentColor(Color("CustomBlue"))
+        
     }
 }
 
