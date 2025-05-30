@@ -36,6 +36,22 @@ struct SavedView: View {
             .searchable(text: $searchText, placement: .automatic, prompt: "Search") // create a search bar to filter the food data
             .background(Color(UIColor.systemGray6))
             .navigationBarTitleDisplayMode(.large)
+            .toolbar {
+                Button {
+                    print("Selecte Button Clicked")
+                } label: {
+                    Text("Select")
+                        .fontWeight(.bold)
+                        .foregroundStyle(Color.sec)
+                        .padding(.vertical, 5)
+                        .padding(.horizontal, 15)
+                        .background(
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(Color.customOrange)
+                        )
+                }
+
+            }
         }
         .accentColor(Color("CustomBlue"))
         .onAppear {

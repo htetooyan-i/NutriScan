@@ -32,6 +32,7 @@ class UserCache: ObservableObject {
             DispatchQueue.main.async {
                 self?.accountInfo = result
                 self?.isLoading = false
+                UserDefaults.standard.set(self?.accountInfo?.accountType, forKey: "accountType")
                 print("User's account information has been stored in cache!!")
             }
         }

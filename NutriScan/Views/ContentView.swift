@@ -53,6 +53,7 @@ struct ContentView: View {
             if UserManager.shared.isLoggedIn {
                 HelperFunctions.getFoodDataFromDatabase(user: UserManager.shared.userId, collectionName: "foods")
                 HelperFunctions.getUserDataFromDatabase()
+                HelperFunctions.getUserAccDataFromDatabase()
             }
         }
     }

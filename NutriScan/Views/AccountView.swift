@@ -14,13 +14,15 @@ struct AccountView: View {
     @State var userPersonalInfo: PersonalInfo? = nil
     @State var userAccountInfo: AccountInfo? = nil
     
+    @State var accType: String = ""
+    
     var body: some View {
         ZStack {
             NavigationStack {
                 ScrollView {
                     VStack(spacing: 16) {
                         // MARK: - Section To Display Account Type
-                        AccountType(accountInfo: $userAccountInfo)
+                        AccountType()
                             .id(UUID())
 
                         // MARK: - Account Login/Signup

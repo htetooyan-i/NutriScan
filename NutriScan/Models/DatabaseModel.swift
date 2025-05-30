@@ -251,7 +251,6 @@ public struct DatabaseModel: Codable {
     
     static func getUserInfo(user: String, docName: String, completion: @escaping (PersonalInfo?)-> Void) {
         let db = Firestore.firestore()
-        print("Getting user Info with: \(user)")
         db.collection("users")
             .document(user)
             .collection("userInfo")
@@ -285,7 +284,6 @@ public struct DatabaseModel: Codable {
     
     static func getUserAccInfo(user: String, docName: String, completion: @escaping (AccountInfo?)-> Void) {
         let db = Firestore.firestore()
-        print("Getting user Info with: \(user)")
         db.collection("users")
             .document(user)
             .collection("userInfo")
