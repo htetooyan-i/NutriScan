@@ -83,6 +83,14 @@ struct UserPersonalInfo: View {
             .foregroundStyle(Color(UIColor.systemGray))
             .frame(maxHeight: .infinity, alignment: .top)
             .padding()
+            .onAppear {
+                
+                print("personalInfo: \(personalInfo)")
+            }
+            
+            .onChange(of: personalInfo) { oldValue, newValue in
+                print("personalInfo changed: \(newValue)")
+            }
 
         }
     }

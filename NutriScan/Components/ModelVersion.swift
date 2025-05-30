@@ -48,7 +48,7 @@ struct ModelVersion: View {
                     })
                     
                     VStack(alignment: .leading, spacing: 10, content: {
-                        Text("Consultant LLM GPT 3.5 (📣 👀)")
+                        Text("GPT-3.5 LLM Consultant AI model (📣 👀)")
                             .font(.headline)
                             .foregroundStyle(Color.primary)
                             .fontWeight(.bold)

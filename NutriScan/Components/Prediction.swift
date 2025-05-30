@@ -72,10 +72,7 @@ struct Prediction: View {
             .disabled(UserManager.shared.isLoggedIn ? false : true)
             .onChange(of: saved) { oldValue, newValue in
                 if newValue == true {
-                    let generator = UIImpactFeedbackGenerator(style: .heavy)
-                    generator.prepare()
-                    generator.impactOccurred()
-                    SoundManager.shared.playClickSound()
+                    HelperFunctions.makeVibration(feedbackStyle: .heavy)
                 }
             }
             .onAppear {

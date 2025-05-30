@@ -30,24 +30,26 @@ struct StatsList: View {
             .padding(.bottom, 20)
             
             VStack {
-                ForEach(Array(data), id: \.key) { date, value in
-                    NavigationLink {
-                        SpecificStatsList(date: date, statName: statName, unit: unit)
-                    } label: {
-                        HStack {
-                            Text(date)
-                            Spacer()
-                            Text(String(format: "%.2f %@", value, unit))
+                ScrollView {
+                    ForEach(Array(data), id: \.key) { date, value in
+                        NavigationLink {
+                            SpecificStatsList(date: date, statName: statName, unit: unit)
+                        } label: {
+                            HStack {
+                                Text(date)
+                                Spacer()
+                                Text(String(format: "%.2f %@", value, unit))
+                            }
+                            .padding()
+                            .background(
+                                RoundedRectangle(cornerRadius: 7)
+                                    .fill(Color(UIColor.systemGray6))
+                            )
                         }
-                        .padding()
-                        .background(
-                            RoundedRectangle(cornerRadius: 7)
-                                .fill(Color(UIColor.systemGray6))
-                        )
+
                     }
 
                 }
-                
             }
         }
         .padding(.all, 10)

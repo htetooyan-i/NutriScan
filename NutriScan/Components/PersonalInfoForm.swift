@@ -47,6 +47,7 @@ struct PersonalInfoForm: View {
                         isEditing = false
                     }
                 }
+                HelperFunctions.makeVibration(feedbackStyle: .heavy)
                 SoundManager.shared.playClickSound()
                 
                 let personalInfo = [

@@ -75,6 +75,7 @@ struct SummaryStats: View {
             default:
                 break
             }
+            print(self.data)
             
             self.sortedDate = HelperFunctions.sortStatsByDate(for: self.data)
         }

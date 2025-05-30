@@ -16,7 +16,7 @@ struct AccountDeletion: View {
             VStack(spacing: 10) {
                 Text("Account")
                     .font(.system(size: 30, weight: .bold, design: .default))
-                    .foregroundStyle(Color.white)
+                    .foregroundStyle(Color.primary)
                 Text("Deletion")
                     .font(.system(size: 30, weight: .bold, design: .default))
                     .foregroundStyle(Color(UIColor.systemRed))
@@ -29,13 +29,15 @@ struct AccountDeletion: View {
                 Text("🚫 This action is irreversible. Once you delete your account, all your data, including saved foods, Nutridex progression, and any other records, will be permanently removed from our system.")
                     .frame(maxWidth: .infinity)
                     .multilineTextAlignment(.center)
+                    .lineSpacing(5)
                 
                 Text("🔐 There's no turing back. You won't be able to retreve any of your data or reactivate your account once it's deleted.")
                     .frame(maxWidth: .infinity)
                     .multilineTextAlignment(.center)
+                    .lineSpacing(5)
             }
             .padding(.all, 50)
-            .foregroundStyle(Color.white)
+            .foregroundStyle(Color.primary)
             
             Spacer()
             

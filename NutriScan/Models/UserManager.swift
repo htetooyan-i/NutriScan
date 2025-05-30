@@ -34,7 +34,8 @@ class UserManager: ObservableObject {
 
                 DatabaseModel.createUserInfo(user: UserManager.shared.userId, collectionName: "userInfo", docName: "accountInfo", data: userInfo) { isSuccess in
                     print("Stored in database?: \(isSuccess)")
-                    HelperFunctions.getUserDataFromDatabase()
+                    self.getUserData()
+                    HelperFunctions.getFoodDataFromDatabase(user: self.userId, collectionName: "foods")
                     completion(isSuccess)
                 }
                 

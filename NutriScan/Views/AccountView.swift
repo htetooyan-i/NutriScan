@@ -81,15 +81,11 @@ struct AccountView: View {
             }
         }
         .onChange(of: userCacheModel.personalInfo) { oldValue, newValue in
-            if newValue != nil {
-                self.userPersonalInfo = userCacheModel.personalInfo
-            }
+            self.userPersonalInfo = userCacheModel.personalInfo
         }
         
         .onChange(of: userCacheModel.accountInfo) { oldValue, newValue in
-            if newValue != nil {
-                self.userAccountInfo = userCacheModel.accountInfo
-            }
+            self.userAccountInfo = userCacheModel.accountInfo
         }
     }
 }

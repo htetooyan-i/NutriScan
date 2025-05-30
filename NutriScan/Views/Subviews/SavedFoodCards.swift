@@ -15,6 +15,8 @@ struct SavedFoodCards: View {
         GridItem(.flexible(), spacing: 16),
         GridItem(.flexible(), spacing: 16)
     ]
+    @Binding var selectedFoods: [String]
+    var isSelectionMode: Bool
     
     var body: some View {
         VStack (alignment: .leading, spacing: 16) {
@@ -30,15 +32,33 @@ struct SavedFoodCards: View {
                                let predictions = food["foodPredictions"] as? [String: Double],
                                let predictionConfidence = predictions[foodName],
                                let urlString = food["imageURL"] as? String,
-                               let imageURL = URL(string: urlString) {
+                               let imageURL = URL(string: urlString),
+                               let foodId = food["foodId"] as? String {
                                 
                                 FoodCard(imageURL: imageURL, foodName: foodName, predictionConfidence: predictionConfidence)
+                                    .id(foodId)
+                                    .overlay(
+                                        isSelectionMode && selectedFoods.contains(foodId)
+                                        ? RoundedRectangle(cornerRadius: 12)
+                                            .stroke(Color.blue, lineWidth: 3)
+                                        : nil
+                                    )
+                                    .onTapGesture {
+                                        if isSelectionMode {
+                                            if selectedFoods.contains(foodId) {
+                                                selectedFoods.removeAll { $0 == foodId }
+                                            } else {
+                                                selectedFoods.append(foodId)
+                                            }
+                                        }
+                                    }
+                                
                             }
                         }
                     }
                 }
             }
         }
-
+        
     }
 }

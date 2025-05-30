@@ -399,4 +399,11 @@ class HelperFunctions: ObservableObject {
         return prompt
         
     }
+    
+    static func makeVibration(feedbackStyle: UIImpactFeedbackGenerator.FeedbackStyle) {
+        let generator = UIImpactFeedbackGenerator(style: feedbackStyle)
+        generator.prepare()
+        generator.impactOccurred()
+        SoundManager.shared.playClickSound()
+    }
 }

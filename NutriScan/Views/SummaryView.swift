@@ -18,7 +18,7 @@ struct SummaryView: View {
     @State private var foodInfo: [String: [[String: Any]]] = [:]
     
     var body: some View {
-        if userManager.isLoggedIn {
+        if userManager.isLoggedIn && !foodCache.foodDataCache.isEmpty {
             NavigationStack {
                 ZStack {
                     Color(UIColor.systemGray6)
@@ -63,7 +63,10 @@ struct SummaryView: View {
                 if foodCache.isUpdated && !userCache.isLoading {
                     self.personalInfo = userCache.personalInfo
                     self.foodInfo = foodCache.foodDataCache
+                    print("In if")
                 }
+                
+                print(self.foodInfo.count)
             }
             .onChange(of: foodCache.isUpdated, { oldValue, newValue in
                 if newValue {
@@ -73,7 +76,11 @@ struct SummaryView: View {
                     }
                 }
             })
-        } else {
+        }else if foodCache.foodDataCache.isEmpty{
+            FoodNotFound(message: "Food stats will appear here, go and start recording to see your progress!", icon: "figure.baseball")
+                .padding()
+        }
+        else {
             FoodNotFound(message: "Food stats will appear here, start recording to see your progress!", icon: "figure.baseball")
                 .padding()
         }
