@@ -30,7 +30,28 @@ struct StatsList: View {
             .padding(.bottom, 20)
             
             VStack {
-                ScrollView {
+                if Array(data).count > 5 {
+                    ScrollView {
+                        ForEach(Array(data), id: \.key) { date, value in
+                            NavigationLink {
+                                SpecificStatsList(date: date, statName: statName, unit: unit)
+                            } label: {
+                                HStack {
+                                    Text(date)
+                                    Spacer()
+                                    Text(String(format: "%.2f %@", value, unit))
+                                }
+                                .padding()
+                                .background(
+                                    RoundedRectangle(cornerRadius: 7)
+                                        .fill(Color(UIColor.systemGray6))
+                                )
+                            }
+
+                        }
+
+                    }
+                } else {
                     ForEach(Array(data), id: \.key) { date, value in
                         NavigationLink {
                             SpecificStatsList(date: date, statName: statName, unit: unit)
@@ -48,8 +69,8 @@ struct StatsList: View {
                         }
 
                     }
-
                 }
+                
             }
         }
         .padding(.all, 10)
@@ -57,6 +78,5 @@ struct StatsList: View {
             RoundedRectangle(cornerRadius: 7)
                 .fill(Color("InversedPrimary"))
         )
-        .frame(maxWidth: .infinity)
     }
 }

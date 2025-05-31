@@ -54,10 +54,7 @@ struct SummaryView: View {
                         if foodCache.isUpdated && !userCache.isLoading {
                             self.personalInfo = userCache.personalInfo
                             self.foodInfo = foodCache.foodDataCache
-                            print("In if")
                         }
-                        
-                        print(self.foodInfo.count)
                     }
                     .onChange(of: foodCache.isUpdated, { oldValue, newValue in
                         if newValue {
