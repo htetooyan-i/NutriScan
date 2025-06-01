@@ -155,7 +155,7 @@ struct SheetView: View {
                                 results: results,
                                 user: userModel.userId,
                                 collectionName: "foods",
-                                takenPicData: cameraData.picData,
+                                takenPicData: results.image,
                                 dataArray: [
                                     "SelectedFood": selectedFood?.identifier ?? "No Prediction",
                                     "foodCalories": newCalories,

@@ -22,21 +22,71 @@ struct SavedView: View {
     var body: some View {
         NavigationStack {
             VStack{
-                ScrollView {
-                    if data.isEmpty {
-                        if userManager.isLoggedIn {
-                            FoodNotFound(message: "You have nothing to find here, go take some photos of food and comback!", icon: "magnifyingglass") // if data is empty FoodNotFound ui will be shown
-                                .padding()
-                        }else {
-                            FoodNotFound(message: "Saved images will appear here, get snapping. \n Go Login first!", icon: "figure.climbing") // if data is empty FoodNotFound ui will be shown
-                                .padding()
+                ZStack {
+                    ScrollView {
+                        if data.isEmpty {
+                            if userManager.isLoggedIn {
+                                FoodNotFound(message: "You have nothing to find here, go take some photos of food and comback!", icon: "magnifyingglass") // if data is empty FoodNotFound ui will be shown
+                                    .padding()
+                            }else {
+                                FoodNotFound(message: "Saved images will appear here, get snapping. \n Go Login first!", icon: "figure.climbing") // if data is empty FoodNotFound ui will be shown
+                                    .padding()
+                            }
+                        } else {
+                            SavedFoodCards(sortedKeys: sortedKeys, data: data, selectedFoods: $selectedFoods, isSelectionMode: isSelected) // if the data is not empty Food Cards will be shown and sorted by its creation date
                         }
-                    } else {
-                        SavedFoodCards(sortedKeys: sortedKeys, data: data, selectedFoods: $selectedFoods, isSelectionMode: isSelected) // if the data is not empty Food Cards will be shown and sorted by its creation date
+                        
                     }
                     
+                    if isSelected && selectedFoods.count > 0 {
+                        VStack {
+                            HStack {
+                                HStack {
+                                    Image(systemName: "figure.walk.circle.fill")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 20, height: 20, alignment: .center)
+                                        .foregroundStyle(Color.customBlue)
+                                    Text("Quick Summary")
+                                        .font(.system(size: 12))
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(Color.customBlue)
+                                }
+                                .padding(7)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .fill(Color.pri)
+                                )
+                                Spacer()
+                                
+                                HStack {
+                                    Image(systemName: "trash")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 20, height: 20, alignment: .center)
+                                        .foregroundStyle(Color.red)
+                                }
+                                .padding(7)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .fill(Color.red.opacity(0.5))
+                                )
+                            }
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 5)
+                            .background(
+                                RoundedRectangle(cornerRadius: 7)
+                                    .fill(Color.inversedPrimary)
+                                    .shadow(radius: 5)
+                            )
+                        }
+                        .frame(maxHeight: .infinity, alignment: .bottom)
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
+                        .padding(.horizontal)
+                        .padding(.bottom, 7)
+                    }
                 }
-
+                .animation(.easeOut(duration: 0.3), value: isSelected && selectedFoods.count > 0)
             }
             .navigationTitle("Saved") // Set saved as the title of the saved view
             .background(Color(UIColor.systemGray6))
@@ -44,8 +94,9 @@ struct SavedView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
-                        print("Selecte Button Clicked")
-                        self.isSelected.toggle()
+                        withAnimation {
+                            self.isSelected.toggle()
+                        }
                     } label: {
                         Text(isSelected ? "Cancel" : "Select")
                             .fontWeight(.bold)
@@ -62,7 +113,7 @@ struct SavedView: View {
             }
         }
         .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .automatic), prompt: "Search") // create a search bar to filter the food data
-
+        
         .accentColor(Color("CustomBlue"))
         .onAppear {
             if foodCache.isUpdated { // when saved view is appear it will check foodData in foodDatacache has been updated or not. If yes it will use that data to display food cards.

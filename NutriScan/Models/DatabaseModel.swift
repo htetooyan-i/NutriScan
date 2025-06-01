@@ -44,7 +44,7 @@ public struct DatabaseModel: Codable {
                     completion(false, nil)
                     return
                 }
-                
+                print(imageURL)
                 var foodData = foodDataArray
                 foodData["foodId"] = foodId
                 foodData["imageURL"] = imageURL // Add image URL to Firestore data

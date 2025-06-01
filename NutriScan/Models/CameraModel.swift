@@ -147,7 +147,7 @@ class CameraModel: NSObject,ObservableObject, AVCapturePhotoCaptureDelegate {
             if self.output.connection(with: .video) != nil{
                 self.output.capturePhoto(with: AVCapturePhotoSettings(), delegate: self)
             }
-            //            self.session.stopRunning()
+
             DispatchQueue.main.async {
                 withAnimation {
                     self.isTaken = true

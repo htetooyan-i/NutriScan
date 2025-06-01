@@ -17,7 +17,7 @@ class HelperFunctions: ObservableObject {
         results: ClassificationModel,
         user: String,
         collectionName: String,
-        takenPicData: Data,
+        takenPicData: UIImage?,
         dataArray: [String: Any],
         completion: @escaping (String?) -> Void
     ) {
@@ -31,15 +31,22 @@ class HelperFunctions: ObservableObject {
         foodDataArray["foodPredictions"] = allPredictions
         foodDataArray["timestamp"] = Timestamp(date: Date())
         
-        DatabaseModel.createFoodDataForUser(user: user, collectionName: collectionName, foodDataArray: foodDataArray, takenPicData: takenPicData) { isSuccess, dataId in
-            if isSuccess {
-                print("Data saved successfully!")
-                // sent back dataId to sheetView
-                completion(dataId)
-            } else {
-                print("Failed to save data.")
-                completion(nil)
+        if let selectedImage = takenPicData,
+           let imageData = selectedImage.jpegData(compressionQuality: 0.8),
+           imageData.count > 0 {
+            
+            DatabaseModel.createFoodDataForUser(user: user, collectionName: collectionName, foodDataArray: foodDataArray, takenPicData: imageData) { isSuccess, dataId in
+                if isSuccess {
+                    print("Data saved successfully!")
+                    // sent back dataId to sheetView
+                    completion(dataId)
+                } else {
+                    print("Failed to save data.")
+                    completion(nil)
+                }
             }
+        } else {
+            print("❌ Failed to get valid image data")
         }
     }
     
@@ -374,24 +381,24 @@ class HelperFunctions: ObservableObject {
             }
             
         }
-//        prompt += "This is user's today food detail and i will use this prompt for my app that is builded for education purpose so I want to write as paragraph, only use list for food detail and that is suitable for ui display on ios swift use font design like italic, bold for some words for better visalization and add subheadings. I want to get the nutrition information from this data and calculate bmi and give alitte bit of advice. when food data is N/A add suitable data. **Make your response like explaining in conversation. Don't be like giving facts and avoid usages like user's.don't add any calculation and **write only as passage.** Reduce word as much as you can. Don't add words like Alright, sure at the start of the response"
+        //        prompt += "This is user's today food detail and i will use this prompt for my app that is builded for education purpose so I want to write as paragraph, only use list for food detail and that is suitable for ui display on ios swift use font design like italic, bold for some words for better visalization and add subheadings. I want to get the nutrition information from this data and calculate bmi and give alitte bit of advice. when food data is N/A add suitable data. **Make your response like explaining in conversation. Don't be like giving facts and avoid usages like user's.don't add any calculation and **write only as passage.** Reduce word as much as you can. Don't add words like Alright, sure at the start of the response"
         
         prompt += """
-
+        
         Please respond with exactly three paragraphs, each starting with a subheading as shown below:
-
+        
         **Food Details**
         
         [List the all food that in prompt briefly with quantity, calories, protein, fat, and fiber. if food data is N/A add suitable data]
-
+        
         **BMI Analysis**  
         
         [Calculate the BMI from height and weight, and describe the BMI category: underweight, normal, overweight, or obese.]
-
+        
         **Health Advice**
         
         [Give friendly, concise health feedback and advice based on the food and BMI.]
-
+        
         Format your response exactly like this, with the subheadings on their own lines, and paragraphs separated by a blank line.
         
         """
@@ -406,4 +413,24 @@ class HelperFunctions: ObservableObject {
         generator.impactOccurred()
         SoundManager.shared.playClickSound()
     }
+    
+    static func convertUrlToImg(for imgUrl: URL, completion: @escaping (UIImage?) -> Void) {
+        
+        URLSession.shared.dataTask(with: imgUrl) { data, response, error in
+            print(imgUrl)
+            print(data ?? "No data")
+            print(error?.localizedDescription ?? "Unknown error")
+            if let data = data, let image = UIImage(data: data) {
+                DispatchQueue.main.async {
+                    completion(image)
+                }
+            } else {
+                print("Error downloading image: \(error?.localizedDescription ?? "Unknown error")")
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+            }
+        }.resume()
+    }
+    
 }
