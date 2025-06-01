@@ -18,9 +18,7 @@ struct PriceSubView: View {
                     .frame(width: 25, height: 25)
                 Text("Total Price")
                 Spacer()
-                if !inputDisable {
-                    Text(foodPrice != nil ? "$ \(String(format: "%.1f", foodPrice!))" : "")
-                }
+                Text(foodPrice != nil ? "$ \(String(format: "%.1f", foodPrice!))" : "")
             }
             .foregroundColor(Color.gray)
             .fontWeight(.bold)
@@ -31,6 +29,9 @@ struct PriceSubView: View {
             Divider()
             // Call Price view compoent for input text field
             Price(price: $foodPrice, isDisable: false)
+                .onChange(of: foodPrice) { oldValue, newValue in
+                    print(foodPrice)
+                }
         }
         .transition(.opacity)
     }

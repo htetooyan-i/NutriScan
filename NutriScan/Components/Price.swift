@@ -33,7 +33,6 @@ struct Price: View {
             // IDEA: Button to save food price.( I don't want to save the price every time input field changes )
             Button {
                 price = Double(localPrice) ?? 0.0
-                
             } label: {
                 Text("Save")
                     .foregroundColor(colorScheme == .dark ? .black : .white)
