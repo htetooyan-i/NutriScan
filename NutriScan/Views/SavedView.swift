@@ -55,6 +55,9 @@ struct SavedView: View {
                                     }
                                 }
                             }
+                            .sheet(isPresented: $showSummary) {
+                                QuickSummaryView(showSummary: $showSummary)
+                            }
                     }
                 }
                 .animation(.easeOut(duration: 0.3), value: isSelected && selectedFoods.count > 0)

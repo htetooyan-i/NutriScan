@@ -411,6 +411,9 @@ class HelperFunctions: ObservableObject {
         let generator = UIImpactFeedbackGenerator(style: feedbackStyle)
         generator.prepare()
         generator.impactOccurred()
+    }
+    
+    static func makeSaveSound() {
         SoundManager.shared.playClickSound()
     }
     

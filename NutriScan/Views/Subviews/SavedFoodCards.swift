@@ -74,6 +74,7 @@ struct SavedFoodCards: View {
                                             } else {
                                                 selectedFoods.append(foodId)
                                             }
+                                            HelperFunctions.makeVibration(feedbackStyle: .medium)
                                         }
                                 } else {
                                     NavigationLink {

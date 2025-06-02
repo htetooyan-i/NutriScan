@@ -73,6 +73,7 @@ struct Prediction: View {
             .onChange(of: saved) { oldValue, newValue in
                 if newValue == true {
                     HelperFunctions.makeVibration(feedbackStyle: .heavy)
+                    HelperFunctions.makeSaveSound()
                 }
             }
             .onAppear {
