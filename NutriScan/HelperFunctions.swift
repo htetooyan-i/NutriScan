@@ -414,23 +414,20 @@ class HelperFunctions: ObservableObject {
         SoundManager.shared.playClickSound()
     }
     
-    static func convertUrlToImg(for imgUrl: URL, completion: @escaping (UIImage?) -> Void) {
-        
-        URLSession.shared.dataTask(with: imgUrl) { data, response, error in
-            print(imgUrl)
-            print(data ?? "No data")
-            print(error?.localizedDescription ?? "Unknown error")
-            if let data = data, let image = UIImage(data: data) {
-                DispatchQueue.main.async {
-                    completion(image)
-                }
-            } else {
-                print("Error downloading image: \(error?.localizedDescription ?? "Unknown error")")
-                DispatchQueue.main.async {
-                    completion(nil)
+    static func deleteSelectedFoods(seletedFoods: [String], completion: @escaping (Bool) -> Void) {
+        for foodId in seletedFoods {
+            DatabaseModel.deleteFoodDataForUser(user: UserManager.shared.userId, collectionName: "foods", deleteId: foodId) { isSuccess in
+                if isSuccess {
+                    print("Successfully deleted: \(foodId)")
+                }else {
+                    completion(false)
                 }
             }
-        }.resume()
+        }
+        
+        completion(true)
     }
+    
+    
     
 }

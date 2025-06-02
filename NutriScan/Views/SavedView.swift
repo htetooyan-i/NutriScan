@@ -19,6 +19,9 @@ struct SavedView: View {
     @State var isSelected: Bool = false
     @State var selectedFoods: [String] = []
     
+    @State var deleteFoods: Bool = false
+    @State var showSummary: Bool = false
+    
     var body: some View {
         NavigationStack {
             VStack{
@@ -33,57 +36,25 @@ struct SavedView: View {
                                     .padding()
                             }
                         } else {
-                            SavedFoodCards(sortedKeys: sortedKeys, data: data, selectedFoods: $selectedFoods, isSelectionMode: isSelected) // if the data is not empty Food Cards will be shown and sorted by its creation date
+                            SavedFoodCards(sortedKeys: sortedKeys, data: data, selectedFoods: $selectedFoods, isSelectionMode: $isSelected) // if the data is not empty Food Cards will be shown and sorted by its creation date
                         }
                         
                     }
                     
                     if isSelected && selectedFoods.count > 0 {
-                        VStack {
-                            HStack {
-                                HStack {
-                                    Image(systemName: "figure.walk.circle.fill")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 20, height: 20, alignment: .center)
-                                        .foregroundStyle(Color.customBlue)
-                                    Text("Quick Summary")
-                                        .font(.system(size: 12))
-                                        .fontWeight(.bold)
-                                        .foregroundStyle(Color.customBlue)
+                        SavedViewActionBar(deleteFoods: $deleteFoods, showSummary: $showSummary)
+                            .onChange(of: deleteFoods) { oldValue, newValue in
+                                if newValue {
+                                    HelperFunctions.deleteSelectedFoods(seletedFoods: selectedFoods) { isSuccess in
+                                        if isSuccess {
+                                            print("Successfully deleted for all selected foods.")
+                                            HelperFunctions.getFoodDataFromDatabase(user: UserManager.shared.userId, collectionName: "foods")
+                                            selectedFoods = []
+                                            isSelected = false
+                                        }
+                                    }
                                 }
-                                .padding(7)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .fill(Color.pri)
-                                )
-                                Spacer()
-                                
-                                HStack {
-                                    Image(systemName: "trash")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 20, height: 20, alignment: .center)
-                                        .foregroundStyle(Color.red)
-                                }
-                                .padding(7)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .fill(Color.red.opacity(0.5))
-                                )
                             }
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 5)
-                            .background(
-                                RoundedRectangle(cornerRadius: 7)
-                                    .fill(Color.inversedPrimary)
-                                    .shadow(radius: 5)
-                            )
-                        }
-                        .frame(maxHeight: .infinity, alignment: .bottom)
-                        .transition(.move(edge: .bottom).combined(with: .opacity))
-                        .padding(.horizontal)
-                        .padding(.bottom, 7)
                     }
                 }
                 .animation(.easeOut(duration: 0.3), value: isSelected && selectedFoods.count > 0)
@@ -133,8 +104,10 @@ struct SavedView: View {
                 (self.data, self.sortedKeys) = HelperFunctions.sortSavedFoodByDate(for: foodCache.foodDataCache)
             }
         }
-        .onChange(of: selectedFoods) { oldValue, newValue in
-            print(selectedFoods)
+        .onChange(of: isSelected) { oldValue, newValue in
+            if !oldValue {
+                selectedFoods = []
+            }
         }
     }
     

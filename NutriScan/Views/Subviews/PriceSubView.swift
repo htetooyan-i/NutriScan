@@ -29,9 +29,6 @@ struct PriceSubView: View {
             Divider()
             // Call Price view compoent for input text field
             Price(price: $foodPrice, isDisable: false)
-                .onChange(of: foodPrice) { oldValue, newValue in
-                    print(foodPrice)
-                }
         }
         .transition(.opacity)
     }

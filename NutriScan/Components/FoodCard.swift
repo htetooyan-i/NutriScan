@@ -6,35 +6,39 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct FoodCard: View {
+    
     var imageURL: URL
     var foodName: String
     var predictionConfidence: Double
+    @State private var loadFailed = false
     var body: some View {
         ZStack{
             
-            AsyncImage(url: imageURL) { phase in //creating image using url if imamge is loading progress view will be shown else if url is not available xmark will be shown else it will show the actual image which was taken by user.
-                switch phase {
-                case .empty:
-                    ProgressView()
-                        .frame(width: 175, height: 300)
-                case .success(let image):
-                    image
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 175, height: 300)
-                        .clipped()
-                        .cornerRadius(10)
-                case .failure:
-                    Image(systemName: "xmark.circle")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 50, height: 50)
-                        .foregroundColor(.red)
-                @unknown default:
-                    EmptyView()
-                }
+            if loadFailed {
+                Image(systemName: "xmark.circle")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 50, height: 50)
+                    .foregroundColor(.red)
+            } else {
+                KFImage(imageURL)
+                    .placeholder {
+                        ProgressView()
+                            .frame(width: 175, height: 300)
+                    }
+                    .onFailure { _ in
+                        loadFailed = true
+                    }
+                    .resizable()
+                    .cacheOriginalImage()
+                    .scaledToFill()
+                    .frame(width: 175, height: 300)
+                    .clipped()
+                    .cornerRadius(10)
+                    
             }
             
             VStack {

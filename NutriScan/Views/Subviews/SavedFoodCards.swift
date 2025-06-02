@@ -16,7 +16,7 @@ struct SavedFoodCards: View {
         GridItem(.flexible(), spacing: 16)
     ]
     @Binding var selectedFoods: [String]
-    var isSelectionMode: Bool
+    @Binding var isSelectionMode: Bool
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
