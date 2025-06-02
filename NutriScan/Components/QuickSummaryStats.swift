@@ -8,31 +8,37 @@
 import SwiftUI
 
 struct QuickSummaryStats: View {
+    @State var iconName: String
+    @State var statName: String
+    @Binding var statValue: Double
+    @State var color: Color
+    @State var unit: String
+    
     var body: some View {
         HStack {
             // IDEA: Display Nutrition Icon Such as Calorie Protein Fat and Fiber
-            Image(systemName: "flame.fill")
+            Image(systemName: iconName)
                 .font(.title2)
-                .foregroundColor(.orange)
+                .foregroundColor(color)
                 .padding(.all, 5)
             
-            Text("Calories")
+            Text(statName)
                 .font(Font.custom("ComicRelief-Bold", size: 15))
                 .frame(maxWidth: .infinity, alignment: .leading)
             Spacer()
             HStack {
-                Text("\("30" ?? "0") \("30" == "N/A" ? "" : "kcal")")
+                let value = String(format: "%.2f", statValue)
+                
+                Text(statName == "Price" ? "\(unit) \(value)" : "\(value) \(unit)")
                     .font(Font.custom("ComicRelief-Regular", size: 15))
                     .frame(maxWidth: .infinity, alignment: .trailing)
             }
         }
         .padding(.vertical, 5)
         .padding(.horizontal)
-        .background(Color("ForColor"))
+        .background(Color(UIColor.systemGray6))
         .cornerRadius(10)
+
     }
 }
 
-#Preview {
-    QuickSummaryStats()
-}

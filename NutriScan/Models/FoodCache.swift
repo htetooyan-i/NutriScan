@@ -11,7 +11,8 @@ import FirebaseCore
 class FoodCache: ObservableObject {
     static let shared = FoodCache()
     
-    @Published var foodDataCache: [String: [[String: Any]]] = [:]
+    @Published var foodDataCache: [[String: Any]] = []
+    @Published var foodDataCacheByDate: [String: [[String: Any]]] = [:]
     @Published var caloriesDataCache: [String: [String: [String]]] = [:]
     @Published var proteinDataCache: [String: [String: [String]]] = [:]
     @Published var fiberDataCache: [String: [String: [String]]] = [:]
@@ -21,8 +22,8 @@ class FoodCache: ObservableObject {
     
     func setFoodData(data: [[String: Any]]) {
         self.isUpdated = false
-        self.foodDataCache = [:]
-        
+        self.foodDataCacheByDate = [:]
+        self.foodDataCache = data
         // Change types: [String: [String: [String]]]
         var updatedCaloriesData: [String: [String: [String]]] = [:]
         var updatedProteinData: [String: [String: [String]]] = [:]
@@ -69,7 +70,7 @@ class FoodCache: ObservableObject {
         }
         
         // Now you have arrays of nutrient values per food per date
-        self.foodDataCache = updatedFoodData
+        self.foodDataCacheByDate = updatedFoodData
         self.caloriesDataCache = updatedCaloriesData
         self.proteinDataCache = updatedProteinData
         self.fiberDataCache = updatedFiberData
@@ -85,7 +86,7 @@ class FoodCache: ObservableObject {
     
     
     func getSavedFoodData() -> [String: [[String: Any]]] { // get the food data from cache data
-        return self.foodDataCache
+        return self.foodDataCacheByDate
     }
     
 }

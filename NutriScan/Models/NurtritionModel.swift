@@ -93,10 +93,12 @@ class NutritionModel: ObservableObject {
                      * *IDEA:* if recieved data can't be decode to swift's readable format (In this case requested food is not available in api). In that case set nutrientInfo as empty array but thumbnail image need to be added for UI.
                      */
                     self.nutrientInfo[foodName] = [:]
-                    DatabaseModel.getFoodThumbnail(foodName: foodName) { image in // get food's thumbnail from database to display
-                        DispatchQueue.main.async {
-                            self.nutrientInfo[foodName]?["thumbnail"] = image
-                            self.markRequestComplete()
+                    DatabaseModel.getFoodThumbnail(foodName: foodName) { imageUrl in // get food's thumbnail from database to display
+                        if let imageUrl = imageUrl {
+                            DispatchQueue.main.async {
+                                self.nutrientInfo[foodName]?["thumbnail"] = imageUrl
+                                self.markRequestComplete()
+                            }
                         }
                     }
 

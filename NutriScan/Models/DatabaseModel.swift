@@ -134,7 +134,7 @@ public struct DatabaseModel: Codable {
         
     }
     
-    static func getFoodThumbnail(foodName: String, completion: @escaping (UIImage?) -> Void) {
+    static func getFoodThumbnail(foodName: String, completion: @escaping (URL?) -> Void) {
         let db = Firestore.firestore()
         
         db.collection("food_thumbnails")
@@ -147,18 +147,7 @@ public struct DatabaseModel: Codable {
                 if let data = snapshot?.data(),
                    let imageUrl = data["url"] as? String,
                    let url = URL(string: imageUrl) {
-                    URLSession.shared.dataTask(with: url) { data, response, error in
-                        if let data = data, let image = UIImage(data: data) {
-                            DispatchQueue.main.async{
-                                completion(image)
-                            }
-                        }else {
-                            print("Error downloading image: \(error?.localizedDescription ?? "Unknown error")")
-                            DispatchQueue.main.async {
-                                completion(nil)
-                            }
-                        }
-                    }.resume()
+                    completion(url)
                 } else {
                     print("Error downloading image: \(error?.localizedDescription ?? "Unknown error")")
                 }

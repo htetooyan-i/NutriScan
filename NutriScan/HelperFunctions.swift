@@ -431,6 +431,107 @@ class HelperFunctions: ObservableObject {
         completion(true)
     }
     
+    static func getSelectedFoodData(selectedFoodIds: [String], completion: @escaping ([FoodData]?) -> Void) { // Need to Implement This Func When Food data has been decoded directly in database model
+        var foodDataList: [FoodData] = []
+        let foods = FoodCache.shared.foodDataCache // [[String: Any]]
+
+        for food in foods {
+            if let foodId = food["foodId"] as? String,
+               selectedFoodIds.contains(foodId),
+               let foodName = food["SelectedFood"] as? String,
+               let foodCalories = food["foodCalories"] as? String,
+               let foodFat = food["foodFat"] as? String,
+               let foodFiber = food["foodFiber"] as? String,
+               let foodPredictions = food["foodPredictions"] as? [String: Double],
+               let foodPrice = food["foodPrice"] as? Double,
+               let foodProtein = food["foodProtein"] as? String,
+               let foodQuantity = food["foodQuantity"] as? Int,
+               let foodWeight = food["foodWeight"] as? String,
+               let imageURL = food["imageURL"] as? String,
+               let timestamp = (food["timestamp"] as? Timestamp)
+            {
+                let foodData = FoodData(
+                    SelectedFood: foodName,
+                    foodCalories: foodCalories,
+                    foodFat: foodFat,
+                    foodFiber: foodFiber,
+                    foodId: foodId,
+                    foodPredictions: foodPredictions,
+                    foodPrice: foodPrice,
+                    foodProtein: foodProtein,
+                    foodQuantity: foodQuantity,
+                    foodWeight: foodWeight,
+                    imageURL: imageURL,
+                    timestamp: timestamp
+                )
+                foodDataList.append(foodData)
+            } else {
+//                print("Missing or invalid field for foodId: \(food["foodId"] ?? "Unknown")")
+            }
+        }
+
+        completion(foodDataList)
+    }
+    
+    
+    static func getTotalNutrients(for data: [FoodData]) -> Nutrients {
+        
+        var localCalories: Double = 0
+        var localProtein: Double = 0
+        var localFiber: Double = 0
+        var localFat: Double = 0
+        
+        for food in data {
+            if food.foodCalories != "N/A" {
+                print(food.foodCalories)
+                localCalories += Double(food.foodCalories)!
+            }
+            
+            if food.foodProtein != "N/A" {
+                localProtein += Double(food.foodProtein)!
+            }
+            
+            if food.foodFiber != "N/A" {
+                localFiber += Double(food.foodFiber)!
+            }
+            
+            if food.foodFat != "N/A" {
+                localFat += Double(food.foodFat)!
+            }
+        }
+        
+        let nutrients = Nutrients(
+            calories: localCalories,
+            protein: localProtein,
+            fiber: localFiber,
+            fat: localFat
+        )
+        
+        return nutrients
+    }
+    
+    static func calcuateNutrientPercentage(for nutrients: Nutrients) -> (protein: Double, fiber: Double, fat: Double) {
+        
+        let totalNutrients = nutrients.protein + nutrients.fiber + nutrients.fat
+
+        let proteinPercentage = (nutrients.protein / totalNutrients)
+        let fiberPercentage = (nutrients.fiber / totalNutrients)
+        let fatPercentage = (nutrients.fat / totalNutrients)
+        
+        return (proteinPercentage, fiberPercentage, fatPercentage)
+    }
+    
+    static func getFoodThumbnail(for foodName: String) async -> URL? {
+        return await withCheckedContinuation { continuation in
+            DatabaseModel.getFoodThumbnail(foodName: foodName) { imgURL in
+                continuation.resume(returning: imgURL)
+            }
+        }
+    }
+    
+    static func getTotalPrice(for foods: [FoodData]) -> Double {
+        return foods.reduce(0) { $0 + $1.foodPrice }
+    }
     
     
 }

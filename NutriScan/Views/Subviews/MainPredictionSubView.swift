@@ -21,7 +21,7 @@ struct MainPredictionSubView: View {
             Prediction(
                 foodName: selectedFood?.identifier ?? results.predictions.first?.identifier,
                 confidence: selectedFood?.confidence ?? results.predictions.first?.confidence,
-                thumb: nutritionData.nutrientInfo[selectedFood?.identifier ?? ""]?["thumbnail"] as? UIImage,
+                thumb: nutritionData.nutrientInfo[selectedFood?.identifier ?? ""]?["thumbnail"] as? URL,
                 saved: $saved
             )
             .id(selectedFood?.identifier ?? "default")

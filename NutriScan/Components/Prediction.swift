@@ -7,13 +7,13 @@
 
 import SwiftUI
 import AVFoundation
-
+import Kingfisher
 
 struct Prediction: View {
     @Environment(\.dismiss) var dismiss
     @State var foodName: String?
     @State var confidence: Float?
-    @State var thumb: UIImage?
+    @State var thumb: URL?
     @Binding var saved: Bool
     
     
@@ -21,11 +21,16 @@ struct Prediction: View {
         HStack {
             // MARK: - PREDICTION THUMBNAIL
             if let thumb = thumb{
-                Image(uiImage: thumb)
+                KFImage(thumb)
+                    .placeholder {
+                        ProgressView()
+                    }
+                    .cacheOriginalImage()
                     .resizable()
                     .scaledToFit()
                     .frame(width: 100, height: 100)
                     .clipShape(.circle)
+                
             } else {
                 Image("FoodNotFound")
                     .resizable()

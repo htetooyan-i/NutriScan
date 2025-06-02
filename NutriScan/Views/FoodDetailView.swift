@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct FoodDetailView: View {
     
@@ -21,7 +22,7 @@ struct FoodDetailView: View {
     @State var foodQuantity: Int
     @State var foodId: String
     
-    @State var imageThumb: UIImage?
+    @State var imageThumb: URL?
     @State var totalFoodWeight: String?
     
     @State var newCalories: String = ""
@@ -40,36 +41,32 @@ struct FoodDetailView: View {
                 
                 VStack(spacing: 20) {
                     ScrollView {
-                        AsyncImage(url: foodImgUrl) { phase in //creating image using url if imamge is loading progress view will be shown else if url is not available xmark will be shown else it will show the actual image which was taken by user.
-                            switch phase {
-                            case .empty:
+                        
+                        KFImage(foodImgUrl)
+                            .placeholder {
                                 ProgressView()
-                                    .frame(height: 300)
-                            case .success(let image):
-                                image
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(height: 300)
-                                    .clipped()
-                                    .cornerRadius(10)
-                            case .failure:
-                                Image(systemName: "xmark.circle")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 50, height: 50)
-                                    .foregroundColor(.red)
-                            @unknown default:
-                                EmptyView()
                             }
-                        }
+                            .cacheOriginalImage()
+                            .resizable()
+                            .scaledToFill()
+                            .frame(height: 300)
+                            .clipped()
+                            .cornerRadius(10)
+                        
                         HStack {
                             // MARK: - PREDICTION THUMBNAIL
-                            if let thumb = imageThumb {
-                                Image(uiImage: thumb)
+                            
+                            if let thumb = imageThumb{
+                                KFImage(thumb)
+                                    .placeholder {
+                                        ProgressView()
+                                    }
+                                    .cacheOriginalImage()
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 100, height: 100)
                                     .clipShape(.circle)
+                                
                             } else {
                                 Image("FoodNotFound")
                                     .resizable()
@@ -111,9 +108,9 @@ struct FoodDetailView: View {
                 .padding(.top)
             }
             .onAppear {
-                DatabaseModel.getFoodThumbnail(foodName: self.foodName) { img in
-                    if let img = img {
-                        self.imageThumb = img
+                DatabaseModel.getFoodThumbnail(foodName: self.foodName) { imgUrl in
+                    if let imgUrl = imgUrl {
+                        self.imageThumb = imgUrl
                     }
                 }
                 self.totalFoodWeight = String(format: "%.1f", (Double(foodWeight) ?? 0) * Double(foodQuantity))

@@ -41,7 +41,7 @@ struct SignOutAndDeleteView: View {
                     }else {// else call the delete account func
                         self.showReminder = true
                     }
-                    FoodCache.shared.foodDataCache = [:]
+                    FoodCache.shared.foodDataCacheByDate = [:]
                 } label: {
                     HStack {
                         Image(systemName: self.btnIcon)

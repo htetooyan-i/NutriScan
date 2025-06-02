@@ -22,7 +22,7 @@ struct SummaryView: View {
             ZStack {
                 Color(UIColor.systemGray6)
                     .ignoresSafeArea()
-                if userManager.isLoggedIn && !foodCache.foodDataCache.isEmpty {
+                if userManager.isLoggedIn && !foodCache.foodDataCacheByDate.isEmpty {
                     ScrollView {
                         VStack(spacing: 20) {
                             NavigationLink {
@@ -53,14 +53,14 @@ struct SummaryView: View {
                     .onAppear {
                         if foodCache.isUpdated && !userCache.isLoading {
                             self.personalInfo = userCache.personalInfo
-                            self.foodInfo = foodCache.foodDataCache
+                            self.foodInfo = foodCache.foodDataCacheByDate
                         }
                     }
                     .onChange(of: foodCache.isUpdated, { oldValue, newValue in
                         if newValue {
                             if foodCache.isUpdated && !userCache.isLoading {
                                 self.personalInfo = userCache.personalInfo
-                                self.foodInfo = foodCache.foodDataCache
+                                self.foodInfo = foodCache.foodDataCacheByDate
                             }
                         }
                     })
