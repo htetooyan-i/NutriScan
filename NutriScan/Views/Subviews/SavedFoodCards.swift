@@ -33,13 +33,6 @@ struct SavedFoodCards: View {
                             let foodName = food.SelectedFood
                             let predictions = food.foodPredictions
                             let urlString = food.imageURL
-                            let foodCalories = food.foodCalories
-                            let foodProtein = food.foodProtein
-                            let foodFiber = food.foodFiber
-                            let foodFat = food.foodFat
-                            let foodPrice = food.foodPrice
-                            let foodWeight = food.foodWeight
-                            let foodQuantity = food.foodQuantity
                             let foodId = food.foodId
                       
                             if let imageURL = URL(string: urlString),
@@ -81,17 +74,10 @@ struct SavedFoodCards: View {
                                 } else {
                                     NavigationLink {
                                         FoodDetailView(
+                                            foodId: foodId,
                                             foodName: foodName,
                                             foodConfidence: predictionConfidence,
-                                            foodCalories: foodCalories,
-                                            foodProtein: foodProtein,
-                                            foodFat: foodFat,
-                                            foodFiber: foodFiber,
-                                            foodPrice: foodPrice,
-                                            foodImgUrl: imageURL,
-                                            foodWeight: foodWeight,
-                                            foodQuantity: foodQuantity,
-                                            foodId: foodId
+                                            foodImgUrl: imageURL
                                         )
                                     } label: {
                                         foodCard
