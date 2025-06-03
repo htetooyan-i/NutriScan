@@ -10,7 +10,7 @@ import SwiftUI
 struct Weight: View {
     @Binding var weight: String
     @Binding var serve: Int
-    @State var isDisable: Bool = false
+    @State var isDisable: Bool
     var body: some View {
         VStack(spacing: 20) {
             HStack {

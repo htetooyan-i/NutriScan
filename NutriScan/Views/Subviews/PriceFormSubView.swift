@@ -1,5 +1,5 @@
 //
-//  PriceSubView.swift
+//  PriceFormSubView.swift
 //  NutriScan
 //
 //  Created by Htet Oo Yan on 3/5/25.
@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PriceFormSubView: View {
     @Binding var foodPrice: Double?
-    let inputDisable: Bool
+    @Binding var inputDisable: Bool
     var body: some View {
         VStack {
             HStack { // Show total price value
@@ -28,7 +28,7 @@ struct PriceFormSubView: View {
             
             Divider()
             // Call Price view compoent for input text field
-            Price(price: $foodPrice, isDisable: false)
+            Price(price: $foodPrice, isDisable: $inputDisable)
         }
         .transition(.opacity)
     }

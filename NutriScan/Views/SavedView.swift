@@ -51,6 +51,7 @@ struct SavedView: View {
                                             HelperFunctions.getFoodDataFromDatabase(user: UserManager.shared.userId, collectionName: "foods")
                                             selectedFoods = []
                                             isSelected = false
+                                            deleteFoods = false
                                         }
                                     }
                                 }
