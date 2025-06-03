@@ -41,7 +41,7 @@ struct FoodDetailView: View {
                 
                 VStack(spacing: 20) {
                     ScrollView {
-                        
+                        // MARK: - User Taken Image
                         KFImage(foodImgUrl)
                             .placeholder {
                                 ProgressView()
@@ -54,7 +54,7 @@ struct FoodDetailView: View {
                             .cornerRadius(10)
                         
                         HStack {
-                            // MARK: - PREDICTION THUMBNAIL
+                            // MARK: - Food Thumbnail
                             
                             if let thumb = imageThumb{
                                 KFImage(thumb)
@@ -91,6 +91,9 @@ struct FoodDetailView: View {
                             .padding(.leading, 20)
                             Spacer()
                         }
+                        
+                        // MARK: - Nutrition View
+                        
                         NutritionSubView(
                             totalFoodWeight: totalFoodWeight ?? "0",
                             inputDisable: false,
@@ -99,7 +102,13 @@ struct FoodDetailView: View {
                             newFiber: newFiber,
                             newFat: newFat
                         )
+                        
+                        // MARK: - Weight And Quantity View
+                        
                         WeightSubView(foodWeight: $newWeight, foodQuantity: $newQuantity)
+                        
+                        // MARK: - Price View
+                        
                         PriceSubView(foodPrice: $newPrice, inputDisable: false)
                     }
                 }
@@ -118,104 +127,70 @@ struct FoodDetailView: View {
                 self.newQuantity = self.foodQuantity
                 self.newPrice = self.foodPrice
                 
-                let nutrientValues = HelperFunctions.calculateNutrition(
-                    baseCalories: Double(foodCalories) ?? 0,
-                    baseProtein: Double(foodProtein) ?? 0,
-                    baseFiber: Double(foodFiber)  ?? 0,
-                    baseFat: Double(foodFat) ?? 0,
-                    baseWeight: Double(foodWeight) ?? 0,
-                    newWeight: Double(newWeight) ?? 0,
-                    baseQuantity: Double(foodQuantity),
-                    newQuantity: Double(newQuantity)
-                )
-                
-                newCalories = nutrientValues.calories
-                newProtein = nutrientValues.protein
-                newFiber = nutrientValues.fiber
-                newFat = nutrientValues.fat
+                calculateNutrientValues()
             }
             
             .onChange(of: newPrice) { oldValue, newValue in
                 
-                HelperFunctions.updateFoodDataInDatabase(
-                    user: UserManager.shared.userId,
-                    collectionName: "foods",
-                    updateId: foodId,
-                    updateArray: [
-                        "foodPrice": newPrice ?? 0
-                    ]
-                )
-                
-                HelperFunctions.getFoodDataFromDatabase(user: UserManager.shared.userId, collectionName: "foods")
+                updateAndGetFoodData(dataArray: [
+                    "foodPrice": newPrice ?? 0
+                ])
             }
             
             .onChange(of: newWeight) { oldValue, newValue in
                 
-                let nutrientValues = HelperFunctions.calculateNutrition(
-                    baseCalories: Double(foodCalories) ?? 0,
-                    baseProtein: Double(foodProtein) ?? 0,
-                    baseFiber: Double(foodFiber)  ?? 0,
-                    baseFat: Double(foodFat) ?? 0,
-                    baseWeight: Double(foodWeight) ?? 0,
-                    newWeight: Double(newWeight) ?? 0,
-                    baseQuantity: Double(foodQuantity),
-                    newQuantity: Double(newQuantity)
-                )
+                calculateNutrientValues()
                 
-                newCalories = nutrientValues.calories
-                newProtein = nutrientValues.protein
-                newFiber = nutrientValues.fiber
-                newFat = nutrientValues.fat
-                
-                HelperFunctions.updateFoodDataInDatabase(
-                    user: UserManager.shared.userId,
-                    collectionName: "foods",
-                    updateId: foodId,
-                    updateArray:  [
-                        "foodWeight": newWeight,
-                        "foodCalories": newCalories,
-                        "foodProtein": newProtein,
-                        "foodFiber": newFiber,
-                        "foodFat": newFat,
-                    ]
-                )
-                
-                HelperFunctions.getFoodDataFromDatabase(user: UserManager.shared.userId, collectionName: "foods")
+                updateAndGetFoodData(dataArray: [
+                    "foodWeight": newWeight,
+                    "foodCalories": newCalories,
+                    "foodProtein": newProtein,
+                    "foodFiber": newFiber,
+                    "foodFat": newFat,
+                ])
             }
             
             .onChange(of: newQuantity) { oldValue, newValue in
                 
-                let nutrientValues = HelperFunctions.calculateNutrition(
-                    baseCalories: Double(foodCalories) ?? 0,
-                    baseProtein: Double(foodProtein) ?? 0,
-                    baseFiber: Double(foodFiber)  ?? 0,
-                    baseFat: Double(foodFat) ?? 0,
-                    baseWeight: Double(foodWeight) ?? 0,
-                    newWeight: Double(newWeight) ?? 0,
-                    baseQuantity: Double(foodQuantity),
-                    newQuantity: Double(newQuantity)
-                )
+                calculateNutrientValues()
                 
-                newCalories = nutrientValues.calories
-                newProtein = nutrientValues.protein
-                newFiber = nutrientValues.fiber
-                newFat = nutrientValues.fat
-                
-                HelperFunctions.updateFoodDataInDatabase(
-                    user: UserManager.shared.userId,
-                    collectionName: "foods",
-                    updateId: foodId,
-                    updateArray:  [
-                        "foodQuantity": newQuantity,
-                        "foodCalories": newCalories,
-                        "foodProtein": newProtein,
-                        "foodFiber": newFiber,
-                        "foodFat": newFat,
-                    ]
-                )
-                
-                HelperFunctions.getFoodDataFromDatabase(user: UserManager.shared.userId, collectionName: "foods")
+                updateAndGetFoodData(dataArray: [
+                    "foodQuantity": newQuantity,
+                    "foodCalories": newCalories,
+                    "foodProtein": newProtein,
+                    "foodFiber": newFiber,
+                    "foodFat": newFat,
+                ])
             }
         }
+    }
+    
+    private func calculateNutrientValues() {
+        let nutrientValues = HelperFunctions.calculateNutrition(
+            baseCalories: Double(foodCalories) ?? 0,
+            baseProtein: Double(foodProtein) ?? 0,
+            baseFiber: Double(foodFiber)  ?? 0,
+            baseFat: Double(foodFat) ?? 0,
+            baseWeight: Double(foodWeight) ?? 0,
+            newWeight: Double(newWeight) ?? 0,
+            baseQuantity: Double(foodQuantity),
+            newQuantity: Double(newQuantity)
+        )
+        
+        newCalories = nutrientValues.calories
+        newProtein = nutrientValues.protein
+        newFiber = nutrientValues.fiber
+        newFat = nutrientValues.fat
+    }
+    
+    private func updateAndGetFoodData(dataArray: [String: Any]) {
+        HelperFunctions.updateFoodDataInDatabase(
+            user: UserManager.shared.userId,
+            collectionName: "foods",
+            updateId: foodId,
+            updateArray: dataArray
+        )
+        
+        HelperFunctions.getFoodDataFromDatabase(user: UserManager.shared.userId, collectionName: "foods")
     }
 }
