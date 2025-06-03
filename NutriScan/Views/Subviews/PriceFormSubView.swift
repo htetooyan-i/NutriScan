@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct PriceSubView: View {
+struct PriceFormSubView: View {
     @Binding var foodPrice: Double?
     let inputDisable: Bool
     var body: some View {

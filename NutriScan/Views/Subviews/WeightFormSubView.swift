@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct WeightSubView: View {
+struct WeightFormSubView: View {
     @Binding var foodWeight: String
     @Binding var foodQuantity: Int
     var body: some View {
