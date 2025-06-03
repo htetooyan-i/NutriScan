@@ -9,6 +9,7 @@ import SwiftUI
 
 struct FoodNutrient: Identifiable {
     let id = UUID()
+    let icon: String
     let name: String
     let value: Double
     let color: Color
@@ -103,9 +104,9 @@ struct QuickSummaryView: View {
                     let nutrientPercentage = HelperFunctions.calcuateNutrientPercentage(for: nutrients)
 
                     self.foodNutrients = [
-                        FoodNutrient(name: "Protein", value: nutrientPercentage.protein , color: .green),
-                        FoodNutrient(name: "Fiber", value: nutrientPercentage.fiber , color: .red),
-                        FoodNutrient(name: "Fat", value: nutrientPercentage.fat , color: .brown)
+                        FoodNutrient(icon: "fork.knife", name: "Protein", value: nutrientPercentage.protein , color: .green),
+                        FoodNutrient(icon: "leaf.fill", name: "Fiber", value: nutrientPercentage.fiber , color: .red),
+                        FoodNutrient(icon: "drop.circle.fill", name: "Fats", value: nutrientPercentage.fat , color: .brown)
                         
                     ]
                     

@@ -24,6 +24,21 @@ struct QuickSummaryPieChart: View {
                     startPoint: .top,
                     endPoint: .bottom
                 ))
+                .annotation(position: .overlay) {
+                    nutrient.value > 0.01 ?
+                    VStack {
+                        Image(nutrient.name)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 30, height: 30)
+                            .foregroundStyle(nutrient.color)
+                            .clipShape(Circle())
+                        Text(String(format:"%.0f%%", nutrient.value * 100))
+                            .font(Font.custom("ComicRelief-Bold", size: 12))
+                            .fontWeight(.bold)
+                            .foregroundColor(.primary)
+                    } : nil
+                }
             })
             .frame(maxWidth: .infinity, minHeight: 200)
             
