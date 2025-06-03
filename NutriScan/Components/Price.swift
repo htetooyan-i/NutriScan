@@ -22,14 +22,13 @@ struct Price: View {
             // Display Price Text
             Text("Price")
             // Input Text Field to enter food price
-            if isDisable {
-                Text(String(format: "$ %.2f", price ?? 0))
+            if let price = price, isDisable {
+                Text(String(format: "$ %.2f", price))
                     .fontWeight(.bold)
                     .frame(height: 50)
                     .padding(.horizontal)
                 Spacer()
-
-            }else {
+            } else {
                 TextField("", text: $localPrice)
                     .frame(height: 50)
                     .padding(.horizontal)
@@ -68,6 +67,23 @@ struct Price: View {
 
         }
         .padding()
+        .onAppear {
+            if isDisable {
+                guard let price = price, price > 0 else {
+                    isDisable = false
+                    return
+                }
+            }
+            if let price = price, price > 0 , !isDisable {
+                localPrice = String(format: "%.2f", price)
+            }
+        }
+        
+        .onChange(of: isDisable) { oldValue, newValue in
+            if let price = price, price > 0 , !newValue {
+                localPrice = String(format: "%.2f", price)
+            }
+        }
     }
 }
 
