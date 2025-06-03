@@ -6,17 +6,23 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct FoodChoices: View {
     @State var foodName: String?
     @State var foodConfidence: Float?
-    @State var foodThumb: UIImage?
+    @State var foodThumb: URL?
     var body: some View {
         HStack {
             // IDEA: Display Food Images if foodThumb is not nil(In this case it can't be nil) else it will display default thumbnail(Food Not Found).
+
             if let thumbnail = foodThumb
             {
-                Image(uiImage: thumbnail)
+                KFImage(thumbnail)
+                    .placeholder {
+                        ProgressView()
+                    }
+                    .cacheOriginalImage()
                     .resizable()
                     .scaledToFit()
                     .frame(width: 70, height: 70)

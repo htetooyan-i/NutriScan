@@ -9,12 +9,12 @@ import SwiftUI
 
 struct NutritionSubView: View {
     
-    let totalFoodWeight: String
-    let inputDisable: Bool
-    let newCalories: String
-    let newProtein: String
-    let newFiber: String
-    let newFat: String
+    @Binding var totalFoodWeight: String
+    @Binding var inputDisable: Bool
+    @Binding var newCalories: String
+    @Binding var newProtein: String
+    @Binding var newFiber: String
+    @Binding var newFat: String
     
     var body: some View {
         VStack{

@@ -12,6 +12,9 @@ struct Price: View {
     @Binding var price: Double?
     @State var localPrice: String = ""
     @Binding var isDisable: Bool
+    
+    @FocusState.Binding var isPriceInputFocused: Bool
+    
     var body: some View {
         HStack {
             // Display Price Icon
@@ -36,6 +39,7 @@ struct Price: View {
                     .cornerRadius(10)
                     .fontWeight(.bold)
                     .keyboardType(.decimalPad)
+                    .focused($isPriceInputFocused)
             }
             
             // IDEA: Button to save food price.( I don't want to save the price every time input field changes )

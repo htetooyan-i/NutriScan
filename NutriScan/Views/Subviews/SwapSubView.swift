@@ -12,7 +12,7 @@ import Vision
 struct SwapSubView: View {
     var predictions: [VNClassificationObservation]
     @Binding var selectedFood: VNClassificationObservation?
-    @State var thumbnails: [String: UIImage] = [:]
+    @State var thumbnails: [String: URL] = [:]
     
     var body: some View {
         // loop to show all food predictions

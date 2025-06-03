@@ -1,5 +1,5 @@
 //
-//  WeightSubView.swift
+//  WeightFormSubView.swift
 //  NutriScan
 //
 //  Created by Htet Oo Yan on 3/5/25.
@@ -7,9 +7,12 @@
 
 import SwiftUI
 
-struct WeightSubView: View {
+struct WeightFormSubView: View {
     @Binding var foodWeight: String
     @Binding var foodQuantity: Int
+    
+    @FocusState.Binding var isWeightInputFocused: Bool
+    
     var body: some View {
         HStack { // Show total food weight
             Image(systemName: "scalemass")
@@ -29,7 +32,7 @@ struct WeightSubView: View {
         
         VStack{
             // Call Weight view component to input food weight and food quantity values
-            Weight(weight: $foodWeight, serve: $foodQuantity, isDisable: false)
+            Weight(weight: $foodWeight, serve: $foodQuantity, isDisable: false, isWeightInputFocused: $isWeightInputFocused)
         }
         .background(Color("DefaultRe"))
         .cornerRadius(20)

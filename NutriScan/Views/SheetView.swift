@@ -30,6 +30,9 @@ struct SheetView: View {
     @State var selectedFood: VNClassificationObservation?
     @ObservedObject var userModel = UserManager.shared
     
+    @FocusState private var isWeightInputFocused: Bool
+    @FocusState private var isPriceInputFocused: Bool
+    
     var body: some View {
         if results.predictions.isEmpty || nutritionData.isLoading {
             // MARK: - DATA HAS BEEN DECODING FROM JSON TO DATA
@@ -53,12 +56,16 @@ struct SheetView: View {
                                     selectedFood: $selectedFood,
                                     results: results,
                                     nutritionData: nutritionData,
-                                    totalFoodWeight: totalFoodWeight,
+                                    totalFoodWeight: $totalFoodWeight,
                                     inputDisable: $inputDisable,
-                                    newCalories: newCalories,
-                                    newProtein: newProtein,
-                                    newFiber: newFiber,
-                                    newFat: newFat)
+                                    newCalories: $newCalories,
+                                    newProtein: $newProtein,
+                                    newFiber: $newFiber,
+                                    newFat: $newFat,
+                                    isWeightInputFocused: $isWeightInputFocused,
+                                    isPriceInputFocused: $isPriceInputFocused
+                                    
+                                )
                             }
                         }
                         // MARK: - FOOD NOT FOUND
@@ -209,6 +216,10 @@ struct SheetView: View {
                 }
             })
             .scrollDisabled(true)
+            .onTapGesture {
+                isWeightInputFocused = false
+                isPriceInputFocused = false
+            }
 
         }
     }

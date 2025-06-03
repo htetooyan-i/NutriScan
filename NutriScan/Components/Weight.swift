@@ -11,6 +11,7 @@ struct Weight: View {
     @Binding var weight: String
     @Binding var serve: Int
     @State var isDisable: Bool = false
+    @FocusState.Binding var isWeightInputFocused: Bool
     var body: some View {
         VStack(spacing: 20) {
             HStack {
@@ -49,6 +50,7 @@ struct Weight: View {
                     .fontWeight(.bold)
                     .keyboardType(.decimalPad)
                     .disabled(isDisable)
+                    .focused($isWeightInputFocused)
                 
                 Text("grams")
                     .padding(.horizontal, 5)
@@ -82,6 +84,7 @@ struct Weight: View {
                 .fontWeight(.bold)
                 .keyboardType(.decimalPad)
                 .disabled(isDisable)
+                .focused($isWeightInputFocused)
                 
                 HStack {
                     // MARK: - Quantity Decrease Button

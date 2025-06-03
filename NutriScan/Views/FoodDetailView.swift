@@ -9,16 +9,16 @@ import SwiftUI
 import Kingfisher
 
 struct FoodDetailView: View {
-
+    
     @State var foodId: String
     @State var foodName: String
     @State var foodConfidence: Double
     @State var foodImgUrl: URL
     
     @State var foodData: FoodData?
-
+    
     @State var imageThumb: URL?
-    @State var totalFoodWeight: String?
+    @State var totalFoodWeight: String = ""
     
     @State var newCalories: String = ""
     @State var newProtein: String = ""
@@ -28,10 +28,13 @@ struct FoodDetailView: View {
     @State var newWeight: String = ""
     @State var newQuantity: Int = 0
     @State private var hasAppeared = false
-
+    
     
     @State var priceInputDisable: Bool = true
     @StateObject var foodCache = FoodCache.shared
+    
+    @FocusState private var isWeightInputFocused: Bool
+    @FocusState private var isPriceInputFocused: Bool
     
     var body: some View {
         NavigationStack {
@@ -96,27 +99,31 @@ struct FoodDetailView: View {
                             // MARK: - Nutrition View
                             
                             NutritionSubView(
-                                totalFoodWeight: totalFoodWeight ?? "0",
-                                inputDisable: false,
-                                newCalories: newCalories,
-                                newProtein: newProtein,
-                                newFiber: newFiber,
-                                newFat: newFat
+                                totalFoodWeight: $totalFoodWeight,
+                                inputDisable: .constant(false),
+                                newCalories: $newCalories,
+                                newProtein: $newProtein,
+                                newFiber: $newFiber,
+                                newFat: $newFat
                             )
                             
                             // MARK: - Weight And Quantity View
                             
-                            WeightSubView(foodWeight: $newWeight, foodQuantity: $newQuantity)
+                            WeightFormSubView(foodWeight: $newWeight, foodQuantity: $newQuantity, isWeightInputFocused: $isWeightInputFocused)
                             
                             // MARK: - Price View
                             
-                            PriceFormSubView(foodPrice: $newPrice, inputDisable: $priceInputDisable)
+                            PriceFormSubView(foodPrice: $newPrice, inputDisable: $priceInputDisable, isPriceInputFocused: $isPriceInputFocused)
                         }
                         .padding(.horizontal)
                         .padding(.top)
                     }
                 }
                 .frame(maxHeight: .infinity, alignment: .top)
+                .onTapGesture {
+                    isWeightInputFocused = false
+                    isPriceInputFocused = false
+                }
             }
             .onAppear {
                 if foodCache.isUpdated {
@@ -200,6 +207,7 @@ struct FoodDetailView: View {
                     "foodFat": newFat,
                 ])
             }
+            
         }
     }
     
@@ -213,7 +221,7 @@ struct FoodDetailView: View {
         }
         return nil
     }
-        
+    
     
     private func calculateNutrientValues() {
         if let food = self.foodData {
