@@ -54,7 +54,7 @@ struct SheetView: View {
                                     results: results,
                                     nutritionData: nutritionData,
                                     totalFoodWeight: totalFoodWeight,
-                                    inputDisable: inputDisable,
+                                    inputDisable: $inputDisable,
                                     newCalories: newCalories,
                                     newProtein: newProtein,
                                     newFiber: newFiber,

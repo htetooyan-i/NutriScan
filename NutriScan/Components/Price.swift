@@ -11,7 +11,7 @@ struct Price: View {
     @Environment(\.colorScheme) var colorScheme
     @Binding var price: Double?
     @State var localPrice: String = ""
-    @State var isDisable: Bool = false
+    @Binding var isDisable: Bool
     var body: some View {
         HStack {
             // Display Price Icon
@@ -22,25 +22,48 @@ struct Price: View {
             // Display Price Text
             Text("Price")
             // Input Text Field to enter food price
-            TextField("", text: $localPrice)
-                .frame(height: 50)
-                .padding(.horizontal)
-                .background(.gray.opacity(0.1))
-                .cornerRadius(10)
-                .fontWeight(.bold)
-                .keyboardType(.decimalPad)
-                .disabled(isDisable)
-            // IDEA: Button to save food price.( I don't want to save the price every time input field changes )
-            Button {
-                price = Double(localPrice) ?? 0.0
-            } label: {
-                Text("Save")
-                    .foregroundColor(colorScheme == .dark ? .black : .white)
-                    .frame(height:50)
+            if isDisable {
+                Text(String(format: "$ %.2f", price ?? 0))
+                    .fontWeight(.bold)
+                    .frame(height: 50)
                     .padding(.horizontal)
+                Spacer()
+
+            }else {
+                TextField("", text: $localPrice)
+                    .frame(height: 50)
+                    .padding(.horizontal)
+                    .background(.gray.opacity(0.1))
+                    .cornerRadius(10)
+                    .fontWeight(.bold)
+                    .keyboardType(.decimalPad)
             }
-            .background(Color("CustomBlue"))
-            .cornerRadius(10)
+            
+            // IDEA: Button to save food price.( I don't want to save the price every time input field changes )
+            if isDisable {
+                Button {
+                    isDisable = false
+                } label: {
+                    Text("Edit")
+                        .foregroundColor(colorScheme == .dark ? .black : .white)
+                        .frame(height:50)
+                        .padding(.horizontal)
+                }
+                .background(Color.customOrange)
+                .cornerRadius(10)
+            } else {
+                Button {
+                    price = Double(localPrice) ?? 0.0
+                    isDisable = true
+                } label: {
+                    Text("Save")
+                        .foregroundColor(colorScheme == .dark ? .black : .white)
+                        .frame(height:50)
+                        .padding(.horizontal)
+                }
+                .background(Color("CustomBlue"))
+                .cornerRadius(10)
+            }
             
 
         }

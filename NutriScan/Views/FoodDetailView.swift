@@ -32,6 +32,7 @@ struct FoodDetailView: View {
     @State var newPrice: Double?
     @State var newWeight: String = ""
     @State var newQuantity: Int = 0
+    @State var isPriceInputDisable: Bool = true
     
     var body: some View {
         NavigationStack {
@@ -109,7 +110,7 @@ struct FoodDetailView: View {
                         
                         // MARK: - Price View
                         
-                        PriceSubView(foodPrice: $newPrice, inputDisable: false)
+                        PriceFormSubView(foodPrice: $newPrice, inputDisable: $isPriceInputDisable)
                     }
                 }
                 .frame(maxHeight: .infinity, alignment: .top)

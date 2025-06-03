@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct PriceSubView: View {
+struct PriceFormSubView: View {
     @Binding var foodPrice: Double?
-    let inputDisable: Bool
+    @Binding var inputDisable: Bool
     var body: some View {
         VStack {
             HStack { // Show total price value
@@ -28,7 +28,7 @@ struct PriceSubView: View {
             
             Divider()
             // Call Price view compoent for input text field
-            Price(price: $foodPrice, isDisable: false)
+            Price(price: $foodPrice, isDisable: $inputDisable)
         }
         .transition(.opacity)
     }

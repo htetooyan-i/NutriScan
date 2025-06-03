@@ -15,7 +15,7 @@ struct NavigationSubView: View {
     @ObservedObject var nutritionData: NutritionModel
     
     var totalFoodWeight: String
-    var inputDisable: Bool
+    @Binding var inputDisable: Bool
     var newCalories: String
     var newProtein: String
     var newFiber: String
@@ -51,7 +51,7 @@ struct NavigationSubView: View {
         } else if selectedTab == .weight { // Show food weight and food quantity input fields
             WeightSubView(foodWeight: $foodWeight, foodQuantity: $foodQuantity)
         } else if selectedTab == .price { // Show food price input field
-            PriceSubView(foodPrice: $foodPrice, inputDisable: inputDisable)
+            PriceFormSubView(foodPrice: $foodPrice, inputDisable: $inputDisable)
         } else if selectedTab == .swap { // show preidctions and their confidences to swap slected Food
             if let _ = selectedFood?.identifier { // check shelectedFood is nil or not (In this case it can't be nil)
                 SwapSubView(
