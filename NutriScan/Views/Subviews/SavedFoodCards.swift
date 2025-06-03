@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SavedFoodCards: View {
     let sortedKeys: [String]
-    let data: [String: [[String: Any]]]
+    let data: [String: [FoodData]]
     
     let columns = [
         GridItem(.flexible(), spacing: 16),
@@ -25,48 +25,50 @@ struct SavedFoodCards: View {
                     .font(.system(size: 20, weight: .bold))
                     .padding()
                     .frame(maxWidth: .infinity, alignment: .leading)
-
+                
                 LazyVGrid(columns: columns, spacing: 20) {
                     if let foods = data[date] {
                         ForEach(Array(foods.enumerated()), id: \.offset) { idx, food in
-                            if let foodName = food["SelectedFood"] as? String,
-                               let predictions = food["foodPredictions"] as? [String: Double],
-                               let predictionConfidence = predictions[foodName],
-                               let urlString = food["imageURL"] as? String,
-                               let imageURL = URL(string: urlString),
-                               let foodCalories = food["foodCalories"] as? String,
-                               let foodProtein = food["foodProtein"] as? String,
-                               let foodFat = food["foodFat"] as? String,
-                               let foodFiber = food["foodFiber"] as? String,
-                               let foodPrice = food["foodPrice"] as? Double,
-                               let foodWeight = food["foodWeight"] as? String,
-                               let foodQuantity = food["foodQuantity"] as? Int,
-                               let foodId = food["foodId"] as? String {
-
+                            
+                            let foodName = food.SelectedFood
+                            let predictions = food.foodPredictions
+                            let urlString = food.imageURL
+                            let foodCalories = food.foodCalories
+                            let foodProtein = food.foodProtein
+                            let foodFiber = food.foodFiber
+                            let foodFat = food.foodFat
+                            let foodPrice = food.foodPrice
+                            let foodWeight = food.foodWeight
+                            let foodQuantity = food.foodQuantity
+                            let foodId = food.foodId
+                      
+                            if let imageURL = URL(string: urlString),
+                               let predictionConfidence = predictions[foodName] {
+                                
                                 let foodCard = FoodCard(
                                     imageURL: imageURL,
                                     foodName: foodName,
                                     predictionConfidence: predictionConfidence
                                 ).id(foodId)
-
+                                
                                 if isSelectionMode {
                                     foodCard
                                         .overlay(
                                             selectedFoods.contains(foodId) ?
-                                                ZStack {
-                                                    RoundedRectangle(cornerRadius: 12)
-                                                        .stroke(Color("PriColor"), lineWidth: 3)
-                                                        .background(Color(UIColor.systemGray).opacity(0.2))
-                                                        .cornerRadius(12)
-
-                                                    Image(systemName: "checkmark.circle.fill")
-                                                        .resizable()
-                                                        .scaledToFit()
-                                                        .frame(width: 24, height: 24)
-                                                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
-                                                        .padding(8)
-                                                        .foregroundStyle(Color("PriColor"))
-                                                } : nil
+                                            ZStack {
+                                                RoundedRectangle(cornerRadius: 12)
+                                                    .stroke(Color("PriColor"), lineWidth: 3)
+                                                    .background(Color(UIColor.systemGray).opacity(0.2))
+                                                    .cornerRadius(12)
+                                                
+                                                Image(systemName: "checkmark.circle.fill")
+                                                    .resizable()
+                                                    .scaledToFit()
+                                                    .frame(width: 24, height: 24)
+                                                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+                                                    .padding(8)
+                                                    .foregroundStyle(Color("PriColor"))
+                                            } : nil
                                         )
                                         .onTapGesture {
                                             if selectedFoods.contains(foodId) {

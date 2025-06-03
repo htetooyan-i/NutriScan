@@ -11,8 +11,8 @@ import FirebaseCore
 class FoodCache: ObservableObject {
     static let shared = FoodCache()
     
-    @Published var foodDataCache: [[String: Any]] = []
-    @Published var foodDataCacheByDate: [String: [[String: Any]]] = [:]
+    @Published var foodDataCache: [FoodData] = []
+    @Published var foodDataCacheByDate: [String: [FoodData]] = [:]
     @Published var caloriesDataCache: [String: [String: [String]]] = [:]
     @Published var proteinDataCache: [String: [String: [String]]] = [:]
     @Published var fiberDataCache: [String: [String: [String]]] = [:]
@@ -20,7 +20,7 @@ class FoodCache: ObservableObject {
     @Published var priceDataCache: [String: [String: [String]]] = [:]
     @Published var isUpdated: Bool = false
     
-    func setFoodData(data: [[String: Any]]) {
+    func setFoodData(data: [FoodData]) {
         self.isUpdated = false
         self.foodDataCacheByDate = [:]
         self.foodDataCache = data
@@ -31,42 +31,19 @@ class FoodCache: ObservableObject {
         var updatedFatData: [String: [String: [String]]] = [:]
         var updatedPriceData: [String: [String: [String]]] = [:]
         
-        var updatedFoodData: [String: [[String: Any]]] = [:]
+        var updatedFoodData: [String: [FoodData]] = [:]
 
         for food in data {
-            if let timestamp = food["timestamp"] as? Timestamp {
-                let date = HelperFunctions.dateFormatter(timestamp: timestamp, format: "EEEE MMMM dd, yyyy")
-                
-                if updatedFoodData[date] == nil {
-                    updatedFoodData[date] = [food]
-                } else {
-                    updatedFoodData[date]?.append(food)
-                }
-                
-                if let calories = food["foodCalories"] as? String,
-                   let selectedFood = food["SelectedFood"] as? String {
-                    updatedCaloriesData[date, default: [:]][selectedFood, default: []].append(calories)
-                }
-                
-                if let protein = food["foodProtein"] as? String,
-                   let selectedFood = food["SelectedFood"] as? String {
-                    updatedProteinData[date, default: [:]][selectedFood, default: []].append(protein)
-                }
-                
-                if let fiber = food["foodFiber"] as? String,
-                   let selectedFood = food["SelectedFood"] as? String {
-                    updatedFiberData[date, default: [:]][selectedFood, default: []].append(fiber)
-                }
-                
-                if let fat = food["foodFat"] as? String,
-                   let selectedFood = food["SelectedFood"] as? String {
-                    updatedFatData[date, default: [:]][selectedFood, default: []].append(fat)
-                }
-                if let price = food["foodPrice"] as? Double,
-                   let selectedFood = food["SelectedFood"] as? String {
-                    updatedPriceData[date, default: [:]][selectedFood, default: []].append(String(price))
-                }
-            }
+            
+            let date = HelperFunctions.dateFormatter(timestamp: food.timestamp, format: "EEEE MMMM dd, yyyy")
+
+            updatedFoodData[date, default: []].append(food)
+            
+            updatedCaloriesData[date, default: [:]][food.SelectedFood, default: []].append(food.foodCalories)
+            updatedProteinData[date, default: [:]][food.SelectedFood, default: []].append(food.foodProtein)
+            updatedFiberData[date, default: [:]][food.SelectedFood, default: []].append(food.foodFiber)
+            updatedFatData[date, default: [:]][food.SelectedFood, default: []].append(food.foodFat)
+            updatedPriceData[date, default: [:]][food.SelectedFood, default: []].append(String(food.foodPrice))
         }
         
         // Now you have arrays of nutrient values per food per date
@@ -85,7 +62,7 @@ class FoodCache: ObservableObject {
 
     
     
-    func getSavedFoodData() -> [String: [[String: Any]]] { // get the food data from cache data
+    func getSavedFoodData() -> [String: [FoodData]] { // get the food data from cache data
         return self.foodDataCacheByDate
     }
     

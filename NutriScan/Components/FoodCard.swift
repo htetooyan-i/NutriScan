@@ -13,8 +13,11 @@ struct FoodCard: View {
     var imageURL: URL
     var foodName: String
     var predictionConfidence: Double
+    
     @State private var loadFailed = false
+    
     var body: some View {
+
         ZStack{
             
             if loadFailed {

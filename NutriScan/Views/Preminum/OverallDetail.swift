@@ -12,7 +12,7 @@ struct OverallDetail: View {
     @ObservedObject var gptModel = GPTModel.shared
     
     @State var personalInfo: PersonalInfo?
-    @State var foodInfo: [String: [[String: Any]]] = [:]
+    @State var foodInfo: [String: [FoodData]] = [:]
     
     @State var prompt: String = ""
     @State var response: String = """

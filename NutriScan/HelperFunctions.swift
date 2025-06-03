@@ -125,11 +125,11 @@ class HelperFunctions: ObservableObject {
     
     // MARK: - FUNCTION TO CHANGE DATE FORMAT
     
-    static func dateFormatter(timestamp: Timestamp? = nil, timeString: String? = nil, format: String) -> String {
+    static func dateFormatter(timestamp: Date? = nil, timeString: String? = nil, format: String) -> String {
         var date: Date?
         
         if let timestamp = timestamp {
-            date = timestamp.dateValue()
+            date = timestamp
         } else if let timeString = timeString {
             let inputFormatter = DateFormatter()
             inputFormatter.dateFormat = "EEEE MMMM dd, yyyy"
@@ -153,8 +153,8 @@ class HelperFunctions: ObservableObject {
     
     // MARK: - FUNCTION TO SORT SAVED FOODS BY ITS CREATION DATE
     
-    static func sortSavedFoodByDate(for foodData: [String: [[String: Any]]]) -> ([String: [[String: Any]]], [String]) {
-        var sortedData: [String: [[String: Any]]] = [:]
+    static func sortSavedFoodByDate(for foodData: [String: [FoodData]]) -> ([String: [FoodData]], [String]) {
+        var sortedData: [String: [FoodData]] = [:]
         
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE MMMM dd, yyyy"
@@ -175,15 +175,15 @@ class HelperFunctions: ObservableObject {
     
     // MARK: - FUNCTION TO FILTER THE SAVED FOODS USING USER'S INPUT DATA
     
-    static func searchFoods(for searchText: String, in foods: [String: [[String: Any]]]) -> ([String: [[String: Any]]], [String]) {
-        var filteredFoods: [String: [[String: Any]]] = [:]
+    static func searchFoods(for searchText: String, in foods: [String: [FoodData]]) -> ([String: [FoodData]], [String]) {
+        var filteredFoods: [String: [FoodData]] = [:]
         
         for (day, foodEntries) in foods {
-            var filteredEntries: [[String: Any]] = []
+            var filteredEntries: [FoodData] = []
             
             for entry in foodEntries {
-                if let selectedFood = entry["SelectedFood"] as? String,
-                   selectedFood.localizedCaseInsensitiveContains(searchText) {
+                let selectedFood = entry.SelectedFood
+                if selectedFood.localizedCaseInsensitiveContains(searchText) {
                     filteredEntries.append(entry)
                 }
             }
@@ -270,11 +270,11 @@ class HelperFunctions: ObservableObject {
                     return nil
                 }
                 
-                if let calories = extractDouble(from: food["foodCalories"]),
-                   let fat = extractDouble(from: food["foodFat"]),
-                   let protein = extractDouble(from: food["foodProtein"]),
-                   let fiber = extractDouble(from: food["foodFiber"]),
-                   let weight = extractDouble(from: food["foodWeight"]) {
+                if let calories = extractDouble(from: food.foodCalories),
+                   let fat = extractDouble(from: food.foodFat),
+                   let protein = extractDouble(from: food.foodProtein),
+                   let fiber = extractDouble(from: food.foodFiber),
+                   let weight = extractDouble(from: food.foodWeight) {
                     
                     review["totalCalories", default: 0] += calories
                     review["totalFat", default: 0] += fat
@@ -282,8 +282,8 @@ class HelperFunctions: ObservableObject {
                     review["totalFiber", default: 0] += fiber
                     review["totalWeight", default: 0] += weight
                     
-                } else if let foodName = food["SelectedFood"] as? String {
-                    foodsNotFound.append(foodName)
+                } else {
+                    foodsNotFound.append(food.SelectedFood)
                 }
             }
             
@@ -355,9 +355,9 @@ class HelperFunctions: ObservableObject {
     }
     
     
-    static func generatePromtForOverallDetail(personlInfo: PersonalInfo? = nil, foodInfo: [String: [[String: Any]]])-> String {
+    static func generatePromtForOverallDetail(personlInfo: PersonalInfo? = nil, foodInfo: [String: [FoodData]])-> String {
         var prompt = ""
-        let currentDate = self.dateFormatter(timestamp: Timestamp(date: Date()), format: "EEEE MMMM dd, yyyy")
+        let currentDate = self.dateFormatter(timestamp: Date(), format: "EEEE MMMM dd, yyyy")
         if let info = personlInfo {
             prompt += "Personal Info:\n"
             prompt += "Height: \(info.height)\n"
@@ -369,14 +369,18 @@ class HelperFunctions: ObservableObject {
         for (dt, foods) in foodInfo {
             
             if dt == currentDate {
-                for (index, foodDict) in foods.enumerated() {
+                for (index, foodItem) in foods.enumerated() {
                     
                     prompt += "  food \(index + 1):\n"
                     
-                    for (key, value) in foodDict {
-                        prompt += "    \(key): \(value)\n"
+                    let mirror = Mirror(reflecting: foodItem)
+                    for child in mirror.children {
+                        if let key = child.label {
+                            prompt += "    \(key): \(child.value)\n"
+                        }
                     }
                 }
+
                 prompt += "\n"
             }
             
@@ -436,37 +440,10 @@ class HelperFunctions: ObservableObject {
         let foods = FoodCache.shared.foodDataCache // [[String: Any]]
 
         for food in foods {
-            if let foodId = food["foodId"] as? String,
-               selectedFoodIds.contains(foodId),
-               let foodName = food["SelectedFood"] as? String,
-               let foodCalories = food["foodCalories"] as? String,
-               let foodFat = food["foodFat"] as? String,
-               let foodFiber = food["foodFiber"] as? String,
-               let foodPredictions = food["foodPredictions"] as? [String: Double],
-               let foodPrice = food["foodPrice"] as? Double,
-               let foodProtein = food["foodProtein"] as? String,
-               let foodQuantity = food["foodQuantity"] as? Int,
-               let foodWeight = food["foodWeight"] as? String,
-               let imageURL = food["imageURL"] as? String,
-               let timestamp = (food["timestamp"] as? Timestamp)
-            {
-                let foodData = FoodData(
-                    SelectedFood: foodName,
-                    foodCalories: foodCalories,
-                    foodFat: foodFat,
-                    foodFiber: foodFiber,
-                    foodId: foodId,
-                    foodPredictions: foodPredictions,
-                    foodPrice: foodPrice,
-                    foodProtein: foodProtein,
-                    foodQuantity: foodQuantity,
-                    foodWeight: foodWeight,
-                    imageURL: imageURL,
-                    timestamp: timestamp
-                )
-                foodDataList.append(foodData)
+            if  selectedFoodIds.contains(food.foodId) {
+                foodDataList.append(food)
             } else {
-//                print("Missing or invalid field for foodId: \(food["foodId"] ?? "Unknown")")
+                print("Missing or invalid field for foodId: \(food.foodId)")
             }
         }
 

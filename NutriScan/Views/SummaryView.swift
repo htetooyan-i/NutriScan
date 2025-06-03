@@ -15,7 +15,7 @@ struct SummaryView: View {
     @ObservedObject var foodCache = FoodCache.shared
     
     @State private var personalInfo: PersonalInfo? = nil
-    @State private var foodInfo: [String: [[String: Any]]] = [:]
+    @State private var foodInfo: [String: [FoodData]] = [:]
     
     var body: some View {
         NavigationStack {

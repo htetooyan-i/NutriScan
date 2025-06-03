@@ -68,33 +68,38 @@ public struct DatabaseModel: Codable {
         collectionName: String,
         queryField: String? = nil,
         queryValue: Any? = nil,
-        completion: @escaping ([[String: Any]]) -> Void
+        completion: @escaping ([FoodData]) -> Void
     ) {
         let db = Firestore.firestore()
-        var foodData: [[String: Any]] = []
+        var foodData: [FoodData] = []
         
         var collectionRef: Query = db
             .collection("users")
             .document(user)
             .collection(collectionName)
         
-        // Apply filter only if both queryField and queryValue are provided
-        if let field = queryField, let value = queryValue {
+        if let field = queryField, let value = queryValue as? Date {
             collectionRef = collectionRef
-                .whereField(field, isGreaterThanOrEqualTo: Timestamp(date: value as! Date))
+                .whereField(field, isGreaterThanOrEqualTo: Timestamp(date: value))
         }
         
         collectionRef.getDocuments { snapshot, error in
             if let error = error {
                 print("Error getting documents: \(error)")
-            } else {
-                for document in snapshot!.documents {
-                    foodData.append(document.data())
+            } else if let snapshot = snapshot {
+                for document in snapshot.documents {
+                    do {
+                        let food = try document.data(as: FoodData.self)
+                        foodData.append(food)
+                    } catch {
+                        print("Firestore decoding error: \(error)")
+                    }
                 }
             }
             completion(foodData)
         }
     }
+
     
     static func updateFoodDataForUser(user: String, collectionName: String, updateId: String, updateArray: [String: Any], completion: @escaping (Bool) -> Void) {
         let db = Firestore.firestore()

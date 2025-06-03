@@ -13,7 +13,7 @@ struct SavedView: View {
     @State var searchText: String = ""
     @State var sortedKeys: [String] = []
     
-    @State var data: [String: [[String: Any]]] = [:]
+    @State var data: [String: [FoodData]] = [:]
     @ObservedObject var userManager = UserManager.shared
     
     @State var isSelected: Bool = false
