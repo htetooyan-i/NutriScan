@@ -14,7 +14,7 @@ struct AccountView: View {
     @State var userPersonalInfo: PersonalInfo? = nil
     @State var userAccountInfo: AccountInfo? = nil
     
-    @State var accType: String = ""
+    @AppStorage("accountType") var accountType: String?
     
     var body: some View {
         ZStack {
@@ -22,17 +22,21 @@ struct AccountView: View {
                 ScrollView {
                     VStack(spacing: 16) {
                         // MARK: - Section To Display Account Type
-                        NavigationLink {
-                            PremiumSubscription()
-                        } label: {
+                        if accountType == "free" {
+                            NavigationLink(destination: PremiumSubscription()) {
+                                AccountType()
+                                    .id(UUID())
+                            }
+                        } else {
+                            // Optional: fallback for other account types
                             AccountType()
                                 .id(UUID())
                         }
-
-
+                        
+                        
                         // MARK: - Account Login/Signup
                         AccountAuthentication(isLoggedIn: $accountModel.isLoggedIn)
-
+                        
                         // MARK: - Navigation to Food List
                         NavigationLink {
                             FoodListView()
@@ -41,12 +45,12 @@ struct AccountView: View {
                                 .background(Color("InversedPrimary"))
                                 .cornerRadius(7)
                         }
-
+                        
                         if accountModel.isLoggedIn {
                             // MARK: - Personal Info
                             UserPersonalInfo(showSuccessBanner: $showSuccessBanner, personalInfo: $userPersonalInfo)
                         }
-
+                        
                         // MARK: - Model Versions
                         ModelVersion()
                         
@@ -55,7 +59,7 @@ struct AccountView: View {
                         PhotoSaving()
                         
                         // MARK: - Account Sign Out And Deletion
-
+                        
                         if accountModel.isLoggedIn {
                             SignOutAndDeleteView(
                                 titleIcon: "person.fill",
@@ -78,7 +82,7 @@ struct AccountView: View {
                 }
                 .background(Color(UIColor.systemGray6))
             }
-
+            
             if showSuccessBanner {
                 SuccessBanner()
             }

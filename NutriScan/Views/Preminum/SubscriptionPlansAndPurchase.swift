@@ -16,6 +16,7 @@ enum SubscriptionPlan {
 struct SubscriptionPlansAndPurchase: View {
     
     @State private var selectedPlan: SubscriptionPlan = .annual
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         VStack(spacing: 20) {
@@ -41,6 +42,9 @@ struct SubscriptionPlansAndPurchase: View {
 
             Button {
                 
+                HelperFunctions.updateUserAccountInfo(accountType: "premium")
+                UserDefaults.standard.set("premium", forKey: "accountType")
+                dismiss()
             } label: {
                 Text("Continue")
                     .fontWeight(.bold)
@@ -68,8 +72,4 @@ struct SubscriptionPlansAndPurchase: View {
         )
         .ignoresSafeArea(.all, edges: .bottom)
     }
-}
-
-#Preview {
-    SubscriptionPlansAndPurchase()
 }

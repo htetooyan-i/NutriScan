@@ -247,6 +247,7 @@ class HelperFunctions: ObservableObject {
         
     }
     
+    // MARK: - Getting Today Review In summary
     static func getTodayReview(completion: @escaping (([String: Double], [String])) -> Void) {
         var review: [String: Double] = [
             "totalCalories": 0,
@@ -293,6 +294,8 @@ class HelperFunctions: ObservableObject {
         }
     }
     
+    // MARK: - Getting Stats For Each Day
+    
     static func getStatsTotal(for nutrient: [String: [String: [String]]]) -> [String: Double] {
         var foodData: [String: Double] = [:]
         
@@ -335,6 +338,8 @@ class HelperFunctions: ObservableObject {
         return sortedKeys
     }
     
+    // MARK: - Getting Secret Keys From Secret.plist
+    
     static func getSecretKey(named key: String) -> String? {
         if let path = Bundle.main.path(forResource: "Secrets", ofType: "plist"),
            let dict = NSDictionary(contentsOfFile: path) as? [String: Any],
@@ -356,7 +361,7 @@ class HelperFunctions: ObservableObject {
         UserCache.shared.setAccountInfo()
     }
     
-    
+    // MARK: - Generating Promt To Get Overall Detail From LLM
     static func generatePromtForOverallDetail(personlInfo: PersonalInfo? = nil, foodInfo: [String: [FoodData]])-> String {
         var prompt = ""
         let currentDate = self.dateFormatter(timestamp: Date(), format: "EEEE MMMM dd, yyyy")
@@ -413,15 +418,20 @@ class HelperFunctions: ObservableObject {
         
     }
     
+    // MARK: - Making Vibtration
     static func makeVibration(feedbackStyle: UIImpactFeedbackGenerator.FeedbackStyle) {
         let generator = UIImpactFeedbackGenerator(style: feedbackStyle)
         generator.prepare()
         generator.impactOccurred()
     }
     
+    // MARK: - Making Save Sound
+    
     static func makeSaveSound() {
         SoundManager.shared.playClickSound()
     }
+    
+    // MARK: - Deleting Selected Foods In Saved View
     
     static func deleteSelectedFoods(seletedFoods: [String], completion: @escaping (Bool) -> Void) {
         for foodId in seletedFoods {
@@ -437,6 +447,7 @@ class HelperFunctions: ObservableObject {
         completion(true)
     }
     
+    // MARK: - Getting Selected Foods Data For Quick Summmary
     static func getSelectedFoodData(selectedFoodIds: [String], completion: @escaping ([FoodData]?) -> Void) { // Need to Implement This Func When Food data has been decoded directly in database model
         var foodDataList: [FoodData] = []
         let foods = FoodCache.shared.foodDataCache // [[String: Any]]
@@ -452,7 +463,7 @@ class HelperFunctions: ObservableObject {
         completion(foodDataList)
     }
     
-    
+    // MARK: - Getting Total Nutrients Values For Selected Foods In Quick Summary
     static func getTotalNutrients(for data: [FoodData]) -> Nutrients {
         
         var localCalories: Double = 0
@@ -489,6 +500,8 @@ class HelperFunctions: ObservableObject {
         return nutrients
     }
     
+    // MARK: - Calculating Nutrient Percentage For The Pie Chart In Quick Summary
+    
     static func calcuateNutrientPercentage(for nutrients: Nutrients) -> (protein: Double, fiber: Double, fat: Double) {
         
         let totalNutrients = nutrients.protein + nutrients.fiber + nutrients.fat
@@ -500,6 +513,7 @@ class HelperFunctions: ObservableObject {
         return (proteinPercentage, fiberPercentage, fatPercentage)
     }
     
+    // MARK: - Getting Food Thumbnail For The Pie Chart In Quick Summary
     static func getFoodThumbnail(for foodName: String) async -> URL? {
         return await withCheckedContinuation { continuation in
             DatabaseModel.getFoodThumbnail(foodName: foodName) { imgURL in
@@ -508,19 +522,33 @@ class HelperFunctions: ObservableObject {
         }
     }
     
+    // MARK: - Sum Food Price For All Selected Foods In Quick Summary
+    
     static func getTotalPrice(for foods: [FoodData]) -> Double {
         return foods.reduce(0) { $0 + $1.foodPrice }
     }
     
-    static func updateUserAccountInfo() {
+    // MARK: - Updating User Account Data When App Feedback Is Inactive
+    static func updateUserAccountInfo(accountType: String? = nil) {
         let isLoggedIn = UserManager.shared.isLoggedIn
         
         @AppStorage("photoSaving") var photoSaving: Bool?
+
         
-        if let photoSaving = photoSaving, isLoggedIn {
-            let updatedArray = [
-                "photoSaving": photoSaving
-            ]
+        
+        if let photoSaving = photoSaving,
+           isLoggedIn {
+            var updatedArray: [String : Any] = [:]
+            
+            if let accountType = accountType {
+                updatedArray = [
+                    "accountType" : accountType
+                ]
+            }else{
+                updatedArray = [
+                    "photoSaving": photoSaving
+                ]
+            }
             
             UserManager.shared.updateAccountInfo(user: UserManager.shared.userId, updatedArray: updatedArray, completion: { _ in })
         }
