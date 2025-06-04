@@ -29,6 +29,7 @@ struct AccountType: View {
                     .frame(width: 30, height: 30)
                 Spacer()
             }
+            .foregroundStyle(Color.black)
             
         }
         .cornerRadius(7)

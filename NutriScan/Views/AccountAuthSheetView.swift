@@ -35,13 +35,13 @@ struct AccountAuthSheetView: View {
                                 LogInAndSignUpBtn(icon: "envelope.fill", description: "Sign up with email", bgColor: Color(UIColor.systemGray6), borderColor: Color("InversedPrimary"))
                                 
                             }
-
+                            
                             NavigationLink { // navigation link for login in form
                                 UserLoginForm(toggler: $toggler)
                             } label: {
                                 LogInAndSignUpBtn(description: "Log in", bgColor: Color("InversedPrimary"), borderColor: Color(UIColor.systemGray6))
                             }
-
+                            
                         }
                         .frame(width: geometry.size.width, height: geometry.size.height * 0.5 + geometry.safeAreaInsets.bottom)
                         .background(
@@ -67,19 +67,4 @@ struct AccountAuthSheetView: View {
             }
         }
     }
-
-    struct RoundedCorner: Shape { // use to set radius of specific corners
-        var radius: CGFloat
-        var corners: UIRectCorner
-
-        func path(in rect: CGRect) -> Path {
-            let path = UIBezierPath(
-                roundedRect: rect,
-                byRoundingCorners: corners,
-                cornerRadii: CGSize(width: radius, height: radius)
-            )
-            return Path(path.cgPath)
-        }
-    }
 }
-

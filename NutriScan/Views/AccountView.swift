@@ -22,8 +22,13 @@ struct AccountView: View {
                 ScrollView {
                     VStack(spacing: 16) {
                         // MARK: - Section To Display Account Type
-                        AccountType()
-                            .id(UUID())
+                        NavigationLink {
+                            PremiumSubscription()
+                        } label: {
+                            AccountType()
+                                .id(UUID())
+                        }
+
 
                         // MARK: - Account Login/Signup
                         AccountAuthentication(isLoggedIn: $accountModel.isLoggedIn)
