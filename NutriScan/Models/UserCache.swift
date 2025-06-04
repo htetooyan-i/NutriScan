@@ -14,6 +14,7 @@ class UserCache: ObservableObject {
     @Published var personalInfo: PersonalInfo? = nil
     @Published var accountInfo: AccountInfo? = nil
     @Published var isLoading: Bool = false
+    @Published var photoSaving: Bool = false
 
     func setPersonalInfo() {
         self.isLoading = true
@@ -32,7 +33,10 @@ class UserCache: ObservableObject {
             DispatchQueue.main.async {
                 self?.accountInfo = result
                 self?.isLoading = false
+                
                 UserDefaults.standard.set(self?.accountInfo?.accountType, forKey: "accountType")
+                UserDefaults.standard.set(self?.accountInfo?.photoSaving, forKey: "photoSaving")
+                
                 print("User's account information has been stored in cache!!")
             }
         }

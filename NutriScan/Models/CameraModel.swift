@@ -19,6 +19,7 @@ class CameraModel: NSObject,ObservableObject, AVCapturePhotoCaptureDelegate {
     @Published var isCapturing = false
     @ObservedObject var model = ClassificationModel()
     
+    @AppStorage("photoSaving") var photoSaving: Bool?
     
     // MARK: - Check & Setup Camera View
     
@@ -102,8 +103,16 @@ class CameraModel: NSObject,ObservableObject, AVCapturePhotoCaptureDelegate {
         
         self.picData = imageData
         
-        self.savePic()
+        if let photoSaving = photoSaving, photoSaving {
+            self.savePic()
+        }else{
+            print("Not Saved")
+        }
         
+        if self.picData.count > 0, let image = UIImage(data: self.picData) {
+            self.model.image = image
+            self.model.predict()
+        }
         
     }
     
@@ -118,12 +127,6 @@ class CameraModel: NSObject,ObservableObject, AVCapturePhotoCaptureDelegate {
                 UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
             }
             print("Saved to Photos")
-            let startTime = Date()
-            self.model.image = image
-            self.model.predict()
-            let endTime = Date()
-            
-            print("Excuting time: \(endTime.timeIntervalSince(startTime))")
         } else {
             print("Failed to create image from picData. Data is empty or invalid.")
         }

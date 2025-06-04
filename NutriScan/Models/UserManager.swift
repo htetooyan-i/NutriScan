@@ -7,6 +7,7 @@
 
 import Foundation
 import FirebaseAuth
+import FirebaseFirestore
 
 class UserManager: ObservableObject {
     static let shared = UserManager()
@@ -29,7 +30,8 @@ class UserManager: ObservableObject {
                 let userInfo = [
                     "userId": UserManager.shared.userId,
                     "email": UserManager.shared.email,
-                    "accountType": "free"
+                    "accountType": "free",
+                    "photoSaving": false
                 ]
 
                 DatabaseModel.createUserInfo(user: UserManager.shared.userId, collectionName: "userInfo", docName: "accountInfo", data: userInfo) { isSuccess in
@@ -108,6 +110,24 @@ class UserManager: ObservableObject {
 
     }
     
+    func updateAccountInfo(user: String, updatedArray: [String: Any], completion: @escaping (Bool) -> Void) {
+        let db = Firestore.firestore()
+        
+        db.collection("users")
+            .document(user)
+            .collection("userInfo")
+            .document("accountInfo")
+            .updateData(updatedArray) { err in
+                if let err = err {
+                    print("Error During Updating Accoutn Info: \(err.localizedDescription)")
+                    completion(false)
+                }else{
+                    print("Updating Success")
+                    completion(true)
+                }
+        }
+    }
+    
     // MARK: - Set the User Info
     private func getCurrentUserData() {
         if let user = Auth.auth().currentUser {
@@ -120,4 +140,6 @@ class UserManager: ObservableObject {
         HelperFunctions.getUserDataFromDatabase()
         HelperFunctions.getUserAccDataFromDatabase()
     }
+    
+    
 }

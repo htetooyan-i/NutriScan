@@ -10,8 +10,10 @@ import CoreML
 import FirebaseCore
 import FirebaseFirestore
 import CoreXLSX
+import SwiftUI
 
 class HelperFunctions: ObservableObject {
+    
     // MARK: - Function To Create Food Data
     static func createFoodDataInDatabase(
         results: ClassificationModel,
@@ -508,6 +510,20 @@ class HelperFunctions: ObservableObject {
     
     static func getTotalPrice(for foods: [FoodData]) -> Double {
         return foods.reduce(0) { $0 + $1.foodPrice }
+    }
+    
+    static func updateUserAccountInfo() {
+        let isLoggedIn = UserManager.shared.isLoggedIn
+        
+        @AppStorage("photoSaving") var photoSaving: Bool?
+        
+        if let photoSaving = photoSaving, isLoggedIn {
+            let updatedArray = [
+                "photoSaving": photoSaving
+            ]
+            
+            UserManager.shared.updateAccountInfo(user: UserManager.shared.userId, updatedArray: updatedArray, completion: { _ in })
+        }
     }
     
     

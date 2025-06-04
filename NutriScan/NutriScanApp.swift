@@ -39,11 +39,26 @@ struct NutriScanApp: App {
     
     @StateObject var userManager = UserManager()
     
+    @Environment(\.scenePhase) var scenePhase
+    
     
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(userManager)
+        }
+        .onChange(of: scenePhase) { oldPhase, newPhase in
+            switch newPhase {
+            case .active:
+                print("App is active")
+            case .inactive:
+                print("App is inactive")
+                HelperFunctions.updateUserAccountInfo()
+            case .background:
+                print("App moved to background (user might have closed the app)")
+            @unknown default:
+                print("Unknown state")
+            }
         }
     }
 }

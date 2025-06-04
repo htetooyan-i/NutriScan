@@ -44,6 +44,12 @@ struct AccountView: View {
 
                         // MARK: - Model Versions
                         ModelVersion()
+                        
+                        // MARK: - Photo Saving
+                        
+                        PhotoSaving()
+                        
+                        // MARK: - Account Sign Out And Deletion
 
                         if accountModel.isLoggedIn {
                             SignOutAndDeleteView(
@@ -78,7 +84,9 @@ struct AccountView: View {
             if !userCacheModel.isLoading {
                 self.userPersonalInfo = userCacheModel.personalInfo
                 self.userAccountInfo = userCacheModel.accountInfo
+                
             }
+            
         }
         .onChange(of: userCacheModel.personalInfo) { oldValue, newValue in
             self.userPersonalInfo = userCacheModel.personalInfo
