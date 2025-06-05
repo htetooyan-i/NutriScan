@@ -8,6 +8,9 @@
 import Foundation
 import FirebaseAuth
 import FirebaseFirestore
+import GoogleSignIn
+import GoogleSignInSwift
+import Firebase
 
 class UserManager: ObservableObject {
     static let shared = UserManager()
@@ -127,6 +130,60 @@ class UserManager: ObservableObject {
                 }
         }
     }
+    
+    func signInWithGoogle(){
+        
+        guard let clientID = FirebaseApp.app()?.options.clientID else { return }
+        
+        let config = GIDConfiguration(clientID: clientID)
+        GIDSignIn.sharedInstance.configuration = config
+        
+        GIDSignIn.sharedInstance.signIn(withPresenting: Application_utility.rootViewController) { user, error in
+            
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            
+            guard
+                let user = user?.user,
+                let idToken = user.idToken else { return }
+            
+            let accessToken = user.accessToken
+            
+            let credential = GoogleAuthProvider.credential(withIDToken: idToken.tokenString, accessToken: accessToken.tokenString)
+            
+            Auth.auth().signIn(with: credential) { res, error in
+                if let error = error{
+                    print(error.localizedDescription)
+                    return
+                }
+                guard (res?.user) != nil else { return }
+                
+                self.isLoggedIn = true
+                self.getCurrentUserData()
+                
+                DatabaseModel.userExistInDatabase(user: self.userId, docName: "accountInfo") { isExist in
+                    if !isExist {
+                        let userInfo = [
+                            "userId": UserManager.shared.userId,
+                            "email": UserManager.shared.email,
+                            "accountType": "free",
+                            "photoSaving": false
+                        ]
+
+                        DatabaseModel.createUserInfo(user: UserManager.shared.userId, collectionName: "userInfo", docName: "accountInfo", data: userInfo) { isSuccess in
+                            print("Stored in database?: \(isSuccess)")
+                        }
+                    }
+                    self.getUserData()
+                    HelperFunctions.getFoodDataFromDatabase(user: self.userId, collectionName: "foods")
+                }
+            }
+        }
+        
+    }
+
     
     // MARK: - Set the User Info
     private func getCurrentUserData() {

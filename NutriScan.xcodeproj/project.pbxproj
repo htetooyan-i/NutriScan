@@ -16,6 +16,8 @@
 		C81859D12DC4F13100393EF9 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = C81859D02DC4F13100393EF9 /* FirebaseFirestore */; };
 		C81859D32DC4F13100393EF9 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = C81859D22DC4F13100393EF9 /* FirebaseStorage */; };
 		DF2A712E2DDB31DE00248CA9 /* CoreXLSX in Frameworks */ = {isa = PBXBuildFile; productRef = DF2A712D2DDB31DE00248CA9 /* CoreXLSX */; };
+		DF8519882DF16C9A001CF92A /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = DF8519872DF16C9A001CF92A /* GoogleSignIn */; };
+		DF85198A2DF16C9A001CF92A /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DF8519892DF16C9A001CF92A /* GoogleSignInSwift */; };
 		DF94D7FA2DED6FF2002500E7 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = DF94D7F92DED6FF2002500E7 /* Kingfisher */; };
 		DFC0E6202DE888000081BBE3 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = DFC0E61F2DE888000081BBE3 /* FirebaseMessaging */; };
 		DFDACCFE2DE5629E009ED98C /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = DFDACCFD2DE5629E009ED98C /* MarkdownUI */; };
@@ -83,11 +85,13 @@
 				DF94D7FA2DED6FF2002500E7 /* Kingfisher in Frameworks */,
 				C81859CF2DC4F13100393EF9 /* FirebaseDatabase in Frameworks */,
 				C81859C52DC4F13100393EF9 /* FirebaseAnalytics in Frameworks */,
+				DF8519882DF16C9A001CF92A /* GoogleSignIn in Frameworks */,
 				C81859CD2DC4F13100393EF9 /* FirebaseCore in Frameworks */,
 				DF2A712E2DDB31DE00248CA9 /* CoreXLSX in Frameworks */,
 				C81859C92DC4F13100393EF9 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				C81859C72DC4F13100393EF9 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
 				C81859D32DC4F13100393EF9 /* FirebaseStorage in Frameworks */,
+				DF85198A2DF16C9A001CF92A /* GoogleSignInSwift in Frameworks */,
 				C81859CB2DC4F13100393EF9 /* FirebaseAuth in Frameworks */,
 				C81859D12DC4F13100393EF9 /* FirebaseFirestore in Frameworks */,
 				DFC0E6202DE888000081BBE3 /* FirebaseMessaging in Frameworks */,
@@ -164,6 +168,8 @@
 				DFDACCFD2DE5629E009ED98C /* MarkdownUI */,
 				DFC0E61F2DE888000081BBE3 /* FirebaseMessaging */,
 				DF94D7F92DED6FF2002500E7 /* Kingfisher */,
+				DF8519872DF16C9A001CF92A /* GoogleSignIn */,
+				DF8519892DF16C9A001CF92A /* GoogleSignInSwift */,
 			);
 			productName = NutriScan;
 			productReference = C823B92B2DBBD9D80039D9EE /* NutriScan.app */;
@@ -252,6 +258,7 @@
 				DF2A712C2DDB31DE00248CA9 /* XCRemoteSwiftPackageReference "CoreXLSX" */,
 				DFDACCFC2DE5629E009ED98C /* XCRemoteSwiftPackageReference "MarkdownUI" */,
 				DF94D7F82DED6FF2002500E7 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				DF8519862DF16C9A001CF92A /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = C823B92C2DBBD9D80039D9EE /* Products */;
@@ -644,6 +651,14 @@
 				minimumVersion = 0.14.2;
 			};
 		};
+		DF8519862DF16C9A001CF92A /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.0;
+			};
+		};
 		DF94D7F82DED6FF2002500E7 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher";
@@ -707,6 +722,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DF2A712C2DDB31DE00248CA9 /* XCRemoteSwiftPackageReference "CoreXLSX" */;
 			productName = CoreXLSX;
+		};
+		DF8519872DF16C9A001CF92A /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DF8519862DF16C9A001CF92A /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		DF8519892DF16C9A001CF92A /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DF8519862DF16C9A001CF92A /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
 		};
 		DF94D7F92DED6FF2002500E7 /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;

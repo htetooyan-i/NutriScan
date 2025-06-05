@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import GoogleSignIn
+import GoogleSignInSwift
 
 struct AccountAuthSheetView: View {
     
@@ -29,17 +31,24 @@ struct AccountAuthSheetView: View {
                         
                         VStack(alignment: .center, spacing: 20) { // login and signup option part
                             
+                            LogInAndSignUpBtn(icon: "Google", description: "Continue with Google",descriptionColor: Color("InversedPrimary"), bgColor: Color.primary, borderColor: Color.primary)
+                                .onTapGesture {
+                                    UserManager.shared.signInWithGoogle()
+                                    toggler = false
+                                }
+
+                            
                             NavigationLink { // navigation link for sign up form
                                 UserSignUpForm(toggler: $toggler)
                             } label: {
-                                LogInAndSignUpBtn(icon: "envelope.fill", description: "Sign up with email", bgColor: Color(UIColor.systemGray6), borderColor: Color("InversedPrimary"))
+                                LogInAndSignUpBtn(icon: "envelope.fill", description: "Sign up with email",descriptionColor: Color.primary, bgColor: Color(UIColor.systemGray6), borderColor: Color("InversedPrimary"))
                                 
                             }
                             
                             NavigationLink { // navigation link for login in form
                                 UserLoginForm(toggler: $toggler)
                             } label: {
-                                LogInAndSignUpBtn(description: "Log in", bgColor: Color("InversedPrimary"), borderColor: Color(UIColor.systemGray6))
+                                LogInAndSignUpBtn(description: "Log in",descriptionColor: Color.primary, bgColor: Color("InversedPrimary"), borderColor: Color(UIColor.systemGray6))
                             }
                             
                         }

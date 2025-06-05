@@ -308,4 +308,22 @@ public struct DatabaseModel: Codable {
             }
     }
     
+    static func userExistInDatabase(user: String, docName: String, completion: @escaping (Bool) -> Void) {
+        let db = Firestore.firestore()
+        let docRef = db.collection("users")
+            .document(user)
+            .collection("userInfo")
+            .document("accountInfo")
+        
+        docRef.getDocument{ doc, err in
+
+            if let doc = doc, doc.exists {
+                completion(true)
+            }else {
+                completion(false)
+            }
+            
+        }
+    }
+    
 }
