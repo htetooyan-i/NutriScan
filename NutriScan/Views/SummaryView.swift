@@ -17,6 +17,8 @@ struct SummaryView: View {
     @State private var personalInfo: PersonalInfo? = nil
     @State private var foodInfo: [String: [FoodData]] = [:]
     
+    @AppStorage("accountType") var accountType: String?
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -25,10 +27,18 @@ struct SummaryView: View {
                 if userManager.isLoggedIn && !foodCache.foodDataCacheByDate.isEmpty {
                     ScrollView {
                         VStack(spacing: 20) {
-                            NavigationLink {
-                                OverallDetail(personalInfo: personalInfo, foodInfo: foodInfo)
-                            } label: {
-                                TodayReivew()
+                            if accountType == "premium" {
+                                NavigationLink {
+                                    OverallDetail(personalInfo: personalInfo, foodInfo: foodInfo)
+                                } label: {
+                                    TodayReivew()
+                                }
+                            }else {
+                                NavigationLink {
+                                    PremiumSubscription()
+                                } label: {
+                                    TodayReivew()
+                                }
                             }
                             
                             
@@ -40,12 +50,21 @@ struct SummaryView: View {
                             
                             NutrientNaviLink(iconName: "drop.circle.fill", iconColor: Color.brown, name: "Fat", unit: "g")
                             
-                            NavigationLink {
-                                SummaryStats(statName: "Price", statIcon: "dollarsign.circle", statColor: Color.customBlue, unit: "$")
-                            } label: {
-                                PriceStats()
+                            if accountType == "premium" {
+                                NavigationLink {
+                                    SummaryStats(statName: "Price", statIcon: "dollarsign.circle", statColor: Color.customBlue, unit: "$")
+                                } label: {
+                                    PriceStats()
+                                }
+                                
+                            }else {
+                                NavigationLink {
+                                    PremiumSubscription()
+                                } label: {
+                                    PriceStats()
+                                }
+                                
                             }
-                            
                         }
                         .padding()
                         .frame(maxHeight: .infinity, alignment: .top)

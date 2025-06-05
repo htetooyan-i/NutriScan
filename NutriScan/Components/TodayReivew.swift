@@ -11,6 +11,8 @@ struct TodayReivew: View {
     @State var nutrientData: [String: Double] = [:]
     @State var foodsNotFound: [String] = []
     
+    @AppStorage("accountType") var accountType: String?
+    
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
@@ -39,14 +41,16 @@ struct TodayReivew: View {
             }
             .padding(.bottom, 20)
             
-            HStack(alignment: .center, spacing: 4) {
-                Text("Wanna see more insights?")
-                    .font(.caption)
-                Image(systemName: "crown.fill")
-                    .font(.caption)
+            if accountType == "free" {
+                HStack(alignment: .center, spacing: 4) {
+                    Text("Wanna see more insights?")
+                        .font(.caption)
+                    Image(systemName: "crown.fill")
+                        .font(.caption)
+                }
+                .foregroundStyle(Color("CustomBlue"))
+                .frame(maxWidth: .infinity, alignment: .trailing)
             }
-            .foregroundStyle(Color("CustomBlue"))
-            .frame(maxWidth: .infinity, alignment: .trailing)
             
             
             

@@ -9,8 +9,11 @@ import SwiftUI
 import Charts
 
 struct PriceStats: View {
+    
     @State var data: [String: Double] = [:]
     @State var sortedDate: [String] = []
+    @AppStorage("accountType") var accountType: String?
+    
     var body: some View {
         VStack {
             HStack {
@@ -53,15 +56,17 @@ struct PriceStats: View {
                     .fill(Color("InversedPrimary"))
             )
             
-            HStack(alignment: .center, spacing: 4) {
-                Text("Wanna see more insights?")
-                    .font(.caption)
-                Image(systemName: "crown.fill")
-                    .font(.caption)
+            if accountType == "free" {
+                HStack(alignment: .center, spacing: 4) {
+                    Text("Wanna see more insights?")
+                        .font(.caption)
+                    Image(systemName: "crown.fill")
+                        .font(.caption)
+                }
+                .foregroundStyle(Color("CustomBlue"))
+                .frame(maxWidth: .infinity, alignment: .trailing)
+                .padding(.vertical)
             }
-            .foregroundStyle(Color("CustomBlue"))
-            .frame(maxWidth: .infinity, alignment: .trailing)
-            .padding(.vertical)
             
         }
         .padding()

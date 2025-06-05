@@ -34,7 +34,7 @@ struct FurtureCarousel: View {
                     .padding()
                     .background(
                         RoundedRectangle(cornerRadius: 10, style: .continuous)
-                            .fill(Color(UIColor.systemGray6))
+                            .fill(Color(UIColor.systemGray5))
                     )
                 
                 VStack {
@@ -48,7 +48,7 @@ struct FurtureCarousel: View {
                 .padding()
                 .background(
                     RoundedRectangle(cornerRadius: 10, style: .continuous)
-                        .fill(Color(UIColor.systemGray6))
+                        .fill(Color(UIColor.systemGray5))
                 )
             }
         }
