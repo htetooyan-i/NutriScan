@@ -57,8 +57,10 @@ struct AccountDeletion: View {
                 
                 Button {
                     UserManager.shared.deleteUser { isSuccess in
-                        UserCache.shared.personalInfo = nil
-                        UserCache.shared.accountInfo = nil
+                        if isSuccess {
+                            UserCache.shared.personalInfo = nil
+                            UserCache.shared.accountInfo = nil
+                        }
                     }
                 } label: {
                     Text("DELETE ACCOUNT")

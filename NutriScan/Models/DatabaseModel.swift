@@ -8,12 +8,20 @@
 import FirebaseFirestore
 import FirebaseStorage
 import UIKit
+import FirebaseAuth
 
 public struct DatabaseModel: Codable {
     /*, completion: @escaping (Bool, String) -> Void*/
     
     static func createFoodDataForUser(user: String, collectionName: String, foodDataArray: [String : Any], takenPicData: Data, completion: @escaping (Bool, String?) -> Void) {
         
+        if Auth.auth().currentUser == nil {
+            print("User not logged in")
+            completion(false, nil)
+            return
+        }else {
+            print("User Logged In")
+        }
         let db = Firestore.firestore()
         let foodId = UUID().uuidString
         let docRef = db.collection("users")
@@ -21,7 +29,8 @@ public struct DatabaseModel: Codable {
             .collection(collectionName)
             .document(foodId)
         
-        let storageRef = Storage.storage().reference()
+        let storageRef = Storage.storage(url: "gs://nutriscan-893f4.firebasestorage.app").reference()
+        
         let fileRef = storageRef.child("user_food_images/\(foodId).jpg")
         
         // Upload image to Firebase Storage
@@ -264,8 +273,8 @@ public struct DatabaseModel: Codable {
                 }
                 
                 do {
-                    let jsonData = try JSONSerialization.data(withJSONObject: data)
-                    let info = try JSONDecoder().decode(PersonalInfo.self, from: jsonData)
+                    let info = try document.data(as: PersonalInfo.self)
+                    print("Database clear")
                     completion(info)
                 } catch {
                     print("Decoding error: \(error)")
@@ -297,8 +306,7 @@ public struct DatabaseModel: Codable {
                 }
                 
                 do {
-                    let jsonData = try JSONSerialization.data(withJSONObject: data)
-                    let info = try JSONDecoder().decode(AccountInfo.self, from: jsonData)
+                    let info = try document.data(as: AccountInfo.self)
                     completion(info)
                 } catch {
                     print("Decoding error: \(error)")

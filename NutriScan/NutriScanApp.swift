@@ -34,6 +34,9 @@ struct NutriScanApp: App {
     // register app delegate for Firebase setup
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
+    // setup coreData
+    let persistenceController = PersistenceController.shared
+    
     init() {
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
@@ -54,6 +57,7 @@ struct NutriScanApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(userManager)
+                .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
         .onChange(of: scenePhase) { oldPhase, newPhase in
             switch newPhase {

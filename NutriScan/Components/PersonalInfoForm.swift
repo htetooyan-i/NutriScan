@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct PersonalInfoForm: View {
     
@@ -54,7 +55,8 @@ struct PersonalInfoForm: View {
                     "gender" : gender,
                     "height" : height,
                     "weight" : weight,
-                    "age" : age
+                    "age" : age,
+                    "lastModified": Timestamp(date: Date())
                 ]
 
                 DatabaseModel.createUserInfo(user: UserManager.shared.userId, collectionName: "userInfo", docName: "personalInfo", data: personalInfo) { isSuccess in

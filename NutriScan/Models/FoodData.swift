@@ -21,5 +21,6 @@ struct FoodData: Codable {
     let foodWeight: String
     let imageURL: String
     let timestamp: Date
+    let lastModified: Date
 }
 

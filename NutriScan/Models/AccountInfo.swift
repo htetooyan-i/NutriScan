@@ -12,4 +12,5 @@ struct AccountInfo: Codable, Equatable {
     let userId: String
     let accountType: String
     let photoSaving: Bool
+    let lastModified: Date
 }

@@ -32,6 +32,7 @@ class HelperFunctions: ObservableObject {
         var foodDataArray = dataArray
         foodDataArray["foodPredictions"] = allPredictions
         foodDataArray["timestamp"] = Timestamp(date: Date())
+        foodDataArray["lastModified"] = Timestamp(date: Date())
         
         if let selectedImage = takenPicData,
            let imageData = selectedImage.jpegData(compressionQuality: 0.8),
@@ -550,7 +551,7 @@ class HelperFunctions: ObservableObject {
                 ]
             }
             
-            UserManager.shared.updateAccountInfo(user: UserManager.shared.userId, updatedArray: updatedArray, completion: { _ in })
+            UserManager.shared.updateUserInfo(user: UserManager.shared.userId,infoType: "accountInfo", updatedArray: updatedArray, completion: { _ in })
         }
     }
     

@@ -34,7 +34,8 @@ class UserManager: ObservableObject {
                     "userId": UserManager.shared.userId,
                     "email": UserManager.shared.email,
                     "accountType": "free",
-                    "photoSaving": false
+                    "photoSaving": false,
+                    "lastModified": Timestamp(date: Date())
                 ]
 
                 DatabaseModel.createUserInfo(user: UserManager.shared.userId, collectionName: "userInfo", docName: "accountInfo", data: userInfo) { isSuccess in
@@ -113,13 +114,13 @@ class UserManager: ObservableObject {
 
     }
     
-    func updateAccountInfo(user: String, updatedArray: [String: Any], completion: @escaping (Bool) -> Void) {
+    func updateUserInfo(user: String, infoType: String, updatedArray: [String: Any], completion: @escaping (Bool) -> Void) {
         let db = Firestore.firestore()
         
         db.collection("users")
             .document(user)
             .collection("userInfo")
-            .document("accountInfo")
+            .document(infoType)
             .updateData(updatedArray) { err in
                 if let err = err {
                     print("Error During Updating Accoutn Info: \(err.localizedDescription)")
@@ -169,7 +170,8 @@ class UserManager: ObservableObject {
                             "userId": UserManager.shared.userId,
                             "email": UserManager.shared.email,
                             "accountType": "free",
-                            "photoSaving": false
+                            "photoSaving": false,
+                            "lastModified": Timestamp(date: Date())
                         ]
 
                         DatabaseModel.createUserInfo(user: UserManager.shared.userId, collectionName: "userInfo", docName: "accountInfo", data: userInfo) { isSuccess in

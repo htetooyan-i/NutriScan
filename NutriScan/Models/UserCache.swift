@@ -15,7 +15,7 @@ class UserCache: ObservableObject {
     @Published var accountInfo: AccountInfo? = nil
     @Published var isLoading: Bool = false
     @Published var photoSaving: Bool = false
-
+    
     func setPersonalInfo() {
         self.isLoading = true
         DatabaseModel.getUserInfo(user: UserManager.shared.userId, docName: "personalInfo") { [weak self] result in

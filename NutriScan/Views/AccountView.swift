@@ -7,6 +7,12 @@
 import SwiftUI
 
 struct AccountView: View {
+    
+    @FetchRequest(
+        sortDescriptors: [],
+        animation: .default
+    ) var foods: FetchedResults<FoodEntity>
+    
     @StateObject private var accountModel = UserManager.shared
     @StateObject private var userCacheModel = UserCache.shared
     
@@ -95,7 +101,6 @@ struct AccountView: View {
                 self.userAccountInfo = userCacheModel.accountInfo
                 
             }
-            
         }
         .onChange(of: userCacheModel.personalInfo) { oldValue, newValue in
             self.userPersonalInfo = userCacheModel.personalInfo

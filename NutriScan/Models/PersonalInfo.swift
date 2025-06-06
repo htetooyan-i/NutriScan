@@ -13,4 +13,5 @@ struct PersonalInfo: Codable, Equatable {
     let height: Double
     let weight: Double
     let age: Int
+    let lastModified: Date
 }

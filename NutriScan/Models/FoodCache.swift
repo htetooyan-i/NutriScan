@@ -66,4 +66,19 @@ class FoodCache: ObservableObject {
         return self.foodDataCacheByDate
     }
     
+    func addLastModifyTime(foodData: [FoodData]) {
+        
+        for food in foodData {
+            let foodId = food.foodId
+            
+            let updatedArray = [
+                "lastModified": Date()
+            ]
+            
+            DatabaseModel.updateFoodDataForUser(user: UserManager.shared.userId, collectionName: "foods", updateId: foodId, updateArray: updatedArray) { isSuccess in
+                print("Update Result: \(isSuccess) For \(foodId)")
+            }
+        }
+    }
+    
 }

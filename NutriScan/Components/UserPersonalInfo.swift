@@ -83,6 +83,17 @@ struct UserPersonalInfo: View {
             .foregroundStyle(Color(UIColor.systemGray))
             .frame(maxHeight: .infinity, alignment: .top)
             .padding()
+            
+            .onAppear {
+                if personalInfo == nil {
+                    isEditing = true
+                }
+            }
+            .onChange(of: personalInfo) { oldValue, newValue in
+                if newValue == nil {
+                    isEditing = true
+                }
+            }
         }
     }
 }

@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @Environment(\.managedObjectContext) private var viewContext
+    
     @State private var selectedTab: Tab = .scan
     
     enum Tab {
@@ -54,6 +57,7 @@ struct ContentView: View {
                 HelperFunctions.getFoodDataFromDatabase(user: UserManager.shared.userId, collectionName: "foods")
                 HelperFunctions.getUserDataFromDatabase()
                 HelperFunctions.getUserAccDataFromDatabase()
+//                CoreDataHelperFunctions.shared.storeFirebaseDataToCoreData(context: viewContext)
             }
         }
     }
