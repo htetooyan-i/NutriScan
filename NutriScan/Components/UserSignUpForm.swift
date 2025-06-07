@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct UserSignUpForm: View {
+    
+    @Environment(\.managedObjectContext) var viewContext
+    
     @State var email: String = ""
     @State var password: String = ""
     @State var showPassword: Bool = false
@@ -60,11 +63,12 @@ struct UserSignUpForm: View {
                 
                 Button {
                     if !email.isEmpty, !password.isEmpty { // button to login and ensure both email and password are not empty before submit[ But this code need to change and need to check all validation rules]
-                        UserManager.shared.signUpUser(email: self.email, password: self.password) { isSuccess in
+                        UserManager.shared.signUpUser(email: self.email, password: self.password, context: viewContext) { isSuccess in
                             if isSuccess {
                                 print("Successfully created!!")
                                 self.email = ""
                                 self.password = ""
+                                UserDefaults.standard.set(false, forKey: "personalInfoAvailable")
                                 toggler = false
                                 
                             } else {

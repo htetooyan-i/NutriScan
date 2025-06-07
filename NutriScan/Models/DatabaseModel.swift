@@ -168,14 +168,19 @@ public struct DatabaseModel: Codable {
             }
     }
     
-    static func createUserInfo(user: String, collectionName: String, docName: String, data: [String: Any], completion: @escaping (Bool)->Void) {
+    static func createUserInfo(user: String, collectionName: String, docName: String, data: [String : Any], completion: @escaping (Bool)->Void) {
+        
         let db = Firestore.firestore()
+        
+        var userData: [String: Any] = data
+        
+        userData["lastModified"] = Timestamp(date: Date())
         
         db.collection("users")
             .document(user)
             .collection(collectionName)
             .document(docName)
-            .setData(data) { err in
+            .setData(userData) { err in
                 if let err = err {
                     print("Error setting document: \(err)")
                     completion(false)
@@ -266,7 +271,7 @@ public struct DatabaseModel: Codable {
                 }
                 
                 guard let document = document,
-                      let data = document.data() else{
+                      let _ = document.data() else{
                     print("Error during getting user info: Document does not exist")
                     completion(nil)
                     return
@@ -299,7 +304,7 @@ public struct DatabaseModel: Codable {
                 }
                 
                 guard let document = document,
-                      let data = document.data() else{
+                      let _ = document.data() else{
                     print("Error during getting acc info: Document does not exist")
                     completion(nil)
                     return

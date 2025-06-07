@@ -17,7 +17,7 @@ class CoreDataHelperFunctions {
         DatabaseModel.getFoodDataForUser(user: userId, collectionName: "foods") { data in
             context.perform {
                 for food in data {
-                    CoreDataDatabaseModel.shared.saveFoodDataToCoreData(foodData: food, userId: userId, context: context)
+                    CoreDataDatabaseModel.shared.saveFoodDataToCoreDataFromFibrebase(foodData: food, userId: userId, context: context)
                 }
                 
                 do {

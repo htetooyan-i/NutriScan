@@ -17,7 +17,6 @@ struct AccountView: View {
     @StateObject private var userCacheModel = UserCache.shared
     
     @State var showSuccessBanner: Bool = false
-    @State var userPersonalInfo: PersonalInfo? = nil
     @State var userAccountInfo: AccountInfo? = nil
     
     @AppStorage("accountType") var accountType: String?
@@ -54,7 +53,7 @@ struct AccountView: View {
                         
                         if accountModel.isLoggedIn {
                             // MARK: - Personal Info
-                            UserPersonalInfo(showSuccessBanner: $showSuccessBanner, personalInfo: $userPersonalInfo)
+                            UserPersonalInfo(showSuccessBanner: $showSuccessBanner)
                         }
                         
                         // MARK: - Model Versions
@@ -97,13 +96,8 @@ struct AccountView: View {
         .tint(Color("CustomBlue"))
         .onAppear {
             if !userCacheModel.isLoading {
-                self.userPersonalInfo = userCacheModel.personalInfo
                 self.userAccountInfo = userCacheModel.accountInfo
-                
             }
-        }
-        .onChange(of: userCacheModel.personalInfo) { oldValue, newValue in
-            self.userPersonalInfo = userCacheModel.personalInfo
         }
         
         .onChange(of: userCacheModel.accountInfo) { oldValue, newValue in

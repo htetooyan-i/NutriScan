@@ -9,11 +9,23 @@ import SwiftUI
 import Firebase
 
 struct PersonalInfoForm: View {
+
+    @Environment(\.managedObjectContext) private var viewContext
     
-    @State var gender: String
-    @State var height: Double
-    @State var weight: Double
-    @State var age: Int
+    @FetchRequest(
+        entity: PersonalInfoEntity.entity(),
+        sortDescriptors: [],
+        animation: .default
+    )
+    
+    private var personalInfo: FetchedResults<PersonalInfoEntity>
+    
+    @AppStorage("personalInfoAvailable") var personalInfoAvailable: Bool?
+    
+    @State var gender: String = ""
+    @State var height: Double = 0
+    @State var weight: Double = 0
+    @State var age: Int = 0
     
     @State private var heightInput: String = ""
     @State private var weightInput: String = ""
@@ -56,13 +68,9 @@ struct PersonalInfoForm: View {
                     "height" : height,
                     "weight" : weight,
                     "age" : age,
-                    "lastModified": Timestamp(date: Date())
                 ]
 
-                DatabaseModel.createUserInfo(user: UserManager.shared.userId, collectionName: "userInfo", docName: "personalInfo", data: personalInfo) { isSuccess in
-                    print("Personal Data have been stored? \(isSuccess)")
-                    UserCache.shared.setPersonalInfo()
-                }
+                HelperFunctions.storeUserPersonalInfo(user: UserManager.shared.userId, collectionName: "userInfo", docName: "personalInfo", data: personalInfo, context: viewContext)
                 
                 gender = ""
                 heightInput = ""
@@ -87,12 +95,15 @@ struct PersonalInfoForm: View {
         }
         
         .onAppear {
-            if height > 0 && weight > 0 && age > 0 && gender != "" {
-                self.heightInput = String(format: "%.1f", height)
-                self.weightInput = String(format: "%.1f", weight)
-                self.ageInput = String(age)
-                
-                validateAllFields()
+            if let _ = personalInfoAvailable {
+                if let personalInfo = personalInfo.first {
+                    self.heightInput = String(format: "%.1f", personalInfo.height)
+                    self.weightInput = String(format: "%.1f", personalInfo.weight)
+                    self.ageInput = String(personalInfo.age)
+                    self.gender = personalInfo.gender ?? ""
+                    
+                    validateAllFields()
+                }
             }
         }
     }

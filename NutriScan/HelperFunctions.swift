@@ -11,6 +11,7 @@ import FirebaseCore
 import FirebaseFirestore
 import CoreXLSX
 import SwiftUI
+import CoreData
 
 class HelperFunctions: ObservableObject {
     
@@ -553,6 +554,20 @@ class HelperFunctions: ObservableObject {
             
             UserManager.shared.updateUserInfo(user: UserManager.shared.userId,infoType: "accountInfo", updatedArray: updatedArray, completion: { _ in })
         }
+    }
+    
+    static func storeUserPersonalInfo(user: String, collectionName: String, docName: String, data: [String: Any], context: NSManagedObjectContext) {
+        
+        var personalInfo = data
+        personalInfo["lastModified"] = Date()
+        
+        DatabaseModel.createUserInfo(user: UserManager.shared.userId, collectionName: "userInfo", docName: "personalInfo", data: personalInfo) { isSuccess in
+            print("Personal Data have been stored? \(isSuccess)")
+            UserCache.shared.setPersonalInfo()
+        }
+        
+        CoreDataDatabaseModel.shared.savePersonalInfoToCoreData(personalData: data, context: context)
+        UserDefaults.standard.set(true, forKey: "personalInfoAvailable")
     }
     
     

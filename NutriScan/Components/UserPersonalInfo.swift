@@ -10,10 +10,9 @@ import Combine
 
 struct UserPersonalInfo: View {
     
+    @AppStorage("personalInfoAvailable") var personalInfoAvailable: Bool?
+    
     @Binding var showSuccessBanner: Bool
-    @Binding var personalInfo: PersonalInfo?
-    
-    
     
     @State var isEditing: Bool = false
 
@@ -54,28 +53,18 @@ struct UserPersonalInfo: View {
                     }
                 }
                 
-                if let binding = $personalInfo.unwrap(), isEditing == false {
-                    PersonalInfoView(personalInfo: binding)
+                if isEditing == false {
+                    PersonalInfoView()
                         .id(UUID())
+                        .onAppear {
+                            print("Not Editing")
+                        }
 
-                } else if let personalInfo {
+                } else {
                     PersonalInfoForm(
-                        gender: personalInfo.gender,
-                        height: personalInfo.height,
-                        weight: personalInfo.weight,
-                        age: personalInfo.age,
                         showSuccessBanner: $showSuccessBanner,
                         isEditing: $isEditing
                     )
-                } else {
-                    PersonalInfoForm(
-                            gender: "",
-                            height: 0,
-                            weight: 0,
-                            age: 0,
-                            showSuccessBanner: $showSuccessBanner,
-                            isEditing: $isEditing
-                        )
                 }
                 
                 
@@ -83,28 +72,17 @@ struct UserPersonalInfo: View {
             .foregroundStyle(Color(UIColor.systemGray))
             .frame(maxHeight: .infinity, alignment: .top)
             .padding()
-            
-            .onAppear {
-                if personalInfo == nil {
-                    isEditing = true
-                }
-            }
-            .onChange(of: personalInfo) { oldValue, newValue in
-                if newValue == nil {
-                    isEditing = true
-                }
+        }
+        .onAppear {
+            if let personalInfoAvailable = personalInfoAvailable,
+               personalInfoAvailable == true
+            {
+                isEditing = false
+            }else {
+                isEditing = true
             }
         }
-    }
-}
 
-extension Binding {
-    func unwrap<T>() -> Binding<T>? where Value == T? {
-        guard let _ = self.wrappedValue else { return nil }
-        return Binding<T>(
-            get: { self.wrappedValue! },
-            set: { self.wrappedValue = $0 }
-        )
     }
 }
 

@@ -11,6 +11,7 @@ import FirebaseFirestore
 import GoogleSignIn
 import GoogleSignInSwift
 import Firebase
+import CoreData
 
 class UserManager: ObservableObject {
     static let shared = UserManager()
@@ -18,9 +19,10 @@ class UserManager: ObservableObject {
     @Published var isLoggedIn: Bool = false
     @Published var email: String = ""
     @Published var userId: String = ""
+
     
     // MARK: -  Sign Up User
-    func signUpUser(email: String, password: String, completion: @escaping (Bool) -> Void) {
+    func signUpUser(email: String, password: String,context: NSManagedObjectContext, completion: @escaping (Bool) -> Void) {
         Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
             if let error = error {
                 print("Error: \(error.localizedDescription)")
@@ -35,8 +37,8 @@ class UserManager: ObservableObject {
                     "email": UserManager.shared.email,
                     "accountType": "free",
                     "photoSaving": false,
-                    "lastModified": Timestamp(date: Date())
                 ]
+
 
                 DatabaseModel.createUserInfo(user: UserManager.shared.userId, collectionName: "userInfo", docName: "accountInfo", data: userInfo) { isSuccess in
                     print("Stored in database?: \(isSuccess)")
@@ -44,6 +46,8 @@ class UserManager: ObservableObject {
                     HelperFunctions.getFoodDataFromDatabase(user: self.userId, collectionName: "foods")
                     completion(isSuccess)
                 }
+                
+                CoreDataDatabaseModel.shared.saveAccountInfoToCoreData(accountData: userInfo, context: context)
                 
             }
         }
